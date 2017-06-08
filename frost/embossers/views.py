@@ -43,6 +43,7 @@ def save_data(request, job_id):
         field_to_be_saved.editing_mode = False
         field_to_be_saved.save()
         job.last_update = timezone.now()
+        job.save()
         return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
     except:
         return HttpResponseRedirect(reverse('embossers:index'))
@@ -54,6 +55,7 @@ def edit_data(request, job_id):
         field_to_be_edited.editing_mode = True
         field_to_be_edited.save()
         job.last_update = timezone.now()
+        job.save()
         return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
     except:
         return HttpResponseRedirect(reverse('embossers:index'))
@@ -66,6 +68,7 @@ def add_field(request, job_id):
     new_field_text = ""
     field = Field.objects.create_field(new_field_job, new_field_name, new_field_text)
     job.last_update = timezone.now()
+    job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def delete_field(request, job_id):
@@ -73,4 +76,5 @@ def delete_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
+    job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))

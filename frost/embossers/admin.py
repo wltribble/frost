@@ -15,7 +15,7 @@ class JobAdmin(admin.ModelAdmin):
 
     fieldsets = [
         (None,          {'fields': ['job_id']}),
-        ('Date Information', {'fields': ['date_created', 'date_due', 'last_update']}),
+        ('Date Information', {'fields': ['date_created', 'last_update']}),
     ]
     search_fields = ['job_id']
     inlines = [FieldInLine]

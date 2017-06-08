@@ -9,7 +9,6 @@ class Job(models.Model):
     job_id = models.CharField(max_length=20)
     date_created = models.DateTimeField('date created', auto_now_add=True)
     last_update = models.DateTimeField('last updated', default=timezone.now())
-    date_due = models.DateTimeField('date due')
 
     def __str__(self):
         return self.job_id

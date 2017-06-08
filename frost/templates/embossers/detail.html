@@ -2,11 +2,15 @@
 <head>
     <style>
         p {
-            text-align: center;
+            text-align: left;
             line-height: 5px;
         }
 
         form.enter_data_form {
+            display: inline-block;
+        }
+
+        form.enter_job_form {
             display: inline-block;
         }
 
@@ -16,9 +20,22 @@
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
+<form action="#" method="post" class="enter_job_form">
+    {% csrf_token %}
+    <input type="text" name="job_number_text_box" placeholder="Enter a Job ID #..."></input>
+    <button type="submit" value="1">Submit</button>
+</form>
+<form action="#" method="post" class="enter_job_form">
+    {% csrf_token %}
+    <input type="text" name="assembly_number_text_box" placeholder="Enter an Assembly #..."></input>
+    <button type="submit" value="1">Submit</button>
+</form>
+<form action="#" method="post" class="enter_job_form">
+    {% csrf_token %}
+    <input type="text" name="operation_number_text_box" placeholder="Enter an Operation #..."></input>
+    <button type="submit" value="1">Submit</button>
+</form>
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
-<p>Date Due:&emsp;&emsp; {{ job.date_due }}</p>
 <p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
 <p>&emsp;</p>
 <p>&emsp;</p>
