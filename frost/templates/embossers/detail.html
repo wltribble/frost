@@ -1,9 +1,15 @@
+<html lang="en">
 <head>
     <style>
         p {
             text-align: center;
             line-height: 5px;
         }
+
+        form.enter_data_form {
+            display: inline-block;
+        }
+
     </style>
 </head>
 
@@ -18,21 +24,42 @@
 <p>&emsp;</p>
 
 {% for field in job.field_set.all %}
-    {% ifnotequal field.field_id "0" %}
-        {% if field.field_text and field.field_text.strip %}
+    {% ifnotequal field.field_has_been_set False %}
+        {% ifnotequal field.editing_mode True %}
             <form action="{% url 'embossers:edit_data' job.id %}" method="post">
                 {% csrf_token %}
-                <label for="field{{ forloop.counter }}">{{ field.field_id }}: {{ field.field_text }}&emsp;</label>
-                <input type="submit" name="edit_field{{ forloop.counter }}" id="field{{ forloop.counter }}" value="Edit"/><br /><br />
+                <label for="field{{ forloop.counter }}">{{ field.field_name }}: {{ field.field_text }}&emsp;</label>
+                <button type="submit" name="edit_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Edit</button><br /><br />
             </form>
         {% else %}
-            <form action="{% url 'embossers:save_data' job.id %}" method="post">
+            <p>
+            <form action="{% url 'embossers:save_data' job.id %}" method="post" class="enter_data_form">
                 {% csrf_token %}
-                <label for="field{{ forloop.counter }}">{{ field.field_id }}:  </label>
-                <input type="text"  name="save_field_text" id="field{{ forloop.counter }}" placeholder="Type here"></textarea>
-                <input type="submit" name="save_field{{ forloop.counter }}" value="Save"/><br /><br />
+                <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}"></textarea>
+                <label for="field{{ forloop.counter }}">:  </label>
+                <input type="text"  name="save_field_text" id="field {{ field.id }}" value="{{ field.field_text }}"></textarea>
+                <button type="submit" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
             </form>
-        {% endif %}
+            <form action="{% url 'embossers:delete_field' job.id %}" method="post" class="enter_data_form">
+                {% csrf_token %}
+                <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
+            </form>
+            </p>
+        {% endifnotequal %}
+    {% else %}
+        <p>
+        <form action="{% url 'embossers:save_data' job.id %}" method="post" class="enter_data_form">
+            {% csrf_token %}
+            <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}"></textarea>
+            <label for="field{{ forloop.counter }}">:  </label>
+            <input type="text"  name="save_field_text" id="field {{ field.id }}" placeholder="Type here"></textarea>
+            <button type="submit" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
+        </form>
+        <form action="{% url 'embossers:delete_field' job.id %}" method="post" class="enter_data_form">
+            {% csrf_token %}
+            <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
+        </form>
+        </p>
     {% endifnotequal %}
 {% endfor %}
 
@@ -41,3 +68,4 @@
     {% csrf_token %}
     <input type="submit" name="add_field" value="Add Field"/>
 </form>
+</html>

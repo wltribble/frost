@@ -7,6 +7,8 @@ class FieldInLine(admin.TabularInline):
     model = Field
     extra = 0
 
+    readonly_fields = ['field_has_been_set', 'editing_mode']
+
 
 class JobAdmin(admin.ModelAdmin):
     readonly_fields = ['date_created']

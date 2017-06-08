@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 
-from .views import IndexView, DetailView, save_data, edit_data, add_field
+from .views import IndexView, DetailView, save_data, edit_data, add_field, delete_field
 
 app_name = 'polls'
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^(?P<job_id>[0-9]+)/save/$', save_data, name='save_data'),
     url(r'^(?P<job_id>[0-9]+)/edit/$', edit_data, name='edit_data'),
     url(r'^(?P<job_id>[0-9]+)/add/$', add_field, name='add_field'),
+    url(r'^(?P<job_id>[0-9]+)/delete/$', delete_field, name='delete_field'),
 ]

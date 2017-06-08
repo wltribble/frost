@@ -6,6 +6,7 @@ except:
     from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
+from django.db import migrations
 
 from .models import Job, Field
 # Create your views here.
@@ -34,48 +35,42 @@ class DetailView(generic.DetailView):
 
 def save_data(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
-    for jobs in job._meta.get_fields():
-        try:
-            job_field_count += 1
-        except:
-            job_field_count = 1
-        field_name = 'save_field' + str(job_field_count)
-        if field_name in request.POST:
-            print ('save field ' + str(job_field_count))
-            return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
-        elif ('save_field' + str(job_field_count + 1)) in request.POST:
-            print ('save field ' + str(job_field_count + 1))
-            return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
-    else:
+    try:
+        field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
+        field_to_be_saved.field_name = request.POST.get('save_field_name')
+        field_to_be_saved.field_text = request.POST.get('save_field_text')
+        field_to_be_saved.field_has_been_set = True
+        field_to_be_saved.editing_mode = False
+        field_to_be_saved.save()
+        job.last_update = timezone.now()
+        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    except:
         return HttpResponseRedirect(reverse('embossers:index'))
 
 def edit_data(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
-    for jobs in job._meta.get_fields():
-        try:
-            job_field_count += 1
-        except:
-            job_field_count = 1
-        field_name = 'edit_field' + str(job_field_count)
-        if field_name in request.POST:
-            print ('edit field ' + str(job_field_count))
-            return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
-        elif ('edit_field' + str(job_field_count + 1)) in request.POST:
-            print ('edit field ' + str(job_field_count + 1))
-            return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
-    else:
+    try:
+        field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
+        field_to_be_edited.editing_mode = True
+        field_to_be_edited.save()
+        job.last_update = timezone.now()
+        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    except:
         return HttpResponseRedirect(reverse('embossers:index'))
 
 def add_field(request, job_id):
     print ('Add field')
     job = get_object_or_404(Job, pk=job_id)
-    for jobs in job._meta.get_fields():
-        try:
-            job_field_count += 1
-        except:
-            job_field_count = 1
     new_field_job = job
-    new_field_id = str(job_field_count + 1)
+    new_field_name = "Default Name"
     new_field_text = ""
-    field = Field.objects.create_field(new_field_job, new_field_id, new_field_text)
-    return HttpResponseRedirect(reverse('embossers:index'))
+    field = Field.objects.create_field(new_field_job, new_field_name, new_field_text)
+    job.last_update = timezone.now()
+    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+
+def delete_field(request, job_id):
+    print ('Delete field')
+    job = get_object_or_404(Job, pk=job_id)
+    field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
+    job.last_update = timezone.now()
+    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
