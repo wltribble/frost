@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
+
+{% if latest_job_list %}
+    <ul>
+    {% for job in latest_job_list %}
+        <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No jobs are available.</p>
+{% endif %}

@@ -1,0 +1,43 @@
+<head>
+    <style>
+        p {
+            text-align: center;
+            line-height: 5px;
+        }
+    </style>
+</head>
+
+<h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
+<p>Date Due:&emsp;&emsp; {{ job.date_due }}</p>
+<p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
+<p>&emsp;</p>
+<p>&emsp;</p>
+
+{% for field in job.field_set.all %}
+    {% ifnotequal field.field_id "0" %}
+        {% if field.field_text and field.field_text.strip %}
+            <form action="{% url 'embossers:edit_data' job.id %}" method="post">
+                {% csrf_token %}
+                <label for="field{{ forloop.counter }}">{{ field.field_id }}: {{ field.field_text }}&emsp;</label>
+                <input type="submit" name="edit_field{{ forloop.counter }}" id="field{{ forloop.counter }}" value="Edit"/><br /><br />
+            </form>
+        {% else %}
+            <form action="{% url 'embossers:save_data' job.id %}" method="post">
+                {% csrf_token %}
+                <label for="field{{ forloop.counter }}">{{ field.field_id }}:  </label>
+                <input type="text"  name="save_field_text" id="field{{ forloop.counter }}" placeholder="Type here"></textarea>
+                <input type="submit" name="save_field{{ forloop.counter }}" value="Save"/><br /><br />
+            </form>
+        {% endif %}
+    {% endifnotequal %}
+{% endfor %}
+
+
+<form action="{% url 'embossers:add_field' job.id %}" method="post" name="add_field">
+    {% csrf_token %}
+    <input type="submit" name="add_field" value="Add Field"/>
+</form>
