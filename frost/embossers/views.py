@@ -8,8 +8,6 @@ from django.views import generic
 from django.utils import timezone
 from django.db import migrations
 
-from .processes.models import Process
-
 from .models import Job, Field
 
 
@@ -28,7 +26,6 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Job
     template_name = 'embossers/pages/detail.html'
-    list_of_processes = Process.objects.all()
 
     def get_queryset(self):
         return Job.objects.filter(date_created__lte=timezone.now())

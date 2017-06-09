@@ -5,12 +5,15 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
+from processes.models import Process
+
 # Create your models here.
 class Job(models.Model):
     job_id = models.CharField(max_length=20, default="New Job", unique=True)
     date_created = models.DateTimeField('date created', auto_now_add=True)
     last_update = models.DateTimeField('last updated', default=timezone.now)
-    process_outline = models.CharField(max_length=200, default="None")
+    process_outline = models.CharField(max_length=100, default="None")
+    # process_list = [str(Process.objects.all()[x]) for x in range(0, Process.objects.count())]
     has_process_outline_been_modified_for_this_operation = models.BooleanField(default=False)
 
 

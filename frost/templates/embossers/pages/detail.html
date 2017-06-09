@@ -21,18 +21,11 @@
 
 {% include 'embossers/forms/job_number_form.html' %}
 <p>Process Template In Use:&emsp;
-    <!-- <select name="process_outline_selector">
-        {% for process_name in list_of_processes %}
-            <option value="{{ process_name }}">{{ process_name }}</option>
-        {% endfor %}
-        <option value="{{ job.process_outline }}" selected>{{ job.process_outline }}</option>
-    </select> -->
     <ul>
-        {% for process in list_of_processes %}
-            <li>{{ process.process_name }}</li>
-        {% endfor %}
+    {% for process in process_list %}
+        <li>{{ process }}</li>
+    {% endfor %}
     </ul>
-
 </p>
 <br />
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
