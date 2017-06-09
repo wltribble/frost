@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 
 # Create your models here.
 class Job(models.Model):
-    job_id = models.CharField(max_length=20)
+    job_id = models.CharField(max_length=20, default="New Job")
     date_created = models.DateTimeField('date created', auto_now_add=True)
     last_update = models.DateTimeField('last updated', default=timezone.now)
     process_outline = models.CharField(max_length=200, default="None")
