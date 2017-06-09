@@ -20,12 +20,12 @@
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
 {% include 'embossers/forms/job_number_form.html' %}
-<p>Process Template In Use:&emsp;
-    <ul>
+<p>Process Template In Use:&emsp;{{ job.process_outline }}
+    <!-- <ul>
     {% for process in process_list %}
         <li>{{ process }}</li>
     {% endfor %}
-    </ul>
+    </ul> -->
 </p>
 <br />
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>

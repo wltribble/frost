@@ -8,6 +8,8 @@ from django.views import generic
 from django.utils import timezone
 from django.db import migrations
 
+from processes.models import Process
+
 from .models import Job, Field
 
 
@@ -21,6 +23,15 @@ class IndexView(generic.ListView):
         return Job.objects.filter(
             date_created__lte=timezone.now()
         ).order_by('-date_created')[:5]
+
+
+class PickTemplateView(generic.ListView):
+    model = Process
+    context_object_name = 'latest_process_list'
+    template_name = 'embossers/pages/pick_template.html'
+
+    def get_queryset(self):
+        return Process.objects.all().order_by('-process_date_created')
 
 
 class DetailView(generic.DetailView):

@@ -5,8 +5,6 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
-from processes.models import Process
-
 # Create your models here.
 class Job(models.Model):
     job_id = models.CharField(max_length=20, default="New Job", unique=True)
