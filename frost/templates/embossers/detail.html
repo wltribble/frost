@@ -24,21 +24,7 @@
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<form action="#" method="post" class="enter_job_form">
-    {% csrf_token %}
-    <input type="text" name="job_number_text_box" placeholder="Enter a Job ID #..."></input>
-    <button type="submit" value="1">Submit</button>&emsp;
-</form>
-<form action="#" method="post" class="enter_job_form">
-    {% csrf_token %}
-    <input type="text" name="assembly_number_text_box" placeholder="Enter an Assembly #..."></input>
-    <button type="submit" value="1">Submit</button>&emsp;
-</form>
-<form action="#" method="post" class="enter_job_form">
-    {% csrf_token %}
-    <input type="text" name="operation_number_text_box" placeholder="Enter an Operation #..."></input>
-    <button type="submit" value="1">Submit</button>&emsp;
-</form>
+{% include 'embossers/job_number_form.html' %}
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
 <p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
 <p>&emsp;</p>
@@ -47,40 +33,12 @@
 {% for field in job.field_set.all %}
     {% ifnotequal field.field_has_been_set False %}
         {% ifnotequal field.editing_mode True %}
-            <form action="{% url 'embossers:edit_data' job.id %}" method="post">
-                {% csrf_token %}
-                <label for="field{{ forloop.counter }}"><strong>{{ field.field_name }}</strong>:&emsp;{{ field.field_text }}&emsp;&emsp;</label>
-                <button type="submit" name="edit_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Edit</button><br /><br />
-            </form>
+            {% include 'embossers/saved_field_form.html' %}
         {% else %}
-            <p>
-            <form action="{% url 'embossers:save_data' job.id %}" method="post" class="enter_data_form">
-                {% csrf_token %}
-                <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}"></textarea>
-                <label for="field{{ forloop.counter }}">:  </label>
-                <input type="text"  name="save_field_text" id="field {{ field.id }}" value="{{ field.field_text }}"></textarea>
-                <button type="submit" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
-            </form>
-            <form action="{% url 'embossers:delete_field' job.id %}" method="post" class="enter_data_form">
-                {% csrf_token %}
-                <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
-            </form>
-            </p>
+            {% include 'embossers/existing_field_form.html' %}
         {% endifnotequal %}
     {% else %}
-        <p>
-        <form action="{% url 'embossers:save_data' job.id %}" method="post" class="enter_data_form">
-            {% csrf_token %}
-            <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}"></textarea>
-            <label for="field{{ forloop.counter }}">:  </label>
-            <input type="text"  name="save_field_text" id="field {{ field.id }}" placeholder="Type here"></textarea>
-            <button type="submit" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
-        </form>
-        <form action="{% url 'embossers:delete_field' job.id %}" method="post" class="enter_data_form">
-            {% csrf_token %}
-            <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
-        </form>
-        </p>
+        {% include 'embossers/new_field_form.html' %}
     {% endifnotequal %}
 {% endfor %}
 

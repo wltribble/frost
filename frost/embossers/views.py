@@ -32,17 +32,22 @@ class DetailView(generic.DetailView):
         return Job.objects.filter(date_created__lte=timezone.now())
 
 
-
 def save_data(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     try:
         field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
-        field_to_be_saved.field_name = request.POST.get('save_field_name')
-        field_to_be_saved.field_text = request.POST.get('save_field_text')
-        field_to_be_saved.field_has_been_set = True
-        field_to_be_saved.editing_mode = False
+        if field_to_be_saved.name_is_operator_editable:
+            field_to_be_saved.field_name = request.POST.get('save_field_name')
+        if field_to_be_saved.text_is_operator_editable:
+            field_to_be_saved.field_text = request.POST.get('save_field_text')
+        if (request.POST.get('save_field_name') == "Default Name") or (request.POST.get('save_field_text') == ""):
+            field_to_be_saved.field_has_been_set = False
+            field_to_be_saved.editing_mode = True
+        else:
+            field_to_be_saved.field_has_been_set = True
+            field_to_be_saved.editing_mode = False
+            job.last_update = timezone.now()
         field_to_be_saved.save()
-        job.last_update = timezone.now()
         job.save()
         return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
     except:
@@ -61,7 +66,6 @@ def edit_data(request, job_id):
         return HttpResponseRedirect(reverse('embossers:index'))
 
 def add_field(request, job_id):
-    print ('Add field')
     job = get_object_or_404(Job, pk=job_id)
     new_field_job = job
     new_field_name = "Default Name"
@@ -72,7 +76,6 @@ def add_field(request, job_id):
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def delete_field(request, job_id):
-    print ('Delete field')
     job = get_object_or_404(Job, pk=job_id)
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
