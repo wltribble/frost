@@ -11,6 +11,8 @@ class Job(models.Model):
     date_created = models.DateTimeField('date created', auto_now_add=True)
     last_update = models.DateTimeField('last updated', default=timezone.now)
     process_outline = models.CharField(max_length=200, default="None")
+    has_process_outline_been_modified = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.job_id

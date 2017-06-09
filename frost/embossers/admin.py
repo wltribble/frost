@@ -14,8 +14,9 @@ class JobAdmin(admin.ModelAdmin):
     readonly_fields = ['date_created']
 
     fieldsets = [
-        (None,          {'fields': ['job_id']}),
-        ('Date Information', {'fields': ['date_created', 'last_update']}),
+        (None,          {'fields': ['job_id',]}),
+        ('Date Information', {'fields': ['date_created', 'last_update',]}),
+        ('Procedure Information', {'fields': ['process_outline', 'has_process_outline_been_modified',]}),
     ]
     search_fields = ['job_id']
     inlines = [FieldInLine]

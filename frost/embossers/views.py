@@ -72,6 +72,7 @@ def add_field(request, job_id):
     new_field_text = ""
     field = Field.objects.create_field(new_field_job, new_field_name, new_field_text)
     job.last_update = timezone.now()
+    job.has_process_outline_been_modified = True
     job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
@@ -79,5 +80,6 @@ def delete_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
+    job.has_process_outline_been_modified = True
     job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
