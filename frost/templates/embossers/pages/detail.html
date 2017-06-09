@@ -25,6 +25,8 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {% include 'embossers/forms/job_number_form.html' %}
+<p>Procedure Template In Use:&emsp;{{ job.process_outline }}</p>
+<br />
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
 <p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
 <p>&emsp;</p>
