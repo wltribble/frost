@@ -8,10 +8,9 @@ from django.views import generic
 from django.utils import timezone
 from django.db import migrations
 
-from processes.models import Process
+from .processes.models import Process
 
 from .models import Job, Field
-# Create your views here.
 
 
 class IndexView(generic.ListView):
@@ -28,12 +27,11 @@ class IndexView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Job
-    list_of_processes = Process.objects.all()
     template_name = 'embossers/pages/detail.html'
+    list_of_processes = Process.objects.all()
 
     def get_queryset(self):
         return Job.objects.filter(date_created__lte=timezone.now())
-
 
 def save_data(request, job_id):
     job = get_object_or_404(Job, pk=job_id)

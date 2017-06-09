@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'embossers.apps.EmbossersConfig',
-    'processes.apps.ProcessesConfig',
+    'embossers',
+    'processes',
 ]
 
 MIDDLEWARE = [

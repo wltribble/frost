@@ -5,39 +5,42 @@
             text-align: left;
             line-height: 5px;
         }
-
         .enter_data_form {
             display: inline-block;
         }
-
         .enter_job_form {
             display: inline-block;
         }
-
         .bottom_buttons {
             display: inline-block;
         }
-
     </style>
 </head>
 
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {% include 'embossers/forms/job_number_form.html' %}
 <p>Process Template In Use:&emsp;
-    <select name="process_outline_selector">
-        {% for process in list_of_processes %}
-            <option value="{{ process.process_name }}">{{ process.process_name }}</option>
+    <!-- <select name="process_outline_selector">
+        {% for process_name in list_of_processes %}
+            <option value="{{ process_name }}">{{ process_name }}</option>
         {% endfor %}
         <option value="{{ job.process_outline }}" selected>{{ job.process_outline }}</option>
-    </select>
+    </select> -->
+    <ul>
+        {% for process in list_of_processes %}
+            <li>{{ process.process_name }}</li>
+        {% endfor %}
+    </ul>
+
 </p>
 <br />
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
 <p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
 <p>&emsp;</p>
 <p>&emsp;</p>
+
+<!-- {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %} -->
 
 {% for field in job.field_set.all %}
     {% ifnotequal field.field_has_been_set False %}
