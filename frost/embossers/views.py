@@ -13,7 +13,7 @@ from .models import Job, Field
 
 
 class IndexView(generic.ListView):
-    template_name = 'embossers/index.html'
+    template_name = 'embossers/pages/index.html'
     context_object_name = 'latest_job_list'
 
     def get_queryset(self):
@@ -26,7 +26,7 @@ class IndexView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Job
-    template_name = 'embossers/detail.html'
+    template_name = 'embossers/pages/detail.html'
 
     def get_queryset(self):
         return Job.objects.filter(date_created__lte=timezone.now())

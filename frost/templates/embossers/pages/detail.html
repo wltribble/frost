@@ -24,7 +24,7 @@
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-{% include 'embossers/job_number_form.html' %}
+{% include 'embossers/forms/job_number_form.html' %}
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
 <p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
 <p>&emsp;</p>
@@ -33,12 +33,12 @@
 {% for field in job.field_set.all %}
     {% ifnotequal field.field_has_been_set False %}
         {% ifnotequal field.editing_mode True %}
-            {% include 'embossers/saved_field_form.html' %}
+            {% include 'embossers/forms/saved_field_form.html' %}
         {% else %}
-            {% include 'embossers/existing_field_form.html' %}
+            {% include 'embossers/forms/existing_field_form.html' %}
         {% endifnotequal %}
     {% else %}
-        {% include 'embossers/new_field_form.html' %}
+        {% include 'embossers/forms/new_field_form.html' %}
     {% endifnotequal %}
 {% endfor %}
 

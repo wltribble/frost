@@ -1,7 +1,8 @@
 <p>
 <form action="{% url 'embossers:save_data' job.id %}" method="post" class="enter_data_form">
     {% csrf_token %}
-    {% include 'embossers/new_field_form_template.html' %}
+    {% include 'embossers/form_templates/existing_field_form_template.html' %}
+    &emsp;&emsp;
     <button type="submit" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
 </form>
 <form action="{% url 'embossers:delete_field' job.id %}" method="post" class="enter_data_form">
