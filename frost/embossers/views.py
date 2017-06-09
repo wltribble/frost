@@ -8,6 +8,8 @@ from django.views import generic
 from django.utils import timezone
 from django.db import migrations
 
+from processes.models import Process
+
 from .models import Job, Field
 # Create your views here.
 
@@ -26,6 +28,7 @@ class IndexView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Job
+    list_of_processes = Process.objects.all()
     template_name = 'embossers/pages/detail.html'
 
     def get_queryset(self):
@@ -68,18 +71,23 @@ def edit_data(request, job_id):
 def add_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     new_field_job = job
-    new_field_name = "Default Name"
-    new_field_text = ""
-    field = Field.objects.create_field(new_field_job, new_field_name, new_field_text)
-    job.last_update = timezone.now()
-    job.has_process_outline_been_modified = True
-    job.save()
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    try:
+        new_field_name = "Default Name"
+        new_field_text = ""
+        field = Field.objects.create_field(new_field_job, new_field_name, new_field_text)
+        job.last_update = timezone.now()
+        if job.process_outline != "None":
+            job.has_process_outline_been_modified_for_this_operation = True
+        job.save()
+        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    except:
+        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def delete_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
-    job.has_process_outline_been_modified = True
+    if job.process_outline != "None":
+        job.has_process_outline_been_modified_for_this_operation = True
     job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))

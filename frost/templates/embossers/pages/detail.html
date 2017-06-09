@@ -25,7 +25,14 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {% include 'embossers/forms/job_number_form.html' %}
-<p>Procedure Template In Use:&emsp;{{ job.process_outline }}</p>
+<p>Process Template In Use:&emsp;
+    <select name="process_outline_selector">
+        {% for process in list_of_processes %}
+            <option value="{{ process.process_name }}">{{ process.process_name }}</option>
+        {% endfor %}
+        <option value="{{ job.process_outline }}" selected>{{ job.process_outline }}</option>
+    </select>
+</p>
 <br />
 <p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
 <p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
@@ -56,13 +63,5 @@
     {% csrf_token %}
     <button type="submit" class="full_page_submit" name="full_page_submit"><strong>Submit Full Form</strong></button>
 </form>
-
-&emsp;&emsp;&emsp;
-
-<form action="" method="post" class="bottom_buttons">
-    {% csrf_token %}
-    <input type="submit" name="request_layout_be_made_into_form" value="Save This Layout As A Form For Future Reuse"/>
-</form>
-
 
 </html>
