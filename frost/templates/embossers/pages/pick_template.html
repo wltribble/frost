@@ -1,12 +1,12 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
 
-{% if latest_process_list %}
+{% if processes %}
     <ul>
-    {% for process in latest_process_list %}
-        <li><a href="{% url 'embossers:detail' job.id %}">{{ process.process_name }}</a></li>
+    {% for process in processes %}
+        <li><a href="{% url 'embossers:set_process_template' job.id %}">{{ process.process_name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <a>No templates available</a>
+    <a>No templates available.</a>
 {% endif %}

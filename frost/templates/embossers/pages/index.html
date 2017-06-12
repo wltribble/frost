@@ -4,9 +4,19 @@
 {% if latest_job_list %}
     <ul>
     {% for job in latest_job_list %}
-        <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job.job_id }}</a></li>
+        {% ifequal job.process_outline "None" %}
+            {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
+                <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job.job_id }}</a></li>
+            {% else %}
+                <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
+            {% endifequal %}
+        {% else %}
+            <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
+        {% endifequal %}
     {% endfor %}
     </ul>
 {% else %}
     <p>No jobs are available.</p>
 {% endif %}
+
+<a href="#">Create New Job</a>

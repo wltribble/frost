@@ -26,12 +26,14 @@ class IndexView(generic.ListView):
 
 
 class PickTemplateView(generic.ListView):
-    model = Process
-    context_object_name = 'latest_process_list'
+    model = Job
     template_name = 'embossers/pages/pick_template.html'
 
-    def get_queryset(self):
-        return Process.objects.all().order_by('-process_date_created')
+    def get_context_data(self, **kwargs):
+        context = super(PickTemplateView, self).get_context_data(**kwargs)
+        context['processes'] = Process.objects.all()
+        context['job'] = get_object_or_404(Job, pk=job_id)
+        return context
 
 
 class DetailView(generic.DetailView):
@@ -82,8 +84,7 @@ def add_field(request, job_id):
         new_field_text = ""
         field = Field.objects.create_field(new_field_job, new_field_name, new_field_text)
         job.last_update = timezone.now()
-        if job.process_outline != "None":
-            job.has_process_outline_been_modified_for_this_operation = True
+        job.has_process_outline_been_modified_for_this_operation = True
         job.save()
         return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
     except:
@@ -93,7 +94,12 @@ def delete_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
-    if job.process_outline != "None":
-        job.has_process_outline_been_modified_for_this_operation = True
+    job.has_process_outline_been_modified_for_this_operation = True
     job.save()
+    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+
+def set_process_template(request, job_id, process_name):
+    job = get_object_or_404(Job, pk=job_id)
+    process = get_object_or_404(Process, pk=process_name)
+    job.process_outline = process.process_name
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
