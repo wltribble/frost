@@ -7,12 +7,12 @@ from django.shortcuts import get_object_or_404
 
 # Create your models here.
 class Job(models.Model):
-    job_id = models.CharField(max_length=20, default="New Job", unique=True)
+    job_id = models.CharField(max_length=100, default="New Job", unique=True)
     date_created = models.DateTimeField('date created', auto_now_add=True)
     last_update = models.DateTimeField('last updated', default=timezone.now)
     process_outline = models.CharField(max_length=100, default="None")
-    # process_list = [str(Process.objects.all()[x]) for x in range(0, Process.objects.count())]
     has_process_outline_been_modified_for_this_operation = models.BooleanField(default=False)
+    hase_job_name_been_set = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -31,14 +31,14 @@ class Job(models.Model):
 
 
 class FieldManager(models.Manager):
-    def create_field(self, job, field_name, field_text):
-        field = self.create(job=job, field_name=field_name, field_text=field_text)
+    def create_field(self, job, field_name, field_text, name_is_operator_editable, text_is_operator_editable, required_for_full_submission, field_has_been_set):
+        field = self.create(job=job, field_name=field_name, field_text=field_text, name_is_operator_editable=name_is_operator_editable, text_is_operator_editable=text_is_operator_editable, required_for_full_submission=required_for_full_submission, field_has_been_set=field_has_been_set)
         return field
 
 
 class Field(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    field_name = models.CharField(max_length=100, unique=True)
+    field_name = models.CharField(max_length=100)
     field_text = models.CharField(max_length=200, blank=True)
     field_has_been_set = models.BooleanField(default=False)
     editing_mode = models.BooleanField(default=False)

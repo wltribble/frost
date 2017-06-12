@@ -1,9 +1,9 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
 
-{% if latest_job_list %}
+{% if jobs %}
     <ul>
-    {% for job in latest_job_list %}
+    {% for job in jobs %}
         {% ifequal job.process_outline "None" %}
             {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
                 <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job.job_id }}</a></li>
@@ -19,4 +19,4 @@
     <p>No jobs are available.</p>
 {% endif %}
 
-<a href="#">Create New Job</a>
+<a href="{% url 'embossers:create_job' %}">Create New Job</a>

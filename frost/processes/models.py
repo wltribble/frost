@@ -16,7 +16,7 @@ class Process(models.Model):
 
 class OutlineField(models.Model):
     process = models.ForeignKey(Process, on_delete=models.CASCADE)
-    OUTLINE_field_name = models.CharField(max_length=100, unique=True)
+    OUTLINE_field_name = models.CharField(max_length=100)
     OUTLINE_field_text = models.CharField(max_length=200, blank=True)
     OUTLINE_name_is_operator_editable = models.BooleanField(default=True)
     OUTLINE_text_is_operator_editable = models.BooleanField(default=True)

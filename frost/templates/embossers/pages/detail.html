@@ -19,7 +19,9 @@
 
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
-{% include 'embossers/forms/job_number_form.html' %}
+{% ifequal job.hase_job_name_been_set False %}
+    {% include 'embossers/forms/job_number_form.html' %}
+{% endifequal %}
 <p>Process Template In Use:&emsp;{{ job.process_outline }}
     <!-- <ul>
     {% for process in process_list %}
@@ -54,6 +56,12 @@
 </form>
 
 <br /><br /><br /><br />
+
+{% if errors %}
+    {% for error in form.errors %}
+        <h1>{{ error }}</h1>
+    {% endfor %}
+{% endif %}
 
 <form action="" method="post" class="bottom_buttons">
     {% csrf_token %}

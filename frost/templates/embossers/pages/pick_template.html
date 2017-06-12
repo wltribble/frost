@@ -4,9 +4,10 @@
 {% if processes %}
     <ul>
     {% for process in processes %}
-        <li><a href="{% url 'embossers:set_process_template' job.id %}">{{ process.process_name }}</a></li>
+        <li><a href="{% url 'embossers:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <a>No templates available.</a>
+    <p>No templates available. </p>
+    <a href="{% url 'embossers:detail' job.id %}"
 {% endif %}
