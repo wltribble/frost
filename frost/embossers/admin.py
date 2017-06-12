@@ -15,7 +15,7 @@ class JobAdmin(admin.ModelAdmin):
 
     fieldsets = [
         (None,          {'fields': ['job_id',]}),
-        ('Date Information', {'fields': ['date_created', 'last_update',]}),
+        ('Date Information', {'fields': ['date_created', 'last_update', 'date_submitted',]}),
         ('Process Information', {'fields': ['process_outline', 'has_process_outline_been_modified_for_this_operation',]}),
     ]
     search_fields = ['job_id']

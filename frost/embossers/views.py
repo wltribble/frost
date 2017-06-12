@@ -131,3 +131,16 @@ def set_job_name(request, job_id):
         job.full_clean()
         job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+
+def submit(request, job_id):
+    job = get_object_or_404(Job, pk=job_id)
+    completed = True
+    for field in job.field_set.all():
+        field.name_is_operator_editable = False
+        field.text_is_operator_editable = False
+        field.full_clean()
+        field.save()
+    # job.date_submitted = timezone.now()
+    job.full_clean()
+    job.save()
+    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))

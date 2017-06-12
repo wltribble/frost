@@ -1,4 +1,9 @@
 <form action="{% url 'embossers:submit' job.id %}" method="post" class="bottom_buttons">
     {% csrf_token %}
-    <button type="submit" class="full_page_submit" name="full_page_submit"><strong>Submit Full Form</strong></button>
+    {% ifequal job.has_job_name_been_set False %}
+        disabled_or_not = true
+    {% for field in job.field_set %}
+        {% ifequal field.required_for_full_submission True %}
+            {% ifequal field.field_name }
+    <button type="submit" class="full_page_submit" name="full_page_submit" id="submit"><strong>Submit Full Form</strong></button>
 </form>

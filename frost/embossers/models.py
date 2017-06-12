@@ -10,6 +10,7 @@ class Job(models.Model):
     job_id = models.CharField(max_length=100, default="New Job", unique=True)
     date_created = models.DateTimeField('date created', auto_now_add=True)
     last_update = models.DateTimeField('last updated', default=timezone.now)
+    date_submitted = models.DateTimeField(null=True, blank=True)
     process_outline = models.CharField(max_length=100, default="None")
     has_process_outline_been_modified_for_this_operation = models.BooleanField(default=False)
     has_job_name_been_set = models.BooleanField(default=False)
