@@ -15,6 +15,10 @@ class Job(models.Model):
     has_process_outline_been_modified_for_this_operation = models.BooleanField(default=False)
     has_job_name_been_set = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
+    disable_submit_button = models.BooleanField(default=False)
+    job_number = models.CharField(max_length=100, blank=True)
+    assembly_number = models.CharField(max_length=100, blank=True)
+    operation_number = models.CharField(max_length=100, blank=True)
 
 
     def __str__(self):

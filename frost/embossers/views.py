@@ -117,6 +117,9 @@ def set_process_template(request, job_id, process_name):
 def create_job(request):
     count = Job.objects.count()
     job = Job.objects.create(job_id="New Job " + str(count + 1))
+    job.has_job_name_been_set = False
+    job.full_clean()
+    job.save()
     return HttpResponseRedirect(reverse('embossers:pick_template', args=(job.id,)))
 
 def set_job_name(request, job_id):
@@ -125,8 +128,15 @@ def set_job_name(request, job_id):
     assembly_number = request.POST['assembly_number_text_box']
     operation_number = request.POST['operation_number_text_box']
     if job_number != "" and assembly_number != "" and operation_number != "":
-        job.job_id = job_number + "-" + assembly_number + "-" + operation_number
-        job.hase_job_name_been_set = True
+        new_job_id = job_number + "-" + assembly_number + "-" + operation_number
+        for other_job in Job.objects.all():
+            if new_job_id == other_job.job_id:
+                return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+        job.job_id = new_job_id
+        job.has_job_name_been_set = True
+        job.job_number = job_number
+        job.assembly_number = assembly_number
+        job.operation_number = operation_number
         job.last_update = timezone.now()
         job.full_clean()
         job.save()
@@ -134,13 +144,27 @@ def set_job_name(request, job_id):
 
 def submit(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
-    completed = True
-    for field in job.field_set.all():
-        field.name_is_operator_editable = False
-        field.text_is_operator_editable = False
-        field.full_clean()
-        field.save()
-    # job.date_submitted = timezone.now()
+    fields = job.field_set.all()
+
+    if job.has_job_name_been_set == False:
+        job.disable_submit_button = True
+    elif job.disable_submit_button == False:
+        for field in fields:
+            if field.required_for_full_submission == True:
+                if field.field_name == "Default Name" or field.field_text == "":
+                    job.disable_submit_button = True
+            if field.editing_mode == True:
+                job.disable_submit_button = True
+    if job.disable_submit_button == False:
+        job.completed = True
+        for field in fields:
+            field.name_is_operator_editable = False
+            field.text_is_operator_editable = False
+            field.full_clean()
+            field.save()
+        job.date_submitted = timezone.now()
+    else:
+        job.disable_submit_button = False
     job.full_clean()
     job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))

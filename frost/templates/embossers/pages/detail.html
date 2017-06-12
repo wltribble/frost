@@ -15,27 +15,28 @@
             display: inline-block;
         }
     </style>
+
 </head>
 
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
-{% ifequal job.hase_job_name_been_set False %}
+{% ifequal job.has_job_name_been_set False %}
     {% include 'embossers/forms/job_number_form.html' %}
 {% endifequal %}
 <p>Process Template In Use:&emsp;{{ job.process_outline }}
-    <!-- <ul>
-    {% for process in process_list %}
-        <li>{{ process }}</li>
-    {% endfor %}
-    </ul> -->
+    {% if job.has_process_outline_been_modified_for_this_operation == True %}
+        &emsp;&emsp;-- Edited --
+    {% endif %}
 </p>
 <br />
-<p>Date Created:&emsp;&emsp;{{ job.date_created }}</p>
-<p>Last Updated:&emsp;&emsp; {{ job.last_update }}</p>
+<p>Date Created:&emsp;&emsp; {{ job.date_created }}</p>
+<p>Last Updated:&emsp;&ensp;&ensp;{{ job.last_update }}</p>
+{% if job.completed == True %}
+    <p>Completed:&emsp;&emsp;&ensp;&ensp;{{ job.date_submitted }}</p>
+{% endif %}
 <p>&emsp;</p>
 <p>&emsp;</p>
 
-<!-- {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %} -->
 
 {% for field in job.field_set.all %}
     {% ifnotequal field.field_has_been_set False %}
@@ -50,20 +51,17 @@
 {% endfor %}
 
 
-<form action="{% url 'embossers:add_field' job.id %}" method="post" name="add_field">
-    {% csrf_token %}
-    <input type="submit" name="add_field" value="Add Field"/>
-</form>
+{% if job.completed == False %}
+    <form action="{% url 'embossers:add_field' job.id %}" method="post" name="add_field">
+        {% csrf_token %}
+        <input type="submit" name="add_field" value="Add Field"/>
+    </form>
+{% endif %}
 
 <br /><br /><br /><br />
 
-{% if errors %}
-    {% for error in form.errors %}
-        <h1>{{ error }}</h1>
-    {% endfor %}
+{% if job.completed == False %}
+    {% include 'embossers/forms/submit.html' %}
 {% endif %}
-
-
-{% include 'embossers/forms/submit.html' %}
 
 </html>

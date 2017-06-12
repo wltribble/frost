@@ -11,17 +11,18 @@ class FieldInLine(admin.TabularInline):
 
 
 class JobAdmin(admin.ModelAdmin):
-    readonly_fields = ['date_created', 'has_process_outline_been_modified_for_this_operation',]
+    readonly_fields = ['date_created', 'has_process_outline_been_modified_for_this_operation', 'date_submitted', 'has_job_name_been_set', 'completed']
 
     fieldsets = [
         (None,          {'fields': ['job_id',]}),
-        ('Date Information', {'fields': ['date_created', 'last_update', 'date_submitted',]}),
+        ('Date Information', {'fields': ['date_created', 'last_update',]}),
         ('Process Information', {'fields': ['process_outline', 'has_process_outline_been_modified_for_this_operation',]}),
+        ('Submission Information', {'fields': ['has_job_name_been_set', 'completed', 'date_submitted',]})
     ]
-    search_fields = ['job_id']
+    search_fields = ['job_id', 'job_number', 'assembly_number', 'operation_number',]
     inlines = [FieldInLine]
-    list_display = ('job_id', 'date_created', 'was_created_recently')
-    list_filter = ['date_created']
+    list_display = ('job_id', 'date_created', 'completed')
+    list_filter = ['completed', 'date_created',]
 
 
 admin.site.register(Job, JobAdmin)
