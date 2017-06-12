@@ -115,7 +115,8 @@ def set_process_template(request, job_id, process_name):
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def create_job(request):
-    job = Job.objects.create()
+    count = Job.objects.count()
+    job = Job.objects.create(job_id="New Job " + str(count + 1))
     return HttpResponseRedirect(reverse('embossers:pick_template', args=(job.id,)))
 
 def set_job_name(request, job_id):

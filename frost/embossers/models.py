@@ -13,6 +13,7 @@ class Job(models.Model):
     process_outline = models.CharField(max_length=100, default="None")
     has_process_outline_been_modified_for_this_operation = models.BooleanField(default=False)
     hase_job_name_been_set = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
 
 
     def __str__(self):

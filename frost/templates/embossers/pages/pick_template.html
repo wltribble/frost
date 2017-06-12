@@ -1,6 +1,8 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
 
+<h1>Pick A Template To Begin</h1>
+
 {% if processes %}
     <ul>
     {% for process in processes %}
@@ -11,3 +13,7 @@
     <p>No templates available. </p>
     <a href="{% url 'embossers:detail' job.id %}"
 {% endif %}
+
+<form action="{% url 'embossers:index' %}" name="back_from_template_chooser">
+    <button type="submit">Back</button>
+</form>
