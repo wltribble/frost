@@ -11,7 +11,7 @@ class FieldInLine(admin.TabularInline):
 
 
 class JobAdmin(admin.ModelAdmin):
-    readonly_fields = ['date_created', 'has_process_outline_been_modified_for_this_operation', 'date_submitted', 'has_job_name_been_set', 'completed']
+    readonly_fields = ['date_created', 'has_process_outline_been_modified_for_this_operation', 'date_submitted', 'has_job_name_been_set', 'completed', 'process_outline']
 
     fieldsets = [
         (None,          {'fields': ['job_id',]}),
