@@ -5,7 +5,7 @@ from model_mommy import mommy
 from processes.models import Process
 
 from .models import Job, Field
-# Create your tests here.
+
 
 class JobModelTests(TestCase):
 
@@ -15,7 +15,7 @@ class JobModelTests(TestCase):
         is older than 1 day.
         """
         time = timezone.now() - datetime.timedelta(days=1)
-        test_process = mommy.make(Process)
+        # test_process = mommy.make(Process)
         old_job = mommy.make(Job(date_created=time))
         self.assertIs(old_job.was_created_recently(), False)
 
