@@ -7,6 +7,7 @@ except:
 from django.views import generic
 from django.utils import timezone
 from django.db import migrations
+from django.contrib import messages
 
 from processes.models import Process
 
@@ -35,7 +36,6 @@ class PickTemplateView(generic.ListView):
         return context
 
 
-
 class DetailView(generic.DetailView):
     model = Job
     template_name = 'embossers/pages/detail.html'
@@ -43,57 +43,53 @@ class DetailView(generic.DetailView):
     def get_queryset(self):
         return Job.objects.all()
 
+
 def save_data(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
-    try:
-        field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
-        if field_to_be_saved.name_is_operator_editable:
-            field_to_be_saved.field_name = request.POST.get('save_field_name')
-        if field_to_be_saved.text_is_operator_editable:
-            field_to_be_saved.field_text = request.POST.get('save_field_text')
-        if (request.POST.get('save_field_name') == "Default Name") or (request.POST.get('save_field_text') == ""):
-            field_to_be_saved.field_has_been_set = False
-            field_to_be_saved.editing_mode = True
-        else:
-            field_to_be_saved.field_has_been_set = True
-            field_to_be_saved.editing_mode = False
-            job.last_update = timezone.now()
-        field_to_be_saved.full_clean()
-        field_to_be_saved.save()
-        job.full_clean()
-        job.save()
+    field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
+    if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
+        field_to_be_saved.field_name = request.POST.get('save_field_name')
+    if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') == "":
+        messages.error(request, 'Fields require names to be submitted')
         return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
-    except:
-        return HttpResponseRedirect(reverse('embossers:index'))
+    if field_to_be_saved.text_is_operator_editable:
+        field_to_be_saved.field_text = request.POST.get('save_field_text')
+    if (request.POST.get('save_field_name') == "Default Name"):
+        field_to_be_saved.field_has_been_set = False
+        field_to_be_saved.editing_mode = True
+        messages.error(request, 'Fields require names to be submitted')
+        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    field_to_be_saved.field_has_been_set = True
+    field_to_be_saved.editing_mode = False
+    job.last_update = timezone.now()
+    field_to_be_saved.full_clean()
+    field_to_be_saved.save()
+    job.full_clean()
+    job.save()
+    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def edit_data(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
-    try:
-        field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
-        field_to_be_edited.editing_mode = True
-        field_to_be_edited.full_clean()
-        field_to_be_edited.save()
-        job.last_update = timezone.now()
-        job.full_clean()
-        job.save()
-        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
-    except:
-        return HttpResponseRedirect(reverse('embossers:index'))
+    field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
+    field_to_be_edited.editing_mode = True
+    field_to_be_edited.full_clean()
+    field_to_be_edited.save()
+    job.last_update = timezone.now()
+    job.full_clean()
+    job.save()
+    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def add_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     new_field_job = job
-    try:
-        new_field_name = "Default Name"
-        new_field_text = ""
-        field = Field.objects.create_field(new_field_job, new_field_name, new_field_text, True, True, True, False)
-        job.last_update = timezone.now()
-        job.has_process_outline_been_modified_for_this_operation = True
-        job.full_clean()
-        job.save()
-        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
-    except:
-        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    new_field_name = "Default Name"
+    new_field_text = ""
+    field = Field.objects.create_field(new_field_job, new_field_name, new_field_text, True, True, True, False)
+    job.last_update = timezone.now()
+    job.has_process_outline_been_modified_for_this_operation = True
+    job.full_clean()
+    job.save()
+    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def delete_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -131,6 +127,7 @@ def set_job_name(request, job_id):
         new_job_id = job_number + "-" + assembly_number + "-" + operation_number
         for other_job in Job.objects.all():
             if new_job_id == other_job.job_id:
+                messages.error(request, 'Job ID Already Exists')
                 return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
         job.job_id = new_job_id
         job.has_job_name_been_set = True
@@ -140,20 +137,24 @@ def set_job_name(request, job_id):
         job.last_update = timezone.now()
         job.full_clean()
         job.save()
+    else:
+        messages.error(request, 'Job ID Cannot Be Blank')
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
 def submit(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     fields = job.field_set.all()
-
     if job.has_job_name_been_set == False:
+        messages.error(request, 'Job ID must be set before submiting')
         job.disable_submit_button = True
     elif job.disable_submit_button == False:
         for field in fields:
             if field.required_for_full_submission == True:
                 if field.field_name == "Default Name" or field.field_text == "":
+                    messages.error(request, 'Required Fields cannot be blank and must be named')
                     job.disable_submit_button = True
             if field.editing_mode == True:
+                messages.error(request, 'Finish editing fields before submiting')
                 job.disable_submit_button = True
     if job.disable_submit_button == False:
         job.completed = True

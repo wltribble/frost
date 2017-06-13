@@ -7,6 +7,14 @@
 
 <h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
 
+{% if messages %}
+    <ul class="messages">
+            {% for message in messages %}
+                <li class="error">{{ message }}</li>
+            {% endfor %}
+    </ul>
+{% endif %}
+
 {% ifequal job.has_job_name_been_set False %}
     {% include 'embossers/forms/job_number_form.html' %}
 {% endifequal %}

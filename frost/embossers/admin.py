@@ -21,8 +21,8 @@ class JobAdmin(admin.ModelAdmin):
     ]
     search_fields = ['job_id', 'job_number', 'assembly_number', 'operation_number',]
     inlines = [FieldInLine]
-    list_display = ('job_id', 'date_created', 'completed')
-    list_filter = ['completed', 'date_created',]
+    list_display = ('job_id', 'date_created', 'completed', 'process_outline', 'has_process_outline_been_modified_for_this_operation')
+    list_filter = ['completed', 'date_created', 'process_outline']
 
 
 admin.site.register(Job, JobAdmin)

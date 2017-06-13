@@ -11,3 +11,8 @@ p {
 .bottom_buttons {
     display: inline-block;
 }
+
+.error {
+    color: red;
+    list-style-type: none;
+}
