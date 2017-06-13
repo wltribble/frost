@@ -1,4 +1,4 @@
-<form action="{% url 'embossers:submit' job.id %}" method="post" class="bottom_buttons">
+<form action="{% url 'embossers:submit' job.id %}" method="post">
     {% csrf_token %}
     <button type="submit" class="full_page_submit" name="full_page_submit"><strong>Submit Full Form</strong></button>
 </form>

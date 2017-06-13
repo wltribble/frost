@@ -1,12 +1,15 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
 
+
 <h1>Pick A Template To Begin</h1>
 
 {% if processes %}
     <ul>
     {% for process in processes %}
-        <li><a href="{% url 'embossers:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
+        {% ifnotequal process.process_name "None" %}
+            <li><a href="{% url 'embossers:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
+        {% endifnotequal %}
     {% endfor %}
     </ul>
 {% else %}
@@ -14,6 +17,14 @@
     <a href="{% url 'embossers:detail' job.id %}"
 {% endif %}
 
-<form action="{% url 'embossers:index' %}" name="back_from_template_chooser">
+<form action="{% url 'embossers:index' %}" name="back_from_template_chooser" class="bottom_buttons">
     <button type="submit">Back</button>
 </form>
+
+{% for process in processes %}
+    {% ifequal process.process_name "None" %}
+        <form action="{% url 'embossers:set_process_template' job.id process.id %}" name="continue_without_template" class="bottom_buttons">
+            <button type="submit">Continue Without A Template</button>
+        </form>
+    {% endifequal %}
+{% endfor %}
