@@ -6,8 +6,21 @@
 {% if jobs %}
     <h4>Incomplete Operations</h4>
     <ul>
-    {% for job in jobs %}
-        {% if job.completed == False %}
+    {% for job in incomplete_jobs %}
+        {% ifequal job.process_outline "None" %}
+            {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
+                <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job.job_id }}</a></li>
+            {% else %}
+                <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
+            {% endifequal %}
+        {% else %}
+            <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
+        {% endifequal %}
+    {% endfor %}
+    </ul>
+    <h4>Complete Operations</h4>
+    <ul>
+        {% for job in complete_jobs %}
             {% ifequal job.process_outline "None" %}
                 {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
                     <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job.job_id }}</a></li>
@@ -17,23 +30,6 @@
             {% else %}
                 <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
             {% endifequal %}
-        {% endif %}
-    {% endfor %}
-    </ul>
-    <h4>Complete Operations</h4>
-    <ul>
-        {% for job in jobs %}
-            {% if job.completed == True %}
-                {% ifequal job.process_outline "None" %}
-                    {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
-                        <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job.job_id }}</a></li>
-                    {% else %}
-                        <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
-                    {% endifequal %}
-                {% else %}
-                    <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
-                {% endifequal %}
-            {% endif %}
         {% endfor %}
         </ul>
 {% else %}
