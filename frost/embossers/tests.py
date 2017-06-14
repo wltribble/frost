@@ -3,10 +3,18 @@ import datetime
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
+from django.db import IntegrityError
 
 from processes.models import Process
 
 from .models import Job, Field
+
+
+def create_job(job_id, completed):
+    return Job.objects.create(job_id=job_id, completed=completed)
+
+def create_process(process_name):
+    return Process.objects.create(process_name=process_name)
 
 
 class JobModelTests(TestCase):
@@ -37,9 +45,14 @@ class JobModelTests(TestCase):
         future_job = Job(date_created=time)
         self.assertIs(future_job.was_created_recently(), False)
 
+    def test_two_jobs_with_same_name(self):
+        """
+        Invalidate a second job using a name already in use
+        """
+        Job.objects.create(job_id="Job")
 
-def create_job(job_id, completed):
-    return Job.objects.create(job_id=job_id, completed=completed)
+        with self.assertRaises(IntegrityError):
+            Job.objects.create(job_id="Job")
 
 
 class JobIndexViewTests(TestCase):
@@ -70,9 +83,6 @@ class JobIndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['jobs'], ['<Job: Complete Job>'])
         self.assertQuerysetEqual(response.context['complete_jobs'], ['<Job: Complete Job>'])
 
-
-def create_process(process_name):
-    return Process.objects.create(process_name=process_name)
 
 class JobPickTemplateViewTests(TestCase):
     def test_no_templates(self):

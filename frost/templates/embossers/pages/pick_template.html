@@ -8,7 +8,9 @@
     <ul>
     {% for process in processes %}
         {% ifnotequal process.process_name "None" %}
-            <li><a href="{% url 'embossers:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
+            {% ifequal process.job_type "embosser" %}
+                <li><a href="{% url 'embossers:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
+            {% endifequal %}
         {% endifnotequal %}
     {% endfor %}
     </ul>
