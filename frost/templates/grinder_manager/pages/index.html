@@ -1,7 +1,11 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
 
-<h1>List Of Operations</h1>
+<h1>Grinder Manager Page</h1>
+
+<form action="{% url 'grinder_manager:create_job' %}" name="create_job_from_index">
+    <button type="submit">Create New Job</button>
+</form>
 
 {% if jobs %}
     <h4>Incomplete Operations</h4>
@@ -9,12 +13,12 @@
     {% for job in incomplete_jobs %}
         {% ifequal job.process_outline "None" %}
             {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
-                <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job.job_id }}</a></li>
+                <li><a href="{% url 'embossers:pick_template' job.id %}">{{ job }}</a></li>
             {% else %}
-                <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
+                <li><a href="{% url 'embossers:detail' job.id %}">{{ job }}</a></li>
             {% endifequal %}
         {% else %}
-            <li><a href="{% url 'embossers:detail' job.id %}">{{ job.job_id }}</a></li>
+            <li><a href="{% url 'embossers:detail' job.id %}">{{ job }}</a></li>
         {% endifequal %}
     {% endfor %}
     </ul>

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'embossers',
     'processes',
+    'grinder_manager',
 ]
 
 MIDDLEWARE = [

@@ -16,10 +16,9 @@
     </ul>
 {% else %}
     <p>No templates available.</p>
-    <a href="{% url 'embossers:detail' job.id %}"
 {% endif %}
 
-<form action="{% url 'embossers:index' %}" name="back_from_template_chooser" class="bottom_buttons">
+<form action="{% url 'embossers:delete_job' job.id %}" name="back_from_template_chooser" class="bottom_buttons">
     <button type="submit">Back</button>
 </form>
 

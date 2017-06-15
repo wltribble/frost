@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 try:
     from django.urls import reverse
@@ -6,7 +6,6 @@ except:
     from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
-from django.db import migrations
 from django.contrib import messages
 
 from processes.models import Process
@@ -127,14 +126,6 @@ def set_process_template(request, job_id, process_name):
     job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
 
-def create_job(request):
-    count = Job.objects.count()
-    job = Job.objects.create(job_id="New Job " + str(count + 1))
-    job.has_job_name_been_set = False
-    job.full_clean()
-    job.save()
-    return HttpResponseRedirect(reverse('embossers:pick_template', args=(job.id,)))
-
 def set_job_name(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     job_number = request.POST['job_number_text_box']
@@ -186,3 +177,8 @@ def submit(request, job_id):
     job.full_clean()
     job.save()
     return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+
+def delete_job(request, job_id):
+    job = get_object_or_404(Job, pk=job_id)
+    job.delete()
+    return HttpResponseRedirect(reverse('embossers:index'))
