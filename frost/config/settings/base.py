@@ -132,7 +132,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-from .dev import *
+try:
+    from .dev import *
+except:
+    pass
 
 import django
 django.setup()
