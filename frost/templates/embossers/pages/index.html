@@ -35,3 +35,7 @@
 {% else %}
     <p>No jobs are available.</p>
 {% endif %}
+
+<form action="{% url 'embossers:create_job' %}" name="create_job_from_index">
+    <button type="submit">Create New Job</button>
+</form>
