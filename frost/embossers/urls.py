@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, set_job_name, submit, delete_job
+from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, set_job_name, submit, delete_job, create_job
 
 app_name = 'polls'
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^(?P<job_id>[0-9]+)/set_job_name/$', set_job_name, name='set_job_name'),
     url(r'^(?P<job_id>[0-9]+)/submit/$', submit, name='submit'),
     url(r'^(?P<job_id>[0-9]+)/delete_job/$', delete_job, name='delete_job'),
+    url(r'^create/$', create_job, name='create_job'),
 ]

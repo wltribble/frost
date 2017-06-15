@@ -182,3 +182,11 @@ def delete_job(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     job.delete()
     return HttpResponseRedirect(reverse('embossers:index'))
+
+def create_job(request):
+    count = Job.objects.count()
+    job = Job.objects.create(job_id= "New Job " + str(count + 1))
+    job.has_job_name_been_set = False
+    job.full_clean()
+    job.save()
+    return HttpResponseRedirect(reverse('embossers:pick_template', args=(job.id,)))
