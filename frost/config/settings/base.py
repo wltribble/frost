@@ -13,8 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -26,10 +25,7 @@ except:
     print ('key not available')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-try:
-    DEBUG = os.environ['FROST_DEBUG']
-except:
-    print ('debug not available')
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -45,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'embossers',
     'processes',
-    # 'grinder_manager',
 ]
 
 MIDDLEWARE = [
@@ -84,12 +79,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'TEST': {
-            'DEPENDENCIES': [],
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'm1_ts',
+        'HOST': 'fcsserver',
+        'USER': 'sa',
+        'PASSWORD': '2112frost',
+        'OPTIONS': {
+            'provider': 'SQL Server Native Client 11.0',
         }
-    }
+    },
 }
 
 
@@ -133,3 +131,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+from .dev import *
+
+import django
+django.setup()
