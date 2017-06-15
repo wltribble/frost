@@ -1,2 +1,2 @@
 dev.py
-db.sqlite3
+*.sqlite3
