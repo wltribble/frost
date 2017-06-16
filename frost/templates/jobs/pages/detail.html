@@ -1,11 +1,11 @@
 <html lang="en">
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
 
 
 </head>
 
-<h1><a class="navbar-brand" href="/embossers">{{ job.job_id }}</a></h1>
+<h1><a class="navbar-brand" href="/jobs">{{ job.job_id }}</a></h1>
 
 {% if messages %}
     <ul class="messages">
@@ -16,7 +16,7 @@
 {% endif %}
 
 {% ifequal job.has_job_name_been_set False %}
-    {% include 'embossers/forms/job_number_form.html' %}
+    {% include 'jobs/forms/job_number_form.html' %}
 {% endifequal %}
 <p>Process Template In Use:&emsp;{{ job.process_outline }}
     {% if job.has_process_outline_been_modified_for_this_operation == True %}
@@ -36,18 +36,18 @@
 {% for field in job.field_set.all %}
     {% ifnotequal field.field_has_been_set False %}
         {% ifnotequal field.editing_mode True %}
-            {% include 'embossers/forms/saved_field_form.html' %}
+            {% include 'jobs/forms/saved_field_form.html' %}
         {% else %}
-            {% include 'embossers/forms/existing_field_form.html' %}
+            {% include 'jobs/forms/existing_field_form.html' %}
         {% endifnotequal %}
     {% else %}
-        {% include 'embossers/forms/new_field_form.html' %}
+        {% include 'jobs/forms/new_field_form.html' %}
     {% endifnotequal %}
 {% endfor %}
 
 
 {% if job.completed == False %}
-    <form action="{% url 'embossers:add_field' job.id %}" method="post" name="add_field">
+    <form action="{% url 'jobs:add_field' job.id %}" method="post" name="add_field">
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>
@@ -56,7 +56,7 @@
 <br /><br /><br /><br />
 
 {% if job.completed == False %}
-    {% include 'embossers/forms/submit.html' %}
+    {% include 'jobs/forms/submit.html' %}
 {% endif %}
 
 </html>

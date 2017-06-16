@@ -25,7 +25,10 @@ except:
     print ('key not available')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
+try:
+    DEBUG = os.environ['DEBUG']
+except:
+    print ('debug not gotten from environ')
 
 ALLOWED_HOSTS = []
 

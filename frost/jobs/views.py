@@ -14,7 +14,7 @@ from .models import Job, Field
 
 
 class IndexView(generic.ListView):
-    template_name = 'embossers/pages/index.html'
+    template_name = 'jobs/pages/index.html'
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
@@ -39,7 +39,7 @@ class IndexView(generic.ListView):
 
 
 class PickTemplateView(generic.ListView):
-    template_name = 'embossers/pages/pick_template.html'
+    template_name = 'jobs/pages/pick_template.html'
     model = Job
 
     def get_queryset(self):
@@ -54,7 +54,7 @@ class PickTemplateView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Job
-    template_name = 'embossers/pages/detail.html'
+    template_name = 'jobs/pages/detail.html'
 
     def get_queryset(self):
         return Job.objects.all()
@@ -67,14 +67,14 @@ def save_data(request, job_id):
         field_to_be_saved.field_name = request.POST.get('save_field_name')
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') == "":
         messages.error(request, 'Fields require names to be submitted')
-        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+        return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
     if field_to_be_saved.text_is_operator_editable:
         field_to_be_saved.field_text = request.POST.get('save_field_text')
     if (request.POST.get('save_field_name') == "Default Name"):
         field_to_be_saved.field_has_been_set = False
         field_to_be_saved.editing_mode = True
         messages.error(request, 'Fields require names to be submitted')
-        return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+        return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
     field_to_be_saved.field_has_been_set = True
     field_to_be_saved.editing_mode = False
     job.last_update = timezone.now()
@@ -82,7 +82,7 @@ def save_data(request, job_id):
     field_to_be_saved.save()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
 def edit_data(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -93,7 +93,7 @@ def edit_data(request, job_id):
     job.last_update = timezone.now()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
 def add_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -105,7 +105,7 @@ def add_field(request, job_id):
     job.has_process_outline_been_modified_for_this_operation = True
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
 def delete_field(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -113,7 +113,7 @@ def delete_field(request, job_id):
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
     job.save()
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
 def set_process_template(request, job_id, process_name):
     job = get_object_or_404(Job, pk=job_id)
@@ -124,7 +124,7 @@ def set_process_template(request, job_id, process_name):
     job.last_update = timezone.now()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
 def set_job_name(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -136,7 +136,7 @@ def set_job_name(request, job_id):
         for other_job in Job.objects.all():
             if new_job_id == other_job.job_id:
                 messages.error(request, 'Job ID Already Exists')
-                return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+                return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
         job.job_id = new_job_id
         job.has_job_name_been_set = True
         job.job_number = job_number
@@ -147,7 +147,7 @@ def set_job_name(request, job_id):
         job.save()
     else:
         messages.error(request, 'Job ID Cannot Be Blank')
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
 def submit(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -176,12 +176,12 @@ def submit(request, job_id):
         job.disable_submit_button = False
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('embossers:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
 def delete_job(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     job.delete()
-    return HttpResponseRedirect(reverse('embossers:index'))
+    return HttpResponseRedirect(reverse('jobs:index'))
 
 def create_job(request):
     count = Job.objects.count()
@@ -189,4 +189,4 @@ def create_job(request):
     job.has_job_name_been_set = False
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('embossers:pick_template', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:pick_template', args=(job.id,)))

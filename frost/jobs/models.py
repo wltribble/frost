@@ -25,7 +25,7 @@ class Job(models.Model):
         return self.job_id
 
     def get_absolute_url(self):
-        return reverse('embossers:detail', kwargs={'pk': self.pk})
+        return reverse('jobs:detail', kwargs={'pk': self.pk})
 
     def was_created_recently(self):
         now = timezone.now()
