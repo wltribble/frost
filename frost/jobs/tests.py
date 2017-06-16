@@ -60,7 +60,7 @@ class JobIndexViewTests(TestCase):
         """
         if no jobs, exist, display appropriate message.
         """
-        response = self.client.get(reverse('embossers:index'))
+        response = self.client.get(reverse('jobs:index'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No jobs are available.")
         self.assertQuerysetEqual(response.context['jobs'], [])
@@ -70,7 +70,7 @@ class JobIndexViewTests(TestCase):
         if a job is incomplete, it should appear in the incomplete jobs section
         """
         create_job(job_id="Incomplete Job", completed=False)
-        response = self.client.get(reverse('embossers:index'))
+        response = self.client.get(reverse('jobs:index'))
         self.assertQuerysetEqual(response.context['jobs'], ['<Job: Incomplete Job>'])
         self.assertQuerysetEqual(response.context['incomplete_jobs'], ['<Job: Incomplete Job>'])
 
@@ -79,7 +79,7 @@ class JobIndexViewTests(TestCase):
         if a job is complete, it should appear in the complete jobs section
         """
         create_job(job_id="Complete Job", completed=True)
-        response = self.client.get(reverse('embossers:index'))
+        response = self.client.get(reverse('jobs:index'))
         self.assertQuerysetEqual(response.context['jobs'], ['<Job: Complete Job>'])
         self.assertQuerysetEqual(response.context['complete_jobs'], ['<Job: Complete Job>'])
 
@@ -90,7 +90,7 @@ class JobPickTemplateViewTests(TestCase):
         If no templates, the page should say No Templates
         """
         job = create_job(job_id="Test Job", completed=False)
-        response = self.client.get(reverse('embossers:pick_template', args=(job.id,)))
+        response = self.client.get(reverse('jobs:pick_template', args=(job.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['processes'], [])
         self.assertContains(response, "No templates available.")
@@ -101,7 +101,7 @@ class JobPickTemplateViewTests(TestCase):
         """
         job = create_job(job_id="Test Job", completed=False)
         create_process(process_name="None")
-        response = self.client.get(reverse('embossers:pick_template', args=(job.id,)))
+        response = self.client.get(reverse('jobs:pick_template', args=(job.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['processes'], ['<Process: None>'])
 
@@ -111,7 +111,7 @@ class JobPickTemplateViewTests(TestCase):
         """
         job = create_job(job_id="Test Job", completed=False)
         create_process(process_name="Template With Name")
-        response = self.client.get(reverse('embossers:pick_template', args=(job.id,)))
+        response = self.client.get(reverse('jobs:pick_template', args=(job.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['processes'], ['<Process: Template With Name>'])
         self.assertContains(response, "Template With Name")
@@ -123,7 +123,7 @@ class JobPickTemplateViewTests(TestCase):
         job = create_job(job_id="Test Job", completed=False)
         create_process(process_name="Template With Name")
         create_process(process_name="None")
-        response = self.client.get(reverse('embossers:pick_template', args=(job.id,)))
+        response = self.client.get(reverse('jobs:pick_template', args=(job.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "None")
         self.assertContains(response, "Template With Name")
@@ -135,7 +135,7 @@ class JobPickTemplateViewTests(TestCase):
         job = create_job(job_id="Test Job", completed=False)
         create_process(process_name="Template With Name 1")
         create_process(process_name="Template With Name 2")
-        response = self.client.get(reverse('embossers:pick_template', args=(job.id,)))
+        response = self.client.get(reverse('jobs:pick_template', args=(job.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Template With Name 1")
         self.assertContains(response, "Template With Name 2")

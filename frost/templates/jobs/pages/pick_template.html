@@ -1,5 +1,5 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'embossers/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
 
 
 <h1>Pick A Template To Begin</h1>
@@ -9,7 +9,7 @@
     {% for process in processes %}
         {% ifnotequal process.process_name "None" %}
             {% ifequal process.job_type "embosser" %}
-                <li><a href="{% url 'embossers:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
+                <li><a href="{% url 'jobs:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
             {% endifequal %}
         {% endifnotequal %}
     {% endfor %}
@@ -18,13 +18,13 @@
     <p>No templates available.</p>
 {% endif %}
 
-<form action="{% url 'embossers:delete_job' job.id %}" name="back_from_template_chooser" class="bottom_buttons">
+<form action="{% url 'jobs:delete_job' job.id %}" name="back_from_template_chooser" class="bottom_buttons">
     <button type="submit">Back</button>
 </form>
 
 {% for process in processes %}
     {% ifequal process.process_name "None" %}
-        <form action="{% url 'embossers:set_process_template' job.id process.id %}" name="continue_without_template" class="bottom_buttons">
+        <form action="{% url 'jobs:set_process_template' job.id process.id %}" name="continue_without_template" class="bottom_buttons">
             <button type="submit">Continue Without A Template</button>
         </form>
     {% endifequal %}

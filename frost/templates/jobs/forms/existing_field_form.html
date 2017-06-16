@@ -1,0 +1,16 @@
+<p>
+<form action="{% url 'jobs:save_data' job.id %}" method="post" class="enter_data_form">
+    {% csrf_token %}
+    {% include 'jobs/form_templates/existing_field_form_template.html' %}
+    &emsp;&emsp;
+    <button type="submit" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
+</form>
+
+{% if field.can_be_deleted %}
+<form action="{% url 'jobs:delete_field' job.id %}" method="post" class="enter_data_form">
+    {% csrf_token %}
+    <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
+</form>
+{% endif %}
+
+</p>
