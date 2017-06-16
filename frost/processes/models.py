@@ -22,6 +22,7 @@ class OutlineField(models.Model):
     OUTLINE_name_is_operator_editable = models.BooleanField(default=True)
     OUTLINE_text_is_operator_editable = models.BooleanField(default=True)
     OUTLINE_required_for_full_submission = models.BooleanField(default=True)
+    OUTLINE_can_be_deleted = models.BooleanField(default=True)
 
     def __str__(self):
         return self.OUTLINE_field_name

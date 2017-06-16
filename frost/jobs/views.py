@@ -100,7 +100,7 @@ def add_field(request, job_id):
     new_field_job = job
     new_field_name = "Default Name"
     new_field_text = ""
-    field = Field.objects.create_field(new_field_job, new_field_name, new_field_text, True, True, True, False)
+    field = Field.objects.create_field(new_field_job, new_field_name, new_field_text, True, True, True, False, True)
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
     job.full_clean()
@@ -120,7 +120,7 @@ def set_process_template(request, job_id, process_name):
     process = get_object_or_404(Process, pk=process_name)
     job.process_outline = process.process_name
     for field in process.outlinefield_set.all():
-        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True)
+        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
     job.last_update = timezone.now()
     job.full_clean()
     job.save()
