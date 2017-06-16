@@ -18,6 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^embossers/', include('embossers.urls', namespace='embossers')),
+    url(r'^jobs/', include('jobs.urls', namespace='jobs')),
     # url(r'^', include('grinder_manager.urls', namespace='grinder_manager')),
 ]
