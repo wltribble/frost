@@ -1,0 +1,18 @@
+p {
+    text-align: left;
+    line-height: 5px;
+}
+.enter_data_form {
+    display: inline-block;
+}
+.enter_job_form {
+    display: inline-block;
+}
+.bottom_buttons {
+    display: inline-block;
+}
+
+.error {
+    color: red;
+    list-style-type: none;
+}
