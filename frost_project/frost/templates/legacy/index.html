@@ -1,0 +1,38 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
+
+<h1>List Of Operations</h1>
+
+{% if jobs %}
+    <h4>Incomplete Operations</h4>
+    <ul>
+    {% for job in incomplete_jobs %}
+        {% ifequal job.process_outline "None" %}
+            {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
+                <li>{{ job }}</li>
+            {% else %}
+                <li>{{ job }}</li>
+            {% endifequal %}
+        {% else %}
+            <li>{{ job }}</li>
+        {% endifequal %}
+    {% endfor %}
+    </ul>
+    <h4>Complete Operations</h4>
+    <ul>
+        {% for job in complete_jobs %}
+            {% ifequal job.process_outline "None" %}
+                {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
+                    <li>{{ job }}</li>
+                {% else %}
+                    <li>{{ job }}</li>
+                {% endifequal %}
+            {% else %}
+                <li>{{ job }}</li>
+            {% endifequal %}
+        {% endfor %}
+        </ul>
+{% else %}
+    <p>No jobs are available.</p>
+{% endif %}
+

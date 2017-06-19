@@ -1,0 +1,7 @@
+<form action="{% url 'jobs:set_job_name' job.id %}" method="post" class="enter_job_form">
+    {% csrf_token %}
+    <input type="text" name="job_number_text_box" placeholder="Enter a Job ID #..."></input>
+    <input type="text" name="assembly_number_text_box" placeholder="Enter an Assembly #..."></input>
+    <input type="text" name="operation_number_text_box" placeholder="Enter an Operation #..."></input>
+    <button type="submit" value="1">Submit</button>&emsp;
+</form>

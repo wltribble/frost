@@ -1,0 +1,11 @@
+<p>
+<form action="{% url 'jobs:edit_data' job.id %}" method="post">
+    {% csrf_token %}
+    <label for="field{{ forloop.counter }}"><strong>{{ field.field_name }}</strong>:&emsp;{{ field.field_text }}&emsp;&emsp;</label>
+    {% if field.name_is_operator_editable or field.text_is_operator_editable %}
+        <button type="submit" name="edit_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Edit</button><br /><br />
+    {% else %}
+        <br /><br />
+    {% endif %}
+</form>
+</p>
