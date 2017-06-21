@@ -18,8 +18,8 @@ class Job(models.Model):
     jmoworkcenterid = models.CharField(db_column='jmoWorkCenterID', max_length=5)
     jmoprocessid = models.CharField(db_column='jmoProcessID', max_length=5)
     jmoprocessshortdescription = models.CharField(db_column='jmoProcessShortDescription', max_length=50)
-    jmoprocesslongdescriptionrtf = models.TextField(db_column='jmoProcessLongDescriptionRTF')   This field type is a guess.
-    jmoprocesslongdescriptiontext = models.TextField(db_column='jmoProcessLongDescriptionText')   This field type is a guess.
+    jmoprocesslongdescriptionrtf = models.TextField(db_column='jmoProcessLongDescriptionRTF')
+    jmoprocesslongdescriptiontext = models.TextField(db_column='jmoProcessLongDescriptionText')
     jmoquantityperassembly = models.DecimalField(db_column='jmoQuantityPerAssembly', max_digits=13, decimal_places=6)
     jmosetuphours = models.DecimalField(db_column='jmoSetupHours', max_digits=8, decimal_places=2)
     jmoproductionstandard = models.DecimalField(db_column='jmoProductionStandard', max_digits=10, decimal_places=4)
@@ -73,9 +73,9 @@ class Job(models.Model):
     jmoestimatedproductionhours = models.DecimalField(db_column='jmoEstimatedProductionHours', max_digits=8, decimal_places=2)
     jmocompletedsetuphours = models.DecimalField(db_column='jmoCompletedSetupHours', max_digits=8, decimal_places=2)
     jmocompletedproductionhours = models.DecimalField(db_column='jmoCompletedProductionHours', max_digits=8, decimal_places=2)
-    jmodocuments = models.TextField(db_column='jmoDocuments')   This field type is a guess.
-    jmosfemessagertf = models.TextField(db_column='jmoSFEMessageRTF')   This field type is a guess.
-    jmosfemessagetext = models.TextField(db_column='jmoSFEMessageText')   This field type is a guess.
+    jmodocuments = models.TextField(db_column='jmoDocuments')
+    jmosfemessagertf = models.TextField(db_column='jmoSFEMessageRTF')
+    jmosfemessagetext = models.TextField(db_column='jmoSFEMessageText')
     jmoclosed = models.DecimalField(db_column='jmoClosed', max_digits=1, decimal_places=0)
     jmoinspectioncomplete = models.DecimalField(db_column='jmoInspectionComplete', max_digits=1, decimal_places=0)
     jmoinspectionstatus = models.DecimalField(db_column='jmoInspectionStatus', max_digits=1, decimal_places=0)
