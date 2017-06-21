@@ -3,3 +3,4 @@ django-pyodbc==1.1.0
 django-pyodbc-azure==1.11.0.0
 pyodbc==4.0.16
 pytz==2017.2
+six==1.10.0

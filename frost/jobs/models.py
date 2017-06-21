@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 
 # Create your models here.
 class Job(models.Model):
-    job_id = models.CharField(max_length=100, default="New Job", unique=True)
+    job_id = models.CharField(max_length=100, default="New Job")
     date_created = models.DateTimeField('date created', auto_now_add=True)
     last_update = models.DateTimeField('last updated', default=timezone.now)
     date_submitted = models.DateTimeField(null=True, blank=True)
@@ -19,6 +19,7 @@ class Job(models.Model):
     job_number = models.CharField(max_length=100, blank=True)
     assembly_number = models.CharField(max_length=100, blank=True)
     operation_number = models.CharField(max_length=100, blank=True)
+    instructions = models.TextField(max_length=1000, blank=True)
 
 
     def __str__(self):
@@ -57,3 +58,6 @@ class Field(models.Model):
 
     def __str__(self):
         return self.field_name
+
+    class Meta:
+        unique_together = ('job', 'field_name', 'editing_mode')
