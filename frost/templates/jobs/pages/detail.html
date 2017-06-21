@@ -51,7 +51,7 @@
 
 
 <!-- {% if job.completed == False %} -->
-    <form action="{% url 'jobs:add_field' job.id %}" method="post" name="add_field">
+    <form action="{% url 'jobs:add_field' job.jmouniqueid %}" method="post" name="add_field">
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>

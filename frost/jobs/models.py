@@ -83,7 +83,7 @@ class Job(models.Model):
     jmorfqid = models.CharField(db_column='jmoRFQID', max_length=10)
     jmocreatedby = models.CharField(db_column='jmoCreatedBy', max_length=20)
     jmocreateddate = models.DateTimeField(db_column='jmoCreatedDate', blank=True, null=True)
-    jmouniqueid = models.CharField(db_column='jmoUniqueID', unique=True, max_length=36, primary_key=True)
+    jmouniqueid = models.UUIDField(db_column='jmoUniqueID', unique=True, primary_key=True)
     ujmopriority = models.DecimalField(db_column='UJMOPRIORITY', max_digits=4, decimal_places=0)
     jmomachinestoschedule = models.DecimalField(db_column='jmoMachinesToSchedule', max_digits=3, decimal_places=0)
 

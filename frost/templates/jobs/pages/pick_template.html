@@ -9,7 +9,7 @@
     {% for process in processes %}
         {% ifnotequal process.process_name "None" %}
             {% ifequal process.job_type "embosser" %}
-                <li><a href="{% url 'jobs:set_process_template' job.id process.id %}">{{ process.process_name }}</a></li>
+                <li><a href="{% url 'jobs:set_process_template' job.jmouniqueid process.id %}">{{ process.process_name }}</a></li>
             {% endifequal %}
         {% endifnotequal %}
     {% endfor %}
@@ -18,13 +18,9 @@
     <p>No templates available.</p>
 {% endif %}
 
-<!-- <form action="{% url 'jobs:delete_job' job.id %}" name="back_from_template_chooser" class="bottom_buttons">
-    <button type="submit">Back</button>
-</form> -->
-
 {% for process in processes %}
     {% ifequal process.process_name "None" %}
-        <form action="{% url 'jobs:set_process_template' job.id process.id %}" name="continue_without_template" class="bottom_buttons">
+        <form action="{% url 'jobs:set_process_template' job.jmouniqueid process.id %}" name="continue_without_template" class="bottom_buttons">
             <button type="submit">Continue Without A Template</button>
         </form>
     {% endifequal %}

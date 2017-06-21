@@ -1,3 +1,5 @@
+import uuid
+
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 try:
@@ -53,7 +55,9 @@ class PickTemplateView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(PickTemplateView, self).get_context_data(**kwargs)
         context['processes'] = Process.objects.all()
-        context['job'] = Job.objects.get(id=self.kwargs.get('jmouniqueid'))
+        valid_uuid = uuid.UUID(self.kwargs.get('jmouniqueid'))
+        job = get_object_or_404(Job, jmouniqueid=valid_uuid)
+        context['job'] = job
         return context
 
 
@@ -66,20 +70,20 @@ class DetailView(generic.DetailView):
 
 
 def save_data(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
-    field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
+    job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
+    field_to_be_saved = job.field_set.get(id=request.POST['save_field'])
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
         field_to_be_saved.field_name = request.POST.get('save_field_name')
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') == "":
         messages.error(request, 'Fields require names to be submitted')
-        return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+        return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
     if field_to_be_saved.text_is_operator_editable:
         field_to_be_saved.field_text = request.POST.get('save_field_text')
     if (request.POST.get('save_field_name') == "Default Name"):
         field_to_be_saved.field_has_been_set = False
         field_to_be_saved.editing_mode = True
         messages.error(request, 'Fields require names to be submitted')
-        return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+        return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
     field_to_be_saved.field_has_been_set = True
     field_to_be_saved.editing_mode = False
     job.last_update = timezone.now()
@@ -87,21 +91,21 @@ def save_data(request, jmouniqueid):
     field_to_be_saved.save()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def edit_data(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
-    field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
+    job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
+    field_to_be_edited = job.field_set.get(id=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
     field_to_be_edited.save()
     job.last_update = timezone.now()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def add_field(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
+    job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
     new_field_job = job
     new_field_name = "Default Name"
     new_field_text = ""
@@ -110,29 +114,30 @@ def add_field(request, jmouniqueid):
     job.has_process_outline_been_modified_for_this_operation = True
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def delete_field(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
-    field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
+    job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
+    field_to_be_deleted = job.field_set.get(id=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def set_process_template(request, jmouniqueid, process_name):
-    job = get_object_or_404(Job, pk=jmouniqueid)
-    process = get_object_or_404(Process, pk=process_name)
+    job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
+    process = get_object_or_404(Process, id=process_name)
     # job.process_outline = process.process_name
     for field in process.outlinefield_set.all():
         new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
     # job.last_update = timezone.now()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    print ('this is working')
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 # def set_job_name(request, jmouniqueid):
-#     job = get_object_or_404(Job, pk=jmouniqueid)
+#     job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
 #     job_number = request.POST['job_number_text_box']
 #     assembly_number = request.POST['assembly_number_text_box']
 #     operation_number = request.POST['operation_number_text_box']
@@ -141,7 +146,7 @@ def set_process_template(request, jmouniqueid, process_name):
 #         for other_job in Job.objects.all():
 #             if new_jmouniqueid == other_job:
 #                 messages.error(request, 'Job ID Already Exists')
-#                 return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+#                 return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 #         job.has_job_name_been_set = True
 #         job.jmojobid = job_number
 #         job.jmojobassemblyid = assembly_number
@@ -151,10 +156,10 @@ def set_process_template(request, jmouniqueid, process_name):
 #         job.save()
 #     else:
 #         messages.error(request, 'Job ID Cannot Be Blank')
-#     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+#     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 # def submit(request, jmouniqueid):
-#     job = get_object_or_404(Job, pk=jmouniqueid)
+#     job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
 #     fields = job.field_set.all()
 #     if job.has_job_name_been_set == False:
 #         messages.error(request, 'Job ID must be set before submiting')
@@ -180,9 +185,9 @@ def set_process_template(request, jmouniqueid, process_name):
 #         job.disable_submit_button = False
 #     job.full_clean()
 #     job.save()
-#     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+#     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 #
 # def delete_job(request, jmouniqueid):
-#     job = get_object_or_404(Job, pk=jmouniqueid)
+#     job = get_object_or_404(Job, jmouniqueid=jmouniqueid)
 #     job.delete()
 #     return HttpResponseRedirect(reverse('jobs:index'))

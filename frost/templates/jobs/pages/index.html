@@ -7,35 +7,10 @@
     <h4>Incomplete Operations</h4>
     <ul>
     {% for job in incomplete_jobs %}
-        <!-- {% ifequal job.process_outline "None" %}
-            {% ifequal job.has_process_outline_been_modified_for_this_operation False %} -->
-                <li><a href="{% url 'jobs:pick_template' job.id %}">{{ job.job_id }}</a></li>
-            <!-- {% else %}
-                <li><a href="{% url 'jobs:detail' job.id %}">{{ job.job_id }}</a></li>
-            {% endifequal %}
-        {% else %}
-            <li><a href="{% url 'jobs:detail' job.id %}">{{ job.job_id }}</a></li>
-        {% endifequal %} -->
+        <li><a href="{% url 'jobs:pick_template' job.jmouniqueid %}">{{ job }}</a></li>
     {% endfor %}
     </ul>
     <h4>Complete Operations</h4>
-    <!-- <ul>
-        {% for job in complete_jobs %}
-            {% ifequal job.process_outline "None" %}
-                {% ifequal job.has_process_outline_been_modified_for_this_operation False %}
-                    <li><a href="{% url 'jobs:pick_template' job.id %}">{{ job.job_id }}</a></li>
-                {% else %}
-                    <li><a href="{% url 'jobs:detail' job.id %}">{{ job.job_id }}</a></li>
-                {% endifequal %}
-            {% else %}
-                <li><a href="{% url 'jobs:detail' job.id %}">{{ job.job_id }}</a></li>
-            {% endifequal %}
-        {% endfor %}
-        </ul> -->
 {% else %}
     <p>No jobs are available.</p>
 {% endif %}
-
-<form action="{% url 'jobs:create_job' %}" name="create_job_from_index">
-    <button type="submit">Create New Job</button>
-</form>
