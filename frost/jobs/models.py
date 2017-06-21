@@ -6,34 +6,34 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
 # Create your models here.
-class Job(models.Model):
-    job_id = models.CharField(max_length=100, default="New Job")
-    date_created = models.DateTimeField('date created', auto_now_add=True)
-    last_update = models.DateTimeField('last updated', default=timezone.now)
-    date_submitted = models.DateTimeField(null=True, blank=True)
-    process_outline = models.CharField(max_length=100, default="None", verbose_name="Process Template")
-    has_process_outline_been_modified_for_this_operation = models.BooleanField(default=False, verbose_name="Edited Template")
-    has_job_name_been_set = models.BooleanField(default=False)
-    completed = models.BooleanField(default=False)
-    disable_submit_button = models.BooleanField(default=False)
-    job_number = models.CharField(max_length=100, blank=True)
-    assembly_number = models.CharField(max_length=100, blank=True)
-    operation_number = models.CharField(max_length=100, blank=True)
-    instructions = models.TextField(max_length=1000, blank=True)
-
-
-    def __str__(self):
-        return self.job_id
-
-    def get_absolute_url(self):
-        return reverse('jobs:detail', kwargs={'pk': self.pk})
-
-    def was_created_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.date_created <= now
-    was_created_recently.admin_order_field = 'date_created'
-    was_created_recently.boolean = True
-    was_created_recently.short_description = 'Created recently?'
+# class Job(models.Model):
+#     job_id = models.CharField(max_length=100, default="New Job")
+#     date_created = models.DateTimeField('date created', auto_now_add=True)
+#     last_update = models.DateTimeField('last updated', default=timezone.now)
+#     date_submitted = models.DateTimeField(null=True, blank=True)
+#     process_outline = models.CharField(max_length=100, default="None", verbose_name="Process Template")
+#     has_process_outline_been_modified_for_this_operation = models.BooleanField(default=False, verbose_name="Edited Template")
+#     has_job_name_been_set = models.BooleanField(default=False)
+#     completed = models.BooleanField(default=False)
+#     disable_submit_button = models.BooleanField(default=False)
+#     job_number = models.CharField(max_length=100, blank=True)
+#     assembly_number = models.CharField(max_length=100, blank=True)
+#     operation_number = models.CharField(max_length=100, blank=True)
+#     instructions = models.TextField(max_length=1000, blank=True)
+#
+#
+#     def __str__(self):
+#         return self.job_id
+#
+#     def get_absolute_url(self):
+#         return reverse('jobs:detail', kwargs={'pk': self.pk})
+#
+#     def was_created_recently(self):
+#         now = timezone.now()
+#         return now - datetime.timedelta(days=1) <= self.date_created <= now
+#     was_created_recently.admin_order_field = 'date_created'
+#     was_created_recently.boolean = True
+#     was_created_recently.short_description = 'Created recently?'
 
 
 
