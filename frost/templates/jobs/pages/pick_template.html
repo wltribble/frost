@@ -18,9 +18,9 @@
     <p>No templates available.</p>
 {% endif %}
 
-<form action="{% url 'jobs:delete_job' job.id %}" name="back_from_template_chooser" class="bottom_buttons">
+<!-- <form action="{% url 'jobs:delete_job' job.id %}" name="back_from_template_chooser" class="bottom_buttons">
     <button type="submit">Back</button>
-</form>
+</form> -->
 
 {% for process in processes %}
     {% ifequal process.process_name "None" %}

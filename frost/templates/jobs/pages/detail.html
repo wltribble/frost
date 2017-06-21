@@ -5,7 +5,7 @@
 
 </head>
 
-<h1><a class="navbar-brand" href="/jobs">{{ job.job_id }}</a></h1>
+<h1><a class="navbar-brand" href="/jobs">{{ job }}</a></h1>
 
 {% if messages %}
     <ul class="messages">
@@ -18,20 +18,20 @@
 {% ifequal job.has_job_name_been_set False %}
     {% include 'jobs/forms/job_number_form.html' %}
 {% endifequal %}
-<p>Process Template In Use:&emsp;{{ job.process_outline }}
+<!-- <p>Process Template In Use:&emsp;{{ job.process_outline }}
     {% if job.has_process_outline_been_modified_for_this_operation == True %}
-        &emsp;&emsp;-- Edited --
+        &emsp;&emsp; Edited
     {% endif %}
-</p>
+</p> -->
 <br />
-<p>Date Created:&emsp;&emsp; {{ job.date_created }}</p>
-<p>Last Updated:&emsp;&ensp;&ensp;{{ job.last_update }}</p>
-{% if job.completed == True %}
+<p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
+<!-- <p>Last Updated:&emsp;&ensp;&ensp;{{ job.last_update }}</p> -->
+<!-- {% if job.completed == True %}
     <p>Completed:&emsp;&emsp;&ensp;&ensp;{{ job.date_submitted }}</p>
 {% endif %}
-<p>&emsp;</p>
+<p>&emsp;</p> -->
 
-<strong>INSTRUCTIONS:&emsp;</strong>{{ job.instructions }}
+<strong>INSTRUCTIONS:&emsp;</strong>{{ job.jmosfemessagetext }}
 
 <p>&emsp;</p>
 <p>&emsp;</p>
@@ -50,17 +50,17 @@
 {% endfor %}
 
 
-{% if job.completed == False %}
+<!-- {% if job.completed == False %} -->
     <form action="{% url 'jobs:add_field' job.id %}" method="post" name="add_field">
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>
-{% endif %}
+<!-- {% endif %} -->
 
 <br /><br /><br /><br />
 
-{% if job.completed == False %}
+<!-- {% if job.completed == False %}
     {% include 'jobs/forms/submit.html' %}
-{% endif %}
+{% endif %} -->
 
 </html>
