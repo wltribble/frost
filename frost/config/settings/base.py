@@ -65,7 +65,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': 'm1_ts',
-        'HOST': 'fcsserver',
+        'HOST': 'FCSSQL1',
         'USER': 'sa',
         'PASSWORD': '2112frost',
         'OPTIONS': {
