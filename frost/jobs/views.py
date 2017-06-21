@@ -19,7 +19,7 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['jobs'] = Job.objects.all()
-        # for job in context['jobs']:
+        for job in context['jobs']:
         #     if job.completed == False:
         #         try:
         #             context['incomplete_jobs'].append(job)
@@ -32,12 +32,12 @@ class IndexView(generic.ListView):
         #         except:
         #             context['complete_jobs'] = []
         #             context['complete_jobs'].append(job)
-        try:
-            context['incomplete_jobs'].append(job)
-        except:
-            context['incomplete_jobs'] = []
-            context['incomplete_jobs'].append(job)
-        return context
+            try:
+                context['incomplete_jobs'].append(job)
+            except:
+                context['incomplete_jobs'] = []
+                context['incomplete_jobs'].append(job)
+            return context
 
     def get_queryset(self):
         return Job.objects.all()
