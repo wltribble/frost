@@ -139,7 +139,7 @@ def delete_field(request, urluniqueid):
 
 def set_process_template(request, urluniqueid, process_name):
     try:
-        valid_uuid = uuid.UUID(urluniqueid).hex
+        valid_uuid = uuid.UUID(urluniqueid)
         job = get_object_or_404(Job, jmouniqueid=valid_uuid)
     except ValueError:
         raise Http404
