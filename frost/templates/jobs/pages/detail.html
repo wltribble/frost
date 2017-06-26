@@ -15,9 +15,6 @@
     </ul>
 {% endif %}
 
-{% ifequal job.has_job_name_been_set False %}
-    {% include 'jobs/forms/job_number_form.html' %}
-{% endifequal %}
 <!-- <p>Process Template In Use:&emsp;{{ job.process_outline }}
     {% if job.has_process_outline_been_modified_for_this_operation == True %}
         &emsp;&emsp; Edited
