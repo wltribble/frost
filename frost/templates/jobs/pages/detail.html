@@ -15,18 +15,8 @@
     </ul>
 {% endif %}
 
-<!-- <p>Process Template In Use:&emsp;{{ job.process_outline }}
-    {% if job.has_process_outline_been_modified_for_this_operation == True %}
-        &emsp;&emsp; Edited
-    {% endif %}
-</p> -->
 <br />
 <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
-<!-- <p>Last Updated:&emsp;&ensp;&ensp;{{ job.last_update }}</p> -->
-<!-- {% if job.completed == True %}
-    <p>Completed:&emsp;&emsp;&ensp;&ensp;{{ job.date_submitted }}</p>
-{% endif %}
-<p>&emsp;</p> -->
 
 <strong>INSTRUCTIONS:&emsp;</strong>
 <br />
@@ -63,17 +53,11 @@
 {% endfor %}
 
 
-<!-- {% if job.completed == False %} -->
     <form action="{% url 'jobs:add_field' job.id %}" method="post" name="add_field">
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>
-<!-- {% endif %} -->
 
 <br /><br /><br /><br />
-
-<!-- {% if job.completed == False %}
-    {% include 'jobs/forms/submit.html' %}
-{% endif %} -->
 
 </html>

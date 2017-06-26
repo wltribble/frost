@@ -7,15 +7,7 @@
     <h4>Current Operations</h4>
     <ul>
     {% for job in current_jobs %}
-        <!-- {% ifequal job.process_outline "None" %}
-            {% ifequal job.has_process_outline_been_modified_for_this_operation False %} -->
-                <li><a href="{% url 'jobs:pick_template' job.id %}">{{ job.job_id }}</a></li>
-            <!-- {% else %}
-                <li><a href="{% url 'jobs:detail' job.id %}">{{ job.job_id }}</a></li>
-            {% endifequal %}
-        {% else %}
-            <li><a href="{% url 'jobs:detail' job.id %}">{{ job.job_id }}</a></li>
-        {% endifequal %} -->
+        <li><a href="{% url 'jobs:pick_template' job.id %}">{{ job.job_id }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
