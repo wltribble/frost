@@ -7,7 +7,7 @@
     <h4>Current Operations</h4>
     <ul>
     {% for job in current_jobs %}
-        <li><a href="{% url 'jobs:pick_template' job.jmouniqueid %}">{{ job.job_id }}</a></li>
+        <li><a href="{% url 'jobs:pick_template' job.id %}">{{ job.job_id }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
