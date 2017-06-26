@@ -98,7 +98,8 @@ def save_data(request, urluniqueid):
 def edit_data(request, urluniqueid):
     try:
         valid_uuid = uuid.UUID(urluniqueid).hex
-        job = get_object_or_404(Job, jmouniqueid=valid_uuid)    except ValueError:
+        job = get_object_or_404(Job, jmouniqueid=valid_uuid)
+    except ValueError:
         raise Http404
     field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
@@ -139,7 +140,7 @@ def delete_field(request, urluniqueid):
 
 def set_process_template(request, urluniqueid, process_name):
     try:
-        valid_uuid = uuid.UUID(urluniqueid)
+        valid_uuid = uuid.UUID(urluniqueid).hex
         job = get_object_or_404(Job, jmouniqueid=valid_uuid)
     except ValueError:
         raise Http404
