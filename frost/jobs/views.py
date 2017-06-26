@@ -33,10 +33,10 @@ class IndexView(generic.ListView):
         #             context['complete_jobs'] = []
         #             context['complete_jobs'].append(job)
         try:
-            context['incomplete_jobs'].append(job)
+            context['current_jobs'].append(job)
         except:
-            context['incomplete_jobs'] = []
-            context['incomplete_jobs'].append(job)
+            context['current_jobs'] = []
+            context['current_jobs'].append(job)
         return context
 
     def get_queryset(self):
