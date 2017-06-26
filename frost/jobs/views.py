@@ -53,7 +53,7 @@ class PickTemplateView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(PickTemplateView, self).get_context_data(**kwargs)
         context['processes'] = Process.objects.all()
-        context['job'] = Job.objects.get(id=self.kwargs.get('jmouniqueid'))
+        context['job'] = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] where jmouniqueid = %s', urluniqueid)
         return context
 
 
@@ -65,8 +65,8 @@ class DetailView(generic.DetailView):
         return Job.objects.all()
 
 
-def save_data(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
+def save_data(request, urluniqueid):
+    job = get_object_or_404(Job, pk=urluniqueid)
     field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
         field_to_be_saved.field_name = request.POST.get('save_field_name')
@@ -89,8 +89,8 @@ def save_data(request, jmouniqueid):
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
-def edit_data(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
+def edit_data(request, urluniqueid):
+    job = get_object_or_404(Job, pk=urluniqueid)
     field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
@@ -100,8 +100,8 @@ def edit_data(request, jmouniqueid):
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
-def add_field(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
+def add_field(request, urluniqueid):
+    job = get_object_or_404(Job, pk=urluniqueid)
     new_field_job = job
     new_field_name = "Default Name"
     new_field_text = ""
@@ -112,16 +112,16 @@ def add_field(request, jmouniqueid):
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
-def delete_field(request, jmouniqueid):
-    job = get_object_or_404(Job, pk=jmouniqueid)
+def delete_field(request, urluniqueid):
+    job = get_object_or_404(Job, pk=urluniqueid)
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
 
-def set_process_template(request, jmouniqueid, process_name):
-    job = get_object_or_404(Job, pk=jmouniqueid)
+def set_process_template(request, urluniqueid, process_name):
+    job = get_object_or_404(Job, pk=urluniqueid)
     process = get_object_or_404(Process, pk=process_name)
     # job.process_outline = process.process_name
     for field in process.outlinefield_set.all():
