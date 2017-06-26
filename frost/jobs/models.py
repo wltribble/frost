@@ -118,6 +118,3 @@ class Field(models.Model):
 
     def __str__(self):
         return self.field_name
-
-    class Meta:
-        unique_together = ('job', 'field_name', 'editing_mode')
