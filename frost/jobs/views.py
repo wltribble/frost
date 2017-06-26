@@ -69,7 +69,7 @@ class DetailView(generic.DetailView):
 
 def save_data(request, urluniqueid):
     try:
-        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s', urluniqueid)
+        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s' % urluniqueid)
     except ValueError:
         raise Http404
     field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
@@ -96,7 +96,7 @@ def save_data(request, urluniqueid):
 
 def edit_data(request, urluniqueid):
     try:
-        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s', urluniqueid)
+        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s' % urluniqueid)
     except ValueError:
         raise Http404
     field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
@@ -110,7 +110,7 @@ def edit_data(request, urluniqueid):
 
 def add_field(request, urluniqueid):
     try:
-        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s', urluniqueid)
+        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s' % urluniqueid)
     except ValueError:
         raise Http404
     new_field_job = job
@@ -125,7 +125,7 @@ def add_field(request, urluniqueid):
 
 def delete_field(request, urluniqueid):
     try:
-        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s', urluniqueid)
+        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s' % urluniqueid)
     except ValueError:
         raise Http404
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
@@ -136,7 +136,7 @@ def delete_field(request, urluniqueid):
 
 def set_process_template(request, urluniqueid, process_name):
     try:
-        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s', urluniqueid)
+        job = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] WHERE [jmouniqueid] = %s' % urluniqueid)
     except ValueError:
         raise Http404
     process = get_object_or_404(Process, pk=process_name)
