@@ -50,10 +50,11 @@ class PickTemplateView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Job
     template_name = 'jobs/pages/detail.html'
-    pk_url_kwarg = "urluniqueid"
 
-    def get_queryset(self):
-        return Job.objects.all()
+    def get_object(self):
+        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid])
+            job = job_iterator
+        return job
 
 
 def save_data(request, urluniqueid):
