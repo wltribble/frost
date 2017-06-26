@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, # set_process_template, set_job_name, submit, delete_job
+from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field # set_process_template, set_job_name, submit, delete_job
 
 app_name = 'polls'
 urlpatterns = [
