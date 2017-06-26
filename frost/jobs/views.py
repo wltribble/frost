@@ -50,7 +50,7 @@ class PickTemplateView(generic.ListView):
     def get_queryset(self):
         return Job.objects.all()
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs, urluniqueid):
         context = super(PickTemplateView, self).get_context_data(**kwargs)
         context['processes'] = Process.objects.all()
         context['job'] = Job.objects.raw('SELECT [jmouniqueid] FROM [M1_TS].[dbo].[JobOperations] where jmouniqueid = %s', urluniqueid)
