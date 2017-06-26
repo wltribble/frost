@@ -121,4 +121,3 @@ class Field(models.Model):
 
     class Meta:
         unique_together = ('job', 'field_name', 'editing_mode')
-        db_table = 'UJobOperationDataFields'
