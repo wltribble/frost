@@ -37,7 +37,7 @@
 <p>&emsp;</p>
 
 
-{% for field in job.field_set.all %}
+{% for field in field_set.all %}
     {% ifnotequal field.field_has_been_set False %}
         {% ifnotequal field.editing_mode True %}
             {% include 'jobs/forms/saved_field_form.html' %}

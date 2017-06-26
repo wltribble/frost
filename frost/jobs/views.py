@@ -56,13 +56,16 @@ class DetailView(generic.DetailView):
             job = job_iterator
         return job
 
+    def get_context_data(self, **kwargs):
+        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
+            context['job'] = job_iterator
+        context['field_set'] = Field.objects.filter(job=context['job'])
+        return context
+
 
 def save_data(request, urluniqueid):
-    try:
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = job_iterator
-    except ValueError:
-        raise Http404
+    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
+        job = job_iterator
     field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
         field_to_be_saved.field_name = request.POST.get('save_field_name')
@@ -83,11 +86,8 @@ def save_data(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def edit_data(request, urluniqueid):
-    try:
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
+    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
             job = job_iterator
-    except ValueError:
-        raise Http404
     field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
@@ -95,11 +95,8 @@ def edit_data(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def add_field(request, urluniqueid):
-    try:
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
+    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
             job = job_iterator
-    except ValueError:
-        raise Http404
     new_field_job = job
     new_field_name = "Default Name"
     new_field_text = ""
@@ -107,11 +104,8 @@ def add_field(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def delete_field(request, urluniqueid):
-    try:
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
+    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
             job = job_iterator
-    except ValueError:
-        raise Http404
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
