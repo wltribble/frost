@@ -52,7 +52,7 @@ class DetailView(generic.DetailView):
     template_name = 'jobs/pages/detail.html'
 
     def get_object(self):
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid])
+        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
             job = job_iterator
         return job
 
