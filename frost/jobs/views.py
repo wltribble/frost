@@ -22,18 +22,6 @@ class IndexView(generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['jobs'] = Job.objects.all()
         for job in context['jobs']:
-        #     if job.completed == False:
-        #         try:
-        #             context['incomplete_jobs'].append(job)
-        #         except:
-        #             context['incomplete_jobs'] = []
-        #             context['incomplete_jobs'].append(job)
-        #     if job.completed == True:
-        #         try:
-        #             context['complete_jobs'].append(job)
-        #         except:
-        #             context['complete_jobs'] = []
-        #             context['complete_jobs'].append(job)
             try:
                 context['current_jobs'].append(job)
             except:
@@ -62,6 +50,7 @@ class PickTemplateView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Job
     template_name = 'jobs/pages/detail.html'
+    pk_url_kwarg = "urluniqueid"
 
     def get_queryset(self):
         return Job.objects.all()
