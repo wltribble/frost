@@ -28,7 +28,23 @@
 {% endif %}
 <p>&emsp;</p> -->
 
-<strong>INSTRUCTIONS:&emsp;</strong>{{ job.jmosfemessagetext }}
+<strong>INSTRUCTIONS:&emsp;</strong>
+<br />
+<strong>JOB INSTRUCTIONS:&esmp;</strong>
+<!-- {{  }} -->
+<br />
+<strong>ASSEMBLY INSTRUCTIONS:&esmp;</strong>
+<!-- {{  }} -->
+<br />
+<strong>OPERATION INSTRUCTIONS:&esmp;</strong>
+<!-- {{  }} -->
+<br />
+{% if job.jmosfemessagetext %}
+    <strong>EXTRA INSTRUCTIONS:&esmp;</strong>
+        {{ job.jmosfemessagetext }}
+    <br />
+{% endif %}
+
 
 <p>&emsp;</p>
 <p>&emsp;</p>
