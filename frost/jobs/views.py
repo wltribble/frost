@@ -91,7 +91,6 @@ def save_data(request, urluniqueid):
     job.last_update = timezone.now()
     field_to_be_saved.full_clean()
     field_to_be_saved.save()
-    job.full_clean()
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
@@ -106,7 +105,6 @@ def edit_data(request, urluniqueid):
     field_to_be_edited.full_clean()
     field_to_be_edited.save()
     job.last_update = timezone.now()
-    job.full_clean()
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
@@ -122,7 +120,6 @@ def add_field(request, urluniqueid):
     field = Field.objects.create_field(new_field_job, new_field_name, new_field_text, True, True, True, False, True)
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
-    job.full_clean()
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
@@ -139,17 +136,13 @@ def delete_field(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def set_process_template(request, urluniqueid, process_name):
-    try:
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = job_iterator
-    except ValueError:
-        raise Http404
+    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
+        job = job_iterator
     process = get_object_or_404(Process, pk=process_name)
     # job.process_outline = process.process_name
     for field in process.outlinefield_set.all():
         new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
     # job.last_update = timezone.now()
-    job.full_clean()
     job.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
