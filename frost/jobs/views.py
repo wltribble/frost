@@ -67,7 +67,7 @@ class DetailView(generic.DetailView):
 
 def save_data(request, urluniqueid):
     try:
-        job = get_object_or_404(Job, pk=urluniqueid)
+        job = get_object_or_404(Job, jmouniqueid=urluniqueid)
     except ValueError:
         raise Http404
     field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
@@ -82,7 +82,7 @@ def save_data(request, urluniqueid):
         field_to_be_saved.field_has_been_set = False
         field_to_be_saved.editing_mode = True
         messages.error(request, 'Fields require names to be submitted')
-        return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+        return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
     field_to_be_saved.field_has_been_set = True
     field_to_be_saved.editing_mode = False
     job.last_update = timezone.now()
@@ -90,11 +90,11 @@ def save_data(request, urluniqueid):
     field_to_be_saved.save()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def edit_data(request, urluniqueid):
     try:
-        job = get_object_or_404(Job, pk=urluniqueid)
+        job = get_object_or_404(Job, jmouniqueid=urluniqueid)
     except ValueError:
         raise Http404
     field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
@@ -104,11 +104,11 @@ def edit_data(request, urluniqueid):
     job.last_update = timezone.now()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def add_field(request, urluniqueid):
     try:
-        job = get_object_or_404(Job, pk=urluniqueid)
+        job = get_object_or_404(Job, jmouniqueid=urluniqueid)
     except ValueError:
         raise Http404
     new_field_job = job
@@ -119,22 +119,22 @@ def add_field(request, urluniqueid):
     job.has_process_outline_been_modified_for_this_operation = True
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def delete_field(request, urluniqueid):
     try:
-        job = get_object_or_404(Job, pk=urluniqueid)
+        job = get_object_or_404(Job, jmouniqueid=urluniqueid)
     except ValueError:
         raise Http404
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 def set_process_template(request, urluniqueid, process_name):
     try:
-        job = get_object_or_404(Job, pk=urluniqueid)
+        job = get_object_or_404(Job, jmouniqueid=urluniqueid)
     except ValueError:
         raise Http404
     process = get_object_or_404(Process, pk=process_name)
@@ -144,7 +144,7 @@ def set_process_template(request, urluniqueid, process_name):
     # job.last_update = timezone.now()
     job.full_clean()
     job.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(job.jmouniqueid,)))
 
 # def set_job_name(request, jmouniqueid):
 #     job = get_object_or_404(Job, pk=jmouniqueid)
