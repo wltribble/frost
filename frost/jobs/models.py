@@ -104,7 +104,7 @@ class FieldManager(models.Manager):
 
 
 class Field(models.Model):
-    job = models.ForeignKey(Job, on_delete=models.CASCADE, to_field=jmouniqueid)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, to_field='jmouniqueid')
     field_name = models.CharField(max_length=100)
     field_text = models.CharField(max_length=200, blank=True)
     field_has_been_set = models.BooleanField(default=False)
