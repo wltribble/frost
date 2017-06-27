@@ -48,14 +48,17 @@ class PickTemplateView(generic.ListView):
 
 
 class DetailView(generic.DetailView):
-    model = Job
     template_name = 'jobs/pages/detail.html'
-    lookup_url_kwarg = 'urluniqueid'
+
+    def get_object(self, **kwargs):
+        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
+            job = job_iterator
+        return job
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            context['job'], job = job_iterator
+        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
+            context['job'] = job_iterator
         context['field_set'] = Field.objects.filter(job=job)
         return context
 
