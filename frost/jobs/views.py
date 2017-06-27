@@ -59,8 +59,7 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data(**kwargs)
         for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
             context['job'] = job_iterator
-            job = job_iterator
-        context['field_set'] = Field.objects.filter(job=job)
+        context['fields'] = Field.objects.filter(job=self.kwargs['urluniqueid'])
         return context
 
 
