@@ -20,14 +20,14 @@
 
 <strong>INSTRUCTIONS:&emsp;</strong>
 <br />
-<strong>JOB INSTRUCTIONS:&esmp;</strong>
+<strong>JOB INSTRUCTIONS:&emsp;</strong>
 <br />
-<strong>ASSEMBLY INSTRUCTIONS:&esmp;</strong>
+<strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
 <br />
-<strong>OPERATION INSTRUCTIONS:&esmp;</strong>
+<strong>OPERATION INSTRUCTIONS:&emsp;</strong>
 <br />
 {% if job.jmosfemessagetext %}
-    <strong>EXTRA INSTRUCTIONS:&esmp;</strong>
+    <strong>EXTRA INSTRUCTIONS:&emsp;</strong>
         {{ job.jmosfemessagetext }}
     <br />
 {% endif %}
@@ -50,7 +50,7 @@
 {% endfor %}
 
 
-    <form action="{% url 'jobs:add_field' job.jmouniqueid %}" method="post" name="add_field">
+    <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>
