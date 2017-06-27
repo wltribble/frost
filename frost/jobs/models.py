@@ -84,7 +84,7 @@ class Job(models.Model):
     jmorfqid = models.CharField(db_column='jmoRFQID', max_length=10)
     jmocreatedby = models.CharField(db_column='jmoCreatedBy', max_length=20)
     jmocreateddate = models.DateTimeField(db_column='jmoCreatedDate', blank=True, null=True)
-    jmouniqueid = models.CharField(db_column='jmoUniqueID', max_length=36, editable=False, primary_key=True)
+    jmouniqueid = models.CharField(db_column='jmoUniqueID', unique=True, max_length=36, editable=False, primary_key=True)
     ujmopriority = models.DecimalField(db_column='UJMOPRIORITY', max_digits=4, decimal_places=0)
     jmomachinestoschedule = models.DecimalField(db_column='jmoMachinesToSchedule', max_digits=3, decimal_places=0)
 
@@ -104,7 +104,7 @@ class FieldManager(models.Manager):
 
 
 class Field(models.Model):
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, to_field=jmouniqueid)
     field_name = models.CharField(max_length=100)
     field_text = models.CharField(max_length=200, blank=True)
     field_has_been_set = models.BooleanField(default=False)
