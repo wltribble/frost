@@ -65,7 +65,7 @@ class DetailView(generic.DetailView):
 
 def save_data(request, urluniqueid):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-        job = job_iterator
+        job = urluniqueid
     field_to_be_saved = job.field_set.get(pk=request.POST['save_field'])
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
         field_to_be_saved.field_name = request.POST.get('save_field_name')
@@ -87,7 +87,7 @@ def save_data(request, urluniqueid):
 
 def edit_data(request, urluniqueid):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = job_iterator
+            job = urluniqueid
     field_to_be_edited = job.field_set.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
@@ -96,7 +96,7 @@ def edit_data(request, urluniqueid):
 
 def add_field(request, urluniqueid):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = job_iterator
+            job = urluniqueid
     new_field_job = job
     new_field_name = "Default Name"
     new_field_text = ""
@@ -105,7 +105,7 @@ def add_field(request, urluniqueid):
 
 def delete_field(request, urluniqueid):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = job_iterator
+            job = urluniqueid
     field_to_be_deleted = job.field_set.get(pk=request.POST['delete_field']).delete()
     job.last_update = timezone.now()
     job.has_process_outline_been_modified_for_this_operation = True
@@ -113,7 +113,7 @@ def delete_field(request, urluniqueid):
 
 def set_process_template(request, urluniqueid, process_name):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-        job = job_iterator
+        job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
         new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
