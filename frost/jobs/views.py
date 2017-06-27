@@ -63,6 +63,11 @@ class DetailView(generic.DetailView):
         context['urluniqueid'] = self.kwargs['urluniqueid']
         return context
 
+    def get_queryset(self, **kwargs):
+        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
+            job = job_iterator
+        return job
+
 
 def save_data(request, urluniqueid):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
