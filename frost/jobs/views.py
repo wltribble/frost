@@ -65,8 +65,7 @@ class DetailView(generic.DetailView):
 
 
 def save_data(request, urluniqueid):
-    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-        job = urluniqueid
+    job = urluniqueid
     for job_object_iterator in Job.objects.all():
         if job_object_iterator.jmouniqueid == job:
             job_object = job_object_iterator
@@ -90,8 +89,7 @@ def save_data(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def edit_data(request, urluniqueid):
-    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = urluniqueid
+    job = urluniqueid
     for job_object_iterator in Job.objects.all():
         if job_object_iterator.jmouniqueid == job:
             job_object = job_object_iterator
@@ -102,8 +100,7 @@ def edit_data(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def add_field(request, urluniqueid):
-    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = urluniqueid
+    job = urluniqueid
     for job_object_iterator in Job.objects.all():
         if job_object_iterator.jmouniqueid == job:
             job_object = job_object_iterator
@@ -114,8 +111,7 @@ def add_field(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def delete_field(request, urluniqueid):
-    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-            job = urluniqueid
+    job = urluniqueid
     for job_object_iterator in Job.objects.all():
         if job_object_iterator.jmouniqueid == job:
             job_object = job_object_iterator
@@ -123,8 +119,7 @@ def delete_field(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def set_process_template(request, urluniqueid, process_name):
-    for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
-        job = urluniqueid
+    job = urluniqueid
     for job_object_iterator in Job.objects.all():
         if job_object_iterator.jmouniqueid == job:
             job_object = job_object_iterator
