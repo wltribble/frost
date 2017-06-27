@@ -107,7 +107,7 @@ def add_field(request, urluniqueid):
     for job_object_iterator in Job.objects.all():
         if job_object_iterator.jmouniqueid == uuid.UUID(job):
             job_object = job_object_iterator
-    new_field_job = job
+    new_field_job = job_object
     new_field_name = "Default Name"
     new_field_text = ""
     field = Field.objects.create_field(new_field_job, new_field_name, new_field_text, True, True, True, False, True)
