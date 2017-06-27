@@ -50,6 +50,7 @@ class PickTemplateView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Job
     template_name = 'jobs/pages/detail.html'
+    lookup_url_kwarg = 'urluniqueid'
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
