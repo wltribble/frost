@@ -128,28 +128,6 @@ def set_process_template(request, urluniqueid, process_name):
         new_field = Field.objects.create_field(job_object, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
-# def set_job_name(request, jmouniqueid):
-#     job = get_object_or_404(Job, pk=jmouniqueid)
-#     job_number = request.POST['job_number_text_box']
-#     assembly_number = request.POST['assembly_number_text_box']
-#     operation_number = request.POST['operation_number_text_box']
-#     if job_number != "" and assembly_number != "" and operation_number != "":
-#         new_jmouniqueid = job_number + " -- " + assembly_number + " -- " + operation_number
-#         for other_job in Job.objects.all():
-#             if new_jmouniqueid == other_job:
-#                 messages.error(request, 'Job ID Already Exists')
-#                 return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
-#         job.has_job_name_been_set = True
-#         job.jmojobid = job_number
-#         job.jmojobassemblyid = assembly_number
-#         job.jmojoboperationid = operation_number
-#         job.last_update = timezone.now()
-#         job.full_clean()
-#         job.save()
-#     else:
-#         messages.error(request, 'Job ID Cannot Be Blank')
-#     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
-
 # def submit(request, jmouniqueid):
 #     job = get_object_or_404(Job, pk=jmouniqueid)
 #     fields = job.field_set.all()
@@ -178,8 +156,3 @@ def set_process_template(request, urluniqueid, process_name):
 #     job.full_clean()
 #     job.save()
 #     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
-#
-# def delete_job(request, jmouniqueid):
-#     job = get_object_or_404(Job, pk=jmouniqueid)
-#     job.delete()
-#     return HttpResponseRedirect(reverse('jobs:index'))
