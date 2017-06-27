@@ -100,6 +100,7 @@ def edit_data(request, urluniqueid):
 def add_field(request, urluniqueid):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
             job = urluniqueid
+            job_object = job_iterator
     new_field_job = job
     new_field_name = "Default Name"
     new_field_text = ""
@@ -116,9 +117,10 @@ def delete_field(request, urluniqueid):
 def set_process_template(request, urluniqueid, process_name):
     for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [urluniqueid]):
         job = urluniqueid
+        job_object = job_iterator
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
-        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
+        new_field = Field.objects.create_field(job_object, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 # def set_job_name(request, jmouniqueid):
