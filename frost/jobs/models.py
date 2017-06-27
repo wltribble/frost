@@ -96,6 +96,14 @@ class Job(models.Model):
     def __str__(self):
         return str(self.jmojobid) + " -- " + str(self.jmojobassemblyid) + " -- " + str(self.jmojoboperationid)
 
+    def getid(self):
+        return str(self.id)
+
+    def setid(self, value):
+        self.id = value
+
+    id = property(getid, setid)
+
 
 class FieldManager(models.Manager):
     def create_field(self, job, field_name, field_text, name_is_operator_editable, text_is_operator_editable, required_for_full_submission, field_has_been_set, can_be_deleted):
