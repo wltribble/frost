@@ -51,16 +51,11 @@ class DetailView(generic.DetailView):
     model = Job
     template_name = 'jobs/pages/detail.html'
 
-    def get_object(self, **kwargs):
-        for job_iterator in Job.objects.filter(jmouniqueid=self.kwargs['urluniqueid']):
-            job = job_iterator
-        return job
-
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         for job_iterator in Job.objects.filter(jmouniqueid=self.kwargs['urluniqueid']):
-            context['job'] = job_iterator
-        context['field_set'] = Field.objects.filter(job=context['job'])
+            context['job'], job = job_iterator
+        context['field_set'] = Field.objects.filter(job=job)
         return context
 
 
