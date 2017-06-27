@@ -12,7 +12,5 @@ urlpatterns = [
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/add/$', add_field, name='add_field'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/delete/$', delete_field, name='delete_field'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/set/(?P<process_name>[0-9]+)/$', set_process_template, name='set_process_template'),
-    # url(r'^(?P<jmouniqueid>[0-9]+)/set_job_name/$', set_job_name, name='set_job_name'),
     # url(r'^(?P<jmouniqueid>[0-9]+)/submit/$', submit, name='submit'),
-    # url(r'^(?P<jmouniqueid>[0-9]+)/delete_job/$', delete_job, name='delete_job'),
 ]
