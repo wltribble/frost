@@ -3,11 +3,9 @@ from django.contrib import admin
 from .models import Job, Field
 # Register your models here.
 
-class FieldInLine(admin.TabularInline):
-    model = Field
-    extra = 0
+class FieldAdmin(admin.ModelAdmin):
 
-    readonly_fields = ['field_has_been_set', 'editing_mode']
+    fieldsets = [(None, {'fields': ['job', 'field_name', 'field_text', 'required_for_full_submission']}),]
 
 
 class JobAdmin(admin.ModelAdmin):
@@ -20,9 +18,9 @@ class JobAdmin(admin.ModelAdmin):
         # ('Submission Information', {'fields': ['has_job_name_been_set', 'completed', 'date_submitted',]})
     ]
     search_fields = ['jmojobid', 'jmojobassemblyid', 'jmojoboperationid',]
-    inlines = [FieldInLine]
     list_display = ('jmojobid', 'jmojobassemblyid', 'jmojoboperationid', 'jmocreateddate',)
     list_filter = []
 
 
 admin.site.register(Job, JobAdmin)
+admin.site.register(Field, FieldAdmin)
