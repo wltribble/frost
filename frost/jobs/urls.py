@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template # submit
 
-app_name = 'polls'
+app_name = 'jobs'
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/$', PickTemplateView.as_view(), name='pick_template'),
