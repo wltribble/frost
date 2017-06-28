@@ -103,7 +103,7 @@ def delete_field(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def set_process_template(request, urluniqueid, process_name):
-    for field in Field.objects.all().filter(urluniqueid):
+    for field in Field.objects.all().filter(job=urluniqueid):
         if field.field_name == 'template':
             return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
     job = urluniqueid
