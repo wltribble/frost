@@ -102,6 +102,7 @@ def add_field(request, urluniqueid):
     new_field_name = "Default Name"
     new_field_text = ""
     field = Field.objects.create_field(new_field_job, new_field_name, new_field_text, True, True, True, False, True)
+    print (request.POST)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def delete_field(request, urluniqueid):
