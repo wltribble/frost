@@ -65,9 +65,7 @@ class DetailView(generic.DetailView):
 
 
 def save_data(request, urluniqueid):
-    job = urluniqueid
-    job_object = Job.objects.filter(jmouniqueid__contains=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})[:1].get()
-    field_to_be_saved = job_object.field_set.get(pk=request.POST['save_field'])
+    field_to_be_saved = Field.objects.get(pk=request.POST['save_field'])
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
         field_to_be_saved.field_name = request.POST.get('save_field_name')
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') == "":
@@ -87,9 +85,7 @@ def save_data(request, urluniqueid):
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def edit_data(request, urluniqueid):
-    job = urluniqueid
-    job_object = Job.objects.filter(jmouniqueid__contains=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})[:1].get()
-    field_to_be_edited = job_object.field_set.get(pk=request.POST['edit_field'])
+    field_to_be_edited = Field.objects.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
     field_to_be_edited.save()
@@ -100,13 +96,10 @@ def add_field(request, urluniqueid):
     new_field_name = "Default Name"
     new_field_text = ""
     field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True)
-    print (request.content_params, field)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def delete_field(request, urluniqueid):
-    job = urluniqueid
-    job_object = Job.objects.filter(jmouniqueid__contains=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})[:1].get()
-    field_to_be_deleted = job_object.field_set.get(pk=request.POST['delete_field']).delete()
+    field_to_be_deleted = Field.objects.get(pk=request.POST['delete_field']).delete()
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def set_process_template(request, urluniqueid, process_name):
