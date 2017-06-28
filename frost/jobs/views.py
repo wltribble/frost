@@ -108,6 +108,8 @@ def set_process_template(request, urluniqueid, process_name):
     for field in process.outlinefield_set.all():
         new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted, False)
     job_template_has_now_been_set = Field.objects.create_field(job, "template_set", process.process_name, False, False, False, True, False, True)
+    job_has_been_submitted_boolean = Field.objects.create_field(job, "submitted", "false", False, False, False, True, False, True)
+    submit_button_works = Field.objects.create_field(job, "submit_button_works", "false", False, False, False, True, False, True)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def go_to_detail_or_picker(request, urluniqueid):
@@ -117,31 +119,29 @@ def go_to_detail_or_picker(request, urluniqueid):
             print ('found')
             return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
     return HttpResponseRedirect(reverse('jobs:pick_template', args=(urluniqueid,)))
-# def submit(request, jmouniqueid):
-#     job = get_object_or_404(Job, pk=jmouniqueid)
-#     fields = job.field_set.all()
-#     if job.has_job_name_been_set == False:
-#         messages.error(request, 'Job ID must be set before submiting')
-#         job.disable_submit_button = True
-#     elif job.disable_submit_button == False:
-#         for field in fields:
-#             if field.required_for_full_submission == True:
-#                 if field.field_name == "Default Name" or field.field_text == "":
-#                     messages.error(request, 'Required Fields cannot be blank and must be named')
-#                     job.disable_submit_button = True
-#             if field.editing_mode == True:
-#                 messages.error(request, 'Finish editing fields before submiting')
-#                 job.disable_submit_button = True
-#     if job.disable_submit_button == False:
-#         job.completed = True
-#         for field in fields:
-#             field.name_is_operator_editable = False
-#             field.text_is_operator_editable = False
-#             field.full_clean()
-#             field.save()
-#         job.date_submitted = timezone.now()
-#     else:
-#         job.disable_submit_button = False
-#     job.full_clean()
-#     job.save()
-#     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+
+def submit(request, urluniqueid):
+    fields = Field.objects.all().filter(job=urluniqueid):
+    has_been_submitted = fields.filter(field_name='submitted')
+    submit_sentinel = fields.filter(field_name='submit_button_works')
+
+    if submit_sentinel.field_text == "true"
+        for field in fields:
+            if field.required_for_full_submission == True:
+                if field.field_name == "Default Name" or field.field_text == "":
+                    messages.error(request, 'Required Fields cannot be blank and must be named')
+                    submit_sentinel.field_text == "false"
+            if field.editing_mode == True:
+                messages.error(request, 'Finish editing fields before submiting')
+                submit_sentinel.field_text == "false"
+    if submit_sentinel.field_text == "true"
+        has_been_submitted.field_text = "true"
+        for field in fields:
+            field.name_is_operator_editable = False
+            field.text_is_operator_editable = False
+            field.full_clean()
+            field.save()
+        job.date_submitted = timezone.now()
+    else:
+        submit_sentinel.field_text == "true"
+    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))

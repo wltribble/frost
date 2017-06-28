@@ -41,27 +41,29 @@
 <p>&emsp;</p>
 <p>&emsp;</p>
 
-
-{% for field in fields %}
-    {% ifequal field.is_a_meta_field False %}
-        {% ifnotequal field.field_has_been_set False %}
-            {% ifnotequal field.editing_mode True %}
-                {% include 'jobs/forms/saved_field_form.html' %}
+    {% for field in fields %}
+        {% ifequal field.is_a_meta_field False %}
+            {% ifnotequal field.field_has_been_set False %}
+                {% ifnotequal field.editing_mode True %}
+                    {% include 'jobs/forms/saved_field_form.html' %}
+                {% else %}
+                    {% include 'jobs/forms/existing_field_form.html' %}
+                {% endifnotequal %}
             {% else %}
-                {% include 'jobs/forms/existing_field_form.html' %}
+                {% include 'jobs/forms/new_field_form.html' %}
             {% endifnotequal %}
-        {% else %}
-            {% include 'jobs/forms/new_field_form.html' %}
-        {% endifnotequal %}
-    {% endifequal %}
-{% endfor %}
+        {% endifequal %}
+    {% endfor %}
 
 
     <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>
-
+    <form action="{% url 'jobs:submit' urluniqueid %}" method="post" name="submit">
+        {% csrf_token %}
+        <input type="submit" name="submit" value="Submit"/>
+    </form>
 <br /><br /><br /><br />
 
 </html>

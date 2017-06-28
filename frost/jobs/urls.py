@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker # submit
+from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit
 
 app_name = 'jobs'
 urlpatterns = [
@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/delete/$', delete_field, name='delete_field'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/set/(?P<process_name>[0-9]+)/$', set_process_template, name='set_process_template'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/decide/$', go_to_detail_or_picker, name='go_to_detail_or_picker'),
-    # url(r'^(?P<jmouniqueid>[0-9]+)/submit/$', submit, name='submit'),
+    url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/submit/$', submit, name='submit'),
 ]
