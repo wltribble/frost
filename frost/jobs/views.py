@@ -107,7 +107,7 @@ def set_process_template(request, urluniqueid, process_name):
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
         new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted, False)
-    job_template_has_now_been_set = Field.objects.create_field(job, "template_set", "", False, False, False, True, False, True)
+    job_template_has_now_been_set = Field.objects.create_field(job, "template_set", process_name, False, False, False, True, False, True)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def go_to_detail_or_picker(request, urluniqueid):

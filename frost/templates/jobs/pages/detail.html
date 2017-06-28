@@ -17,6 +17,11 @@
 
 <br />
 <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
+{% for field in fields %}
+    {% if field.is_a_meta_field == True and field.field_name == "template_set"  %}
+        <p>Template In Use:&emsp;&emsp;{{ field.field_text }}</p><br />
+    {% endif %}
+{% endfor %}
 
 <strong>INSTRUCTIONS:&emsp;</strong>
 <br />
