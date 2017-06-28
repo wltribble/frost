@@ -37,12 +37,6 @@ class PickTemplateView(generic.ListView):
     template_name = 'jobs/pages/pick_template.html'
     model = Job
 
-    for field in Field.objects.all().filter(job=urluniqueid):
-        print (field.field_name)
-        if field.field_name == "template_set" and field.is_a_meta_field == True:
-            print ('found')
-            return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
-
     def get_queryset(self):
         return Job.objects.all()
 
@@ -116,6 +110,13 @@ def set_process_template(request, urluniqueid, process_name):
     job_template_has_now_been_set = Field.objects.create_field(job, "template_set", "", False, False, False, True, False, True)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
+def go_to_detail_or_picker(request, urluniqueid):
+    for field in Field.objects.all().filter(job=urluniqueid):
+        print (field.field_name)
+        if field.field_name == "template_set" and field.is_a_meta_field == True:
+            print ('found')
+            return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:pick_template', args=(urluniqueid,)))
 # def submit(request, jmouniqueid):
 #     job = get_object_or_404(Job, pk=jmouniqueid)
 #     fields = job.field_set.all()
