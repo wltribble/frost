@@ -59,7 +59,6 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data(**kwargs)
         for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
             context['job'] = job_iterator
-        # context['fields'] = Field.objects.filter(job=self.kwargs['urluniqueid'])
         context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid'])
         context['urluniqueid'] = self.kwargs['urluniqueid']
         return context
@@ -96,7 +95,7 @@ def add_field(request, urluniqueid):
     job = urluniqueid
     new_field_name = "Default Name"
     new_field_text = ""
-    field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True)
+    field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def delete_field(request, urluniqueid):
@@ -107,9 +106,8 @@ def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
-        print (field.OUTLINE_field_name)
-        print (job)
-        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
+        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted, False)
+    job_template_has_now_been_set = Field.objects.create_field(job, "template", "", False, False, False, True, False, True)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 # def submit(request, jmouniqueid):
