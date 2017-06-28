@@ -5,7 +5,7 @@
 
 </head>
 
-<h1><a class="navbar-brand" href="/jobs">{{ job.job_id }}</a></h1>
+<h1><a class="navbar-brand" href="/jobs">{{ job }}</a></h1>
 
 {% if messages %}
     <ul class="messages">
@@ -15,29 +15,29 @@
     </ul>
 {% endif %}
 
-{% ifequal job.has_job_name_been_set False %}
-    {% include 'jobs/forms/job_number_form.html' %}
-{% endifequal %}
-<p>Process Template In Use:&emsp;{{ job.process_outline }}
-    {% if job.has_process_outline_been_modified_for_this_operation == True %}
-        &emsp;&emsp;-- Edited --
-    {% endif %}
-</p>
 <br />
-<p>Date Created:&emsp;&emsp; {{ job.date_created }}</p>
-<p>Last Updated:&emsp;&ensp;&ensp;{{ job.last_update }}</p>
-{% if job.completed == True %}
-    <p>Completed:&emsp;&emsp;&ensp;&ensp;{{ job.date_submitted }}</p>
+<p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
+
+<strong>INSTRUCTIONS:&emsp;</strong>
+<br />
+<strong>JOB INSTRUCTIONS:&emsp;</strong>
+<br />
+<strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
+<br />
+<strong>OPERATION INSTRUCTIONS:&emsp;</strong>
+<br />
+{% if job.jmosfemessagetext %}
+    <strong>EXTRA INSTRUCTIONS:&emsp;</strong>
+        {{ job.jmosfemessagetext }}
+    <br />
 {% endif %}
-<p>&emsp;</p>
 
-<strong>INSTRUCTIONS:&emsp;</strong>{{ job.instructions }}
 
 <p>&emsp;</p>
 <p>&emsp;</p>
 
 
-{% for field in job.field_set.all %}
+{% for field in fields %}
     {% ifnotequal field.field_has_been_set False %}
         {% ifnotequal field.editing_mode True %}
             {% include 'jobs/forms/saved_field_form.html' %}
@@ -50,17 +50,11 @@
 {% endfor %}
 
 
-{% if job.completed == False %}
-    <form action="{% url 'jobs:add_field' job.id %}" method="post" name="add_field">
+    <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>
-{% endif %}
 
 <br /><br /><br /><br />
-
-{% if job.completed == False %}
-    {% include 'jobs/forms/submit.html' %}
-{% endif %}
 
 </html>
