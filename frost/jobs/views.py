@@ -122,8 +122,8 @@ def go_to_detail_or_picker(request, urluniqueid):
 
 def submit(request, urluniqueid):
     fields = Field.objects.all().filter(job=urluniqueid)
-    has_been_submitted = fields.filter(field_name='submitted')
-    submit_sentinel = fields.filter(field_name='submit_button_works')
+    has_been_submitted = fields.filter(field_name='submitted').get()
+    submit_sentinel = fields.filter(field_name='submit_button_works').get()
 
     if submit_sentinel.field_text == "true":
         for field in fields:
