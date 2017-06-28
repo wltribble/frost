@@ -38,15 +38,17 @@
 
 
 {% for field in fields %}
-    {% ifnotequal field.field_has_been_set False %}
-        {% ifnotequal field.editing_mode True %}
-            {% include 'jobs/forms/saved_field_form.html' %}
+    {% ifequal field.is_a_meta_field False %}
+        {% ifnotequal field.field_has_been_set False %}
+            {% ifnotequal field.editing_mode True %}
+                {% include 'jobs/forms/saved_field_form.html' %}
+            {% else %}
+                {% include 'jobs/forms/existing_field_form.html' %}
+            {% endifnotequal %}
         {% else %}
-            {% include 'jobs/forms/existing_field_form.html' %}
+            {% include 'jobs/forms/new_field_form.html' %}
         {% endifnotequal %}
-    {% else %}
-        {% include 'jobs/forms/new_field_form.html' %}
-    {% endifnotequal %}
+    {% endifequal %}
 {% endfor %}
 
 
