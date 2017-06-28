@@ -98,7 +98,8 @@ class Job(models.Model):
 
 
 class FieldManager(models.Manager):
-    def create_field(self, job, field_name, field_text, name_is_operator_editable, text_is_operator_editable, required_for_full_submission, field_has_been_set, can_be_deleted):
+    def create_field(self, job_urlid, field_name, field_text, name_is_operator_editable, text_is_operator_editable, required_for_full_submission, field_has_been_set, can_be_deleted):
+        job = Job.objects.filter(jmouniqueid__contains=job_urlid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})[:1].get()
         field = self.create(job=job, field_name=field_name, field_text=field_text, name_is_operator_editable=name_is_operator_editable, text_is_operator_editable=text_is_operator_editable, required_for_full_submission=required_for_full_submission, field_has_been_set=field_has_been_set, can_be_deleted=can_be_deleted)
         return field
 
