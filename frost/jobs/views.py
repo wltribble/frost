@@ -125,7 +125,7 @@ def submit(request, urluniqueid):
     has_been_submitted = fields.filter(field_name='submitted')
     submit_sentinel = fields.filter(field_name='submit_button_works')
 
-    if submit_sentinel.field_text == "true"
+    if submit_sentinel.field_text == "true":
         for field in fields:
             if field.required_for_full_submission == True:
                 if field.field_name == "Default Name" or field.field_text == "":
@@ -134,7 +134,7 @@ def submit(request, urluniqueid):
             if field.editing_mode == True:
                 messages.error(request, 'Finish editing fields before submiting')
                 submit_sentinel.field_text == "false"
-    if submit_sentinel.field_text == "true"
+    if submit_sentinel.field_text == "true":
         has_been_submitted.field_text = "true"
         for field in fields:
             field.name_is_operator_editable = False
