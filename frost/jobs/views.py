@@ -66,9 +66,7 @@ class DetailView(generic.DetailView):
 
 def save_data(request, urluniqueid):
     job = urluniqueid
-    for job_object_iterator in Job.objects.all():
-        if job_object_iterator.jmouniqueid == job:
-            job_object = job_object_iterator
+    job_object = Job.objects.filter(jmouniqueid=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})
     field_to_be_saved = job_object.field_set.get(pk=request.POST['save_field'])
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
         field_to_be_saved.field_name = request.POST.get('save_field_name')
@@ -90,9 +88,7 @@ def save_data(request, urluniqueid):
 
 def edit_data(request, urluniqueid):
     job = urluniqueid
-    for job_object_iterator in Job.objects.all():
-        if job_object_iterator.jmouniqueid == job:
-            job_object = job_object_iterator
+    job_object = Job.objects.filter(jmouniqueid=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})
     field_to_be_edited = job_object.field_set.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
@@ -101,9 +97,7 @@ def edit_data(request, urluniqueid):
 
 def add_field(request, urluniqueid):
     job = urluniqueid
-    for job_object_iterator in Job.objects.all():
-        if job_object_iterator.jmouniqueid == job:
-            job_object = job_object_iterator
+    job_object = Job.objects.filter(jmouniqueid=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})
     new_field_job = job_object
     new_field_name = "Default Name"
     new_field_text = ""
@@ -112,17 +106,13 @@ def add_field(request, urluniqueid):
 
 def delete_field(request, urluniqueid):
     job = urluniqueid
-    for job_object_iterator in Job.objects.all():
-        if job_object_iterator.jmouniqueid == job:
-            job_object = job_object_iterator
+    job_object = Job.objects.filter(jmouniqueid=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})
     field_to_be_deleted = job_object.field_set.get(pk=request.POST['delete_field']).delete()
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
-    for job_object_iterator in Job.objects.all():
-        if job_object_iterator.jmouniqueid == job:
-            job_object = job_object_iterator
+    job_object = Job.objects.filter(jmouniqueid=urluniqueid).extra({'jmouniqueid_uuid': "CAST(jmouniqueid as uniqueidentifier)"})
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
         print (job_object.pk)
