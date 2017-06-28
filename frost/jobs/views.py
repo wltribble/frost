@@ -100,7 +100,7 @@ def add_field(request, urluniqueid):
     new_field_name = "Default Name"
     new_field_text = ""
     field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True)
-    print (request.content_params)
+    print (request.content_params, field_name)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def delete_field(request, urluniqueid):
@@ -113,6 +113,7 @@ def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
+        print (field_name)
         print (job)
         new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
