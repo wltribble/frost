@@ -113,7 +113,6 @@ def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
-        print (job_object.pk)
         print (job)
         new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
