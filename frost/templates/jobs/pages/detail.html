@@ -60,10 +60,16 @@
         {% csrf_token %}
         <input type="submit" name="add_field" value="Add Field"/>
     </form>
-    <form action="{% url 'jobs:submit' urluniqueid %}" method="post" name="submit">
-        {% csrf_token %}
-        <input type="submit" name="submit" value="Submit"/>
-    </form>
+
+    {% for field in fields %}
+        {% ifequal field.field_name "has_been_submitted" %}
+            {% ifequal field.field_text "false" %}
+                {% include 'jobs/forms/submit.html' %}
+            {% else %}
+                {% include 'jobs/forms/reopen.html' %}
+            {% endifequal %}
+        {% endifequal %}
+    {% endfor %}
 <br /><br /><br /><br />
 
 </html>

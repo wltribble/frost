@@ -131,17 +131,40 @@ def submit(request, urluniqueid):
                 if field.field_name == "Default Name" or field.field_text == "":
                     messages.error(request, 'Required Fields cannot be blank and must be named')
                     submit_sentinel.field_text == "false"
+                    submit_sentinel.full_clean()
+                    submit_sentinel.save()
             if field.editing_mode == True:
                 messages.error(request, 'Finish editing fields before submiting')
                 submit_sentinel.field_text == "false"
+                submit_sentinel.full_clean()
+                submit_sentinel.save()
     if submit_sentinel.field_text == "true":
         has_been_submitted.field_text = "true"
+        has_been_submitted.full_clean()
+        has_been_submitted.save()
         for field in fields:
-            field.name_is_operator_editable = False
-            field.text_is_operator_editable = False
-            field.full_clean()
-            field.save()
-        job.date_submitted = timezone.now()
+            if field.is_a_meta_field == False:
+                field.name_is_operator_editable = False
+                field.text_is_operator_editable = False
+                field.full_clean()
+                field.save()
     else:
         submit_sentinel.field_text == "true"
+        submit_sentinel.full_clean()
+        submit_sentinel.save()
+    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+
+def reopen(request, urluniqueid):
+    fields = Field.objects.all().filter(job=urluniqueid)
+    has_been_submitted = fields.filter(field_name='submitted').get()
+
+    if has_been_submitted.field_text == "true":
+        for field in fields:
+            field.name_is_operator_editable = True
+            field.text_is_operator_editable = True
+            field.full_clean()
+            field.save()
+            has_been_submitted = "false"
+            has_been_submitted.full_clean()
+            has_been_submitted.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
