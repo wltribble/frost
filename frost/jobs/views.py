@@ -1,4 +1,4 @@
-import uuid
+import datetime
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.contrib import messages
 
 from processes.models import Process
+from workcenters.models import WorkCenter, Worker, Operation
 
 from .models import Job, Field
 
@@ -20,13 +21,36 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context['jobs'] = Job.objects.all()
-        for job in context['jobs']:
-            try:
-                context['current_jobs'].append(job)
-            except:
-                context['current_jobs'] = []
-                context['current_jobs'].append(job)
+        workcenter_id = self.kwargs['center_pk']
+        center_operations = Operations.objects.all().filter(workcenter_id=workcenter_id)
+
+        center_timecards = []
+        for operation in center_operations:
+            center_timecards.append(operation.timecard_id)
+        center_operators = []
+        for timecard in center_timecards:
+            for worker in Worker.objects.all().filter(timecard_id=timecard)
+                center_operators.append(worker)
+        current_center_operators= []
+        for worker in current_operators:
+            start = worker.start_time
+            end = worker.end_time
+            if start < timezone.now() - datetime.timedelta(days=1) or end != None:
+                pass
+            else:
+                current_center_operators.append(worker)
+
+        current_center_operations = []
+        for operator in current_center_operators:
+            current_operator_employee_id = operator.employee_id
+            for operation in center_operations:
+                if operation.employee_id == current_operator_employee_id:
+                    current_center_operations.append(operation)
+        current_operation_objects = []
+        for operation in current_center_operations:
+            real_operation_object = Job.objects.all().filter(jmojobid=operation.job_id).filter(jmojobassemblyid=operation.assembly_id).filter(jmojoboperationid=operation.operation_id)
+            current_operation_objects.append(real_operation_object)
+        context['jobs'] = current_operation_objects
         return context
 
     def get_queryset(self):
