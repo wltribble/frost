@@ -4,7 +4,7 @@ from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data
 
 app_name = 'jobs'
 urlpatterns = [
-    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^center/(?P<center_pk>[0-9]+)/$', IndexView.as_view(), name='index'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/$', PickTemplateView.as_view(), name='pick_template'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/detail/$', DetailView.as_view(), name='detail'),
     url(r'^(?P<urluniqueid>[0-9a-fA-F-]+)/save/$', save_data, name='save_data'),
