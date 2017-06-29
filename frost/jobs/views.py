@@ -166,7 +166,7 @@ def reopen(request, urluniqueid):
             field.text_is_operator_editable = True
             field.full_clean()
             field.save()
-            has_been_submitted = "false"
+            has_been_submitted.field_text = "false"
             has_been_submitted.full_clean()
             has_been_submitted.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
