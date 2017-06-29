@@ -14,3 +14,8 @@ class PickCenterView(generic.ListView):
 
     def get_queryset(self):
         return WorkCenter.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(PickCenterView, self).get_context_data(**kwargs)
+        context['workcenters'] = WorkCenter.objects.all()
+        return context
