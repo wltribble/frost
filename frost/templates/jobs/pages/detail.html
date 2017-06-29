@@ -43,7 +43,7 @@
 
 {% for reopen_iterator in reopen_number %}
     {% for field in fields %}
-        {% ifequal field.submission_number|int reopen_iterator %}
+        {% ifequal field.submission_number reopen_iterator|slugify %}
             {% ifnotequal field.field_has_been_set False %}
                 {% ifnotequal field.editing_mode True %}
                     {% include 'jobs/forms/saved_field_form.html' %}
