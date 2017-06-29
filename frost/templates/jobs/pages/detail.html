@@ -1,7 +1,8 @@
 <html lang="en">
+<head>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
-
+<script src="/static/js/scroll-sneak.js"></script>
 
 </head>
 
@@ -41,6 +42,7 @@
 <p>&emsp;</p>
 <p>&emsp;</p>
 
+<div id="fields">
 {% for reopen_iterator in reopen_number %}
     {% for field in fields %}
         {% ifequal field.submission_number reopen_iterator|slugify %}
@@ -63,7 +65,7 @@
         {% ifequal field.field_text "false" %}
             <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
                 {% csrf_token %}
-                <input type="submit" name="add_field" value="Add Field"/>
+                <input type="submit" name="add_field" value="Add Field" id="add_field"/>
             </form>
             {% include 'jobs/forms/submit.html' %}
         {% else %}
@@ -72,5 +74,19 @@
     {% endifequal %}
 {% endfor %}
 <br /><br /><br /><br />
+</div>
+
+<!-- SCROLL SNEAK JS: you can change `location.hostname` to any unique string or leave it as is -->
+<script>
+(function() {
+    var sneaky = new ScrollSneak(location.hostname), tabs = document.getElementById('fields').getElementsByTagName('form'), i = 0, len = tabs.length;
+    for (; i < len; i++) {
+        tabs[i].onclick = sneaky.sneak;
+    }
+
+    document.getElementByTagName('input').onclick = sneaky.sneak;
+})();
+</script>
+<!-- END OF SCROLL SNEAK JS -->
 
 </html>
