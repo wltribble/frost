@@ -137,12 +137,14 @@ def submit(request, urluniqueid):
                     submit_sentinel.field_text == "false"
                     submit_sentinel.full_clean()
                     submit_sentinel.save()
+                    print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
                     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
             if field.editing_mode == True:
                 messages.error(request, 'Finish editing fields before submiting')
                 submit_sentinel.field_text == "false"
                 submit_sentinel.full_clean()
                 submit_sentinel.save()
+                print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
                 return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
     if submit_sentinel.field_text == "true":
         has_been_submitted.field_text = "true"
