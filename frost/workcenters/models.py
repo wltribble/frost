@@ -7,6 +7,9 @@ class WorkCenter(models.Model):
     class Meta:
         verbose_name_plural = "work centers"
 
+    def __str__(self):
+        return self.workcenter_id
+
 
 class Worker(models.Model):
     timecard_id = models.DecimalField(db_column='lmpTimecardID', max_digits=9, decimal_places=0)
