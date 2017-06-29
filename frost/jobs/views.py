@@ -62,7 +62,7 @@ class DetailView(generic.DetailView):
         context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=False)
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=True)
-        context['reopen_number'] = range(-1, 1 + int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
+        context['reopen_number'] = range(1, 2 + int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
         return context
 
 
