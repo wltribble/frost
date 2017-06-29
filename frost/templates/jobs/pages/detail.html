@@ -41,21 +41,20 @@
 <p>&emsp;</p>
 <p>&emsp;</p>
 
+{% for reopen_iterator in reopen_number %}
     {% for field in fields %}
-        {% ifequal field.is_a_meta_field False %}
-            {% ifnotequal field.field_has_been_set False %}
-                {% ifnotequal field.editing_mode True %}
-                    {% include 'jobs/forms/saved_field_form.html' %}
-                {% else %}
-                    {% include 'jobs/forms/existing_field_form.html' %}
-                {% endifnotequal %}
+        {% ifnotequal field.field_has_been_set False %}
+            {% ifnotequal field.editing_mode True %}
+                {% include 'jobs/forms/saved_field_form.html' %}
             {% else %}
-                {% include 'jobs/forms/new_field_form.html' %}
+                {% include 'jobs/forms/existing_field_form.html' %}
             {% endifnotequal %}
-        {% endifequal %}
+        {% else %}
+            {% include 'jobs/forms/new_field_form.html' %}
+        {% endifnotequal %}
     {% endfor %}
 
-    {% for field in fields %}
+    {% for field in metafields %}
         {% ifequal field.field_name "submitted" %}
             {% ifequal field.field_text "false" %}
                 <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
@@ -68,6 +67,8 @@
             {% endifequal %}
         {% endifequal %}
     {% endfor %}
+    <hr>
+{% endfor %}
 <br /><br /><br /><br />
 
 </html>

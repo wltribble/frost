@@ -59,8 +59,10 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data(**kwargs)
         for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
             context['job'] = job_iterator
-        context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid'])
+        context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field="false")
         context['urluniqueid'] = self.kwargs['urluniqueid']
+        context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field="true")
+        context['reopen_number'] = int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").field_text)
         return context
 
 
@@ -110,6 +112,7 @@ def set_process_template(request, urluniqueid, process_name):
     job_template_has_now_been_set = Field.objects.create_field(job, "template_set", process.process_name, False, False, False, True, False, True)
     job_has_been_submitted_boolean = Field.objects.create_field(job, "submitted", "false", False, False, False, True, False, True)
     submit_button_works = Field.objects.create_field(job, "submit_button_works", "true", False, False, False, True, False, True)
+    number_of_reopens_field = Field.objects.create_field(job, "reopens", "0", False, False, False, True, False, True)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def go_to_detail_or_picker(request, urluniqueid):
@@ -159,9 +162,16 @@ def submit(request, urluniqueid):
 def reopen(request, urluniqueid):
     fields = Field.objects.all().filter(job=urluniqueid)
     has_been_submitted = fields.filter(field_name='submitted').get()
+    number_of_reopens_field = fields.filter(field_name='reopens').get()
 
     if has_been_submitted.field_text == "true":
         has_been_submitted.field_text = "false"
         has_been_submitted.full_clean()
         has_been_submitted.save()
+
+        number_of_reopens = int(number_of_reopens_field.field_text)
+        number_of_reopens += 1
+        number_of_reopens_field.field_text = str(number_of_reopens)
+        number_of_reopens_field.full_clean()
+        number_of_reopens_field.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
