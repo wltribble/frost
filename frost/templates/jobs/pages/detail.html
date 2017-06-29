@@ -1,7 +1,8 @@
 <html lang="en">
+<head>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
-
+<script src="/static/js/scroll-sneak.js"></script>
 
 </head>
 
@@ -17,6 +18,11 @@
 
 <br />
 <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
+{% for field in fields %}
+    {% if field.is_a_meta_field == True and field.field_name == "template_set"  %}
+        <p>Template In Use:&emsp;&emsp;{{ field.field_text }}</p><br />
+    {% endif %}
+{% endfor %}
 
 <strong>INSTRUCTIONS:&emsp;</strong>
 <br />
@@ -36,25 +42,51 @@
 <p>&emsp;</p>
 <p>&emsp;</p>
 
-
-{% for field in fields %}
-    {% ifnotequal field.field_has_been_set False %}
-        {% ifnotequal field.editing_mode True %}
-            {% include 'jobs/forms/saved_field_form.html' %}
-        {% else %}
-            {% include 'jobs/forms/existing_field_form.html' %}
-        {% endifnotequal %}
-    {% else %}
-        {% include 'jobs/forms/new_field_form.html' %}
-    {% endifnotequal %}
+<div id="fields">
+{% for reopen_iterator in reopen_number %}
+    {% for field in fields %}
+        {% ifequal field.submission_number reopen_iterator|slugify %}
+            {% ifnotequal field.field_has_been_set False %}
+                {% ifnotequal field.editing_mode True %}
+                    {% include 'jobs/forms/saved_field_form.html' %}
+                {% else %}
+                    {% include 'jobs/forms/existing_field_form.html' %}
+                {% endifnotequal %}
+            {% else %}
+                {% include 'jobs/forms/new_field_form.html' %}
+            {% endifnotequal %}
+        {% endifequal %}
+    {% endfor %}
+    <hr>
 {% endfor %}
 
-
-    <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
-        {% csrf_token %}
-        <input type="submit" name="add_field" value="Add Field"/>
-    </form>
-
+{% for field in metafields %}
+    {% ifequal field.field_name "submitted" %}
+        {% ifequal field.field_text "false" %}
+            <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
+                {% csrf_token %}
+                <input type="submit" name="add_field" value="Add Field" id="add_field"/>
+            </form>
+            {% include 'jobs/forms/submit.html' %}
+        {% else %}
+            {% include 'jobs/forms/reopen.html' %}
+        {% endifequal %}
+    {% endifequal %}
+{% endfor %}
 <br /><br /><br /><br />
+</div>
+
+<!-- SCROLL SNEAK JS: you can change `location.hostname` to any unique string or leave it as is -->
+<script>
+(function() {
+    var sneaky = new ScrollSneak(location.hostname), tabs = document.getElementById('fields').getElementsByTagName('form'), i = 0, len = tabs.length;
+    for (; i < len; i++) {
+        tabs[i].onclick = sneaky.sneak;
+    }
+
+    document.getElementByTagName('input').onclick = sneaky.sneak;
+})();
+</script>
+<!-- END OF SCROLL SNEAK JS -->
 
 </html>

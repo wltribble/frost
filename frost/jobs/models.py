@@ -1,5 +1,4 @@
 import datetime
-import uuid
 
 from django.db import models
 from django.core.urlresolvers import reverse
@@ -98,8 +97,8 @@ class Job(models.Model):
 
 
 class FieldManager(models.Manager):
-    def create_field(self, job_urlid, field_name, field_text, name_is_operator_editable, text_is_operator_editable, required_for_full_submission, field_has_been_set, can_be_deleted):
-        field = self.create(job=job_urlid, field_name=field_name, field_text=field_text, name_is_operator_editable=name_is_operator_editable, text_is_operator_editable=text_is_operator_editable, required_for_full_submission=required_for_full_submission, field_has_been_set=field_has_been_set, can_be_deleted=can_be_deleted)
+    def create_field(self, job_urlid, field_name, field_text, name_is_operator_editable, text_is_operator_editable, required_for_full_submission, field_has_been_set, can_be_deleted, is_a_meta_field, submission_number):
+        field = self.create(job=job_urlid, field_name=field_name, field_text=field_text, name_is_operator_editable=name_is_operator_editable, text_is_operator_editable=text_is_operator_editable, required_for_full_submission=required_for_full_submission, field_has_been_set=field_has_been_set, can_be_deleted=can_be_deleted, is_a_meta_field=is_a_meta_field, submission_number=submission_number)
         return field
 
 
@@ -113,6 +112,8 @@ class Field(models.Model):
     text_is_operator_editable = models.BooleanField(default=True)
     required_for_full_submission = models.BooleanField(default=True)
     can_be_deleted = models.BooleanField(default=True)
+    is_a_meta_field = models.BooleanField(default=False)
+    submission_number = models.CharField(default="1", max_length=5)
 
     objects = FieldManager()
 

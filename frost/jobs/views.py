@@ -59,9 +59,10 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data(**kwargs)
         for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
             context['job'] = job_iterator
-        # context['fields'] = Field.objects.filter(job=self.kwargs['urluniqueid'])
-        context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid'])
+        context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=False)
         context['urluniqueid'] = self.kwargs['urluniqueid']
+        context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=True)
+        context['reopen_number'] = range(1, 2 + int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
         return context
 
 
@@ -96,7 +97,8 @@ def add_field(request, urluniqueid):
     job = urluniqueid
     new_field_name = "Default Name"
     new_field_text = ""
-    field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True)
+    submission_number = str(1 + int(Field.objects.all().filter(job=job).filter(field_name="reopens").get().field_text))
+    field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False, submission_number)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def delete_field(request, urluniqueid):
@@ -107,36 +109,78 @@ def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
-        print (field.OUTLINE_field_name)
-        print (job)
-        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted)
+        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted, False, "1")
+    job_template_has_now_been_set = Field.objects.create_field(job, "template_set", process.process_name, False, False, False, True, False, True, "1")
+    job_has_been_submitted_boolean = Field.objects.create_field(job, "submitted", "false", False, False, False, True, False, True, "1")
+    submit_button_works = Field.objects.create_field(job, "submit_button_works", "true", False, False, False, True, False, True, "1")
+    number_of_reopens_field = Field.objects.create_field(job, "reopens", "0", False, False, False, True, False, True, "1")
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
-# def submit(request, jmouniqueid):
-#     job = get_object_or_404(Job, pk=jmouniqueid)
-#     fields = job.field_set.all()
-#     if job.has_job_name_been_set == False:
-#         messages.error(request, 'Job ID must be set before submiting')
-#         job.disable_submit_button = True
-#     elif job.disable_submit_button == False:
-#         for field in fields:
-#             if field.required_for_full_submission == True:
-#                 if field.field_name == "Default Name" or field.field_text == "":
-#                     messages.error(request, 'Required Fields cannot be blank and must be named')
-#                     job.disable_submit_button = True
-#             if field.editing_mode == True:
-#                 messages.error(request, 'Finish editing fields before submiting')
-#                 job.disable_submit_button = True
-#     if job.disable_submit_button == False:
-#         job.completed = True
-#         for field in fields:
-#             field.name_is_operator_editable = False
-#             field.text_is_operator_editable = False
-#             field.full_clean()
-#             field.save()
-#         job.date_submitted = timezone.now()
-#     else:
-#         job.disable_submit_button = False
-#     job.full_clean()
-#     job.save()
-#     return HttpResponseRedirect(reverse('jobs:detail', args=(job.id,)))
+def go_to_detail_or_picker(request, urluniqueid):
+    for field in Field.objects.all().filter(job=urluniqueid):
+        print (field.field_name)
+        if field.field_name == "template_set" and field.is_a_meta_field == True:
+            print ('found')
+            return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:pick_template', args=(urluniqueid,)))
+
+def submit(request, urluniqueid):
+    fields = Field.objects.all().filter(job=urluniqueid)
+    has_been_submitted = fields.filter(field_name='submitted').get()
+    submit_sentinel = fields.filter(field_name='submit_button_works').get()
+
+    if submit_sentinel.field_text == "true":
+        for field in fields:
+            if field.required_for_full_submission == True:
+                if field.field_name == "Default Name" or field.field_text == "":
+                    messages.error(request, 'Required Fields cannot be blank and must be named')
+                    submit_sentinel.field_text == "false"
+                    submit_sentinel.full_clean()
+                    submit_sentinel.save()
+                    print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
+                    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+            if field.editing_mode == True:
+                messages.error(request, 'Finish editing fields before submiting')
+                submit_sentinel.field_text == "false"
+                submit_sentinel.full_clean()
+                submit_sentinel.save()
+                print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
+                return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    if submit_sentinel.field_text == "true":
+        has_been_submitted.field_text = "true"
+        has_been_submitted.full_clean()
+        has_been_submitted.save()
+        for field in fields:
+            if field.is_a_meta_field == False:
+                field.name_is_operator_editable = False
+                field.text_is_operator_editable = False
+                field.full_clean()
+                field.save()
+    else:
+        submit_sentinel.field_text == "true"
+        submit_sentinel.full_clean()
+        submit_sentinel.save()
+    print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
+    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+
+def reopen(request, urluniqueid):
+    fields = Field.objects.all().filter(job=urluniqueid)
+    has_been_submitted = fields.filter(field_name='submitted').get()
+    number_of_reopens_field = fields.filter(field_name='reopens').get()
+
+    if has_been_submitted.field_text == "true":
+        has_been_submitted.field_text = "false"
+        has_been_submitted.full_clean()
+        has_been_submitted.save()
+
+        number_of_reopens = int(number_of_reopens_field.field_text)
+        number_of_reopens += 1
+        number_of_reopens_field.field_text = str(number_of_reopens)
+        number_of_reopens_field.full_clean()
+        number_of_reopens_field.save()
+        job = urluniqueid
+        new_field_name = "Default Name"
+        new_field_text = ""
+        submission_number = str(1 + int(Field.objects.all().filter(job=job).filter(field_name="reopens").get().field_text))
+        field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False, submission_number)
+    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
