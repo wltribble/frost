@@ -23,14 +23,17 @@ class IndexView(generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         workcenter_id = self.kwargs['center_pk']
         center_operations = Operation.objects.all().filter(work_center_id=workcenter_id)
+        print ("Center Operations:" + center_operations + "\n")
 
         center_timecards = []
         for operation in center_operations.iterator():
             center_timecards.append(operation.timecard_id)
+        print ("Center Timecards:" + center_timecards + "\n")
         center_operators = []
         for timecard in center_timecards:
             for worker in Worker.objects.all().filter(timecard_id=timecard).iterator():
                 center_operators.append(worker)
+        print ("Center Operators:" + center_operators + "\n")
         current_center_operators= []
         for worker in center_operators:
             start = worker.start_time
@@ -39,18 +42,20 @@ class IndexView(generic.ListView):
             #     pass
             # else:
             current_center_operators.append(worker)
-
+        print ("Current Center Operators:" + current_center_operators + "\n")
         current_center_operations = []
         for operator in current_center_operators:
             current_operator_employee_id = operator.employee_id
             for operation in center_operations:
                 if operation.employee_id == current_operator_employee_id:
                     current_center_operations.append(operation)
+        print ("Current Center Operations:" + current_center_operations + "\n")
         current_operation_objects = []
         for operation in current_center_operations:
             real_operation_object = Job.objects.all().filter(jmojobid=operation.job_id).filter(jmojobassemblyid=operation.assembly_id).filter(jmojoboperationid=operation.operation_id)
             current_operation_objects.append(real_operation_object)
         context['jobs'] = current_operation_objects
+        print (context['jobs'])
         return context
 
     def get_queryset(self):
