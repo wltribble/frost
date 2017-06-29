@@ -113,7 +113,7 @@ class Field(models.Model):
     required_for_full_submission = models.BooleanField(default=True)
     can_be_deleted = models.BooleanField(default=True)
     is_a_meta_field = models.BooleanField(default=False)
-    submission_number = models.CharField(default="1")
+    submission_number = models.CharField(default="1", max_lenth=5)
 
     objects = FieldManager()
 
