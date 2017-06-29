@@ -161,12 +161,7 @@ def reopen(request, urluniqueid):
     has_been_submitted = fields.filter(field_name='submitted').get()
 
     if has_been_submitted.field_text == "true":
-        for field in fields:
-            field.name_is_operator_editable = True
-            field.text_is_operator_editable = True
-            field.full_clean()
-            field.save()
-            has_been_submitted.field_text = "false"
-            has_been_submitted.full_clean()
-            has_been_submitted.save()
+        has_been_submitted.field_text = "false"
+        has_been_submitted.full_clean()
+        has_been_submitted.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
