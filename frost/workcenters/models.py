@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class WorkCenter(models.Model):
-    workcenter_id = models.CharField(max_length=5)
+    workcenter_id = models.CharField(max_length=5, unique=True)
 
     class Meta:
         verbose_name_plural = "work centers"
