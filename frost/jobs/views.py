@@ -62,7 +62,7 @@ class DetailView(generic.DetailView):
         context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=False)
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=True)
-        context['reopen_number'] = range(-1, int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
+        context['reopen_number'] = range(0, 1 + int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
         return context
 
 
@@ -97,7 +97,8 @@ def add_field(request, urluniqueid):
     job = urluniqueid
     new_field_name = "Default Name"
     new_field_text = ""
-    field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False)
+    submission_number = str(1 + int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
+    field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False, submission_number)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def delete_field(request, urluniqueid):
@@ -108,11 +109,11 @@ def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
-        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted, False)
-    job_template_has_now_been_set = Field.objects.create_field(job, "template_set", process.process_name, False, False, False, True, False, True)
-    job_has_been_submitted_boolean = Field.objects.create_field(job, "submitted", "false", False, False, False, True, False, True)
-    submit_button_works = Field.objects.create_field(job, "submit_button_works", "true", False, False, False, True, False, True)
-    number_of_reopens_field = Field.objects.create_field(job, "reopens", "0", False, False, False, True, False, True)
+        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted, False, "1")
+    job_template_has_now_been_set = Field.objects.create_field(job, "template_set", process.process_name, False, False, False, True, False, True, "0")
+    job_has_been_submitted_boolean = Field.objects.create_field(job, "submitted", "false", False, False, False, True, False, True, "0")
+    submit_button_works = Field.objects.create_field(job, "submit_button_works", "true", False, False, False, True, False, True, "0")
+    number_of_reopens_field = Field.objects.create_field(job, "reopens", "0", False, False, False, True, False, True, "0")
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def go_to_detail_or_picker(request, urluniqueid):
