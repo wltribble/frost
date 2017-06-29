@@ -62,7 +62,7 @@
     </form>
 
     {% for field in fields %}
-        {% ifequal field.field_name "has_been_submitted" %}
+        {% ifequal field.field_name "submitted" %}
             {% ifequal field.field_text "false" %}
                 {% include 'jobs/forms/submit.html' %}
             {% else %}
