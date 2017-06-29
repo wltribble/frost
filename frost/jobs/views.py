@@ -94,7 +94,7 @@ def edit_data(request, urluniqueid):
 def add_field(request, urluniqueid):
     job = urluniqueid
     new_field_name = "Default Name"
-    new_field_text = ""
+    new_field_text = None
     field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
@@ -128,7 +128,7 @@ def submit(request, urluniqueid):
     if submit_sentinel.field_text == "true":
         for field in fields:
             if field.required_for_full_submission == True:
-                if field.field_name == "Default Name" or field.field_text == "":
+                if field.field_name == "Default Name" or field.field_text == None:
                     messages.error(request, 'Required Fields cannot be blank and must be named')
                     submit_sentinel.field_text == "false"
                     submit_sentinel.full_clean()
