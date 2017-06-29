@@ -7,7 +7,7 @@
 {% if workcenters %}
     <ul>
     {% for workcenter in workcenters %}
-            <li><a href="{% url 'workcenters:jobs:index' workcenter.id %}">{{ workcenter }}</a></li>
+            <li><a href="{% url 'jobs:index' workcenter.id %}">{{ workcenter }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
