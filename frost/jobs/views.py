@@ -35,10 +35,10 @@ class IndexView(generic.ListView):
         for worker in center_operators:
             start = worker.start_time
             end = worker.end_time
-            if start < timezone.now() - datetime.timedelta(days=1) or end != None:
-                pass
-            else:
-                current_center_operators.append(worker)
+            # if start < timezone.now() - datetime.timedelta(days=1) or end != None:
+            #     pass
+            # else:
+            current_center_operators.append(worker)
 
         current_center_operations = []
         for operator in current_center_operators:
