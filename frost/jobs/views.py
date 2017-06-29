@@ -59,9 +59,9 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data(**kwargs)
         for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
             context['job'] = job_iterator
-        context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field="false")
+        context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=False)
         context['urluniqueid'] = self.kwargs['urluniqueid']
-        context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field="true")
+        context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=True)
         context['reopen_number'] = int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").field_text)
         return context
 
