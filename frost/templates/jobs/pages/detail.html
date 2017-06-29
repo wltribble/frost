@@ -55,15 +55,13 @@
         {% endifequal %}
     {% endfor %}
 
-
-    <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
-        {% csrf_token %}
-        <input type="submit" name="add_field" value="Add Field"/>
-    </form>
-
     {% for field in fields %}
         {% ifequal field.field_name "submitted" %}
             {% ifequal field.field_text "false" %}
+                <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
+                    {% csrf_token %}
+                    <input type="submit" name="add_field" value="Add Field"/>
+                </form>
                 {% include 'jobs/forms/submit.html' %}
             {% else %}
                 {% include 'jobs/forms/reopen.html' %}
