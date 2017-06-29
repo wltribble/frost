@@ -29,7 +29,7 @@ class IndexView(generic.ListView):
             center_timecards.append(operation.timecard_id)
         center_operators = []
         for timecard in center_timecards:
-            for worker in Worker.objects.all().filter(timecard_id=timecard)
+            for worker in Worker.objects.all().filter(timecard_id=timecard):
                 center_operators.append(worker)
         current_center_operators= []
         for worker in current_operators:
