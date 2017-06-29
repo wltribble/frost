@@ -32,7 +32,7 @@ class IndexView(generic.ListView):
             for worker in Worker.objects.all().filter(timecard_id=timecard).iterator():
                 center_operators.append(worker)
         current_center_operators= []
-        for worker in current_operators:
+        for worker in center_operators:
             start = worker.start_time
             end = worker.end_time
             if start < timezone.now() - datetime.timedelta(days=1) or end != None:
