@@ -25,11 +25,11 @@ class IndexView(generic.ListView):
         center_operations = Operation.objects.all().filter(work_center_id=workcenter_id)
 
         center_timecards = []
-        for operation in center_operations:
+        for operation in center_operations.iterator():
             center_timecards.append(operation.timecard_id)
         center_operators = []
         for timecard in center_timecards:
-            for worker in Worker.objects.all().filter(timecard_id=timecard):
+            for worker in Worker.objects.all().filter(timecard_id=timecard).iterator():
                 center_operators.append(worker)
         current_center_operators= []
         for worker in current_operators:
