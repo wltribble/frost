@@ -12,7 +12,7 @@ class WorkCenter(models.Model):
 
 
 class Worker(models.Model):
-    timecard_id = models.DecimalField(db_column='lmpTimecardID', max_digits=9, decimal_places=0)
+    timecard_id = models.DecimalField(db_column='lmpTimecardID', max_digits=9, decimal_places=0, primary_key=True)
     employee_id = models.CharField(db_column='lmpEmployeeID', max_length=10)
     start_time = models.DateTimeField(db_column='lmpActualStartTime', blank=True, null=True)
     end_time = models.DateTimeField(db_column='lmpActualEndTime', blank=True, null=True)
@@ -33,7 +33,7 @@ class Operation(models.Model):
     operation_id = models.IntegerField(db_column='lmlJobOperationID')
     work_center_id = models.CharField(db_column='lmlWorkCenterID', max_length=5)
     employee_id = models.CharField(db_column='lmlEmployeeID', max_length=10)
-    uuid = models.CharField(db_column='lmlUniqueID', max_length=36)
+    uuid = models.CharField(db_column='lmlUniqueID', max_length=36, primary_key=True)
 
     class Meta:
         managed = False
