@@ -158,7 +158,7 @@ def submit(request, urluniqueid):
         submit_sentinel.field_text == "true"
         submit_sentinel.full_clean()
         submit_sentinel.save()
-    print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text))
+    print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
     return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
 
 def reopen(request, urluniqueid):
