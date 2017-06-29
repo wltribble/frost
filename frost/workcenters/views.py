@@ -3,6 +3,7 @@ try:
     from django.urls import reverse
 except:
     from django.core.urlresolvers import reverse
+from django.views import generic
 
 from .models import WorkCenter, Worker, Operation
 # Create your views here.
