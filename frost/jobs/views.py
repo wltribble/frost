@@ -80,7 +80,7 @@ class IndexView(generic.ListView):
             current_operation_objects.append(real_operation_object)
 
         print ("Current Center Operation UUIDs:")
-        for operation in current_operation_objects:
+        for operation in current_operation_objects.iterator():
             print (operation.jmouniqueid)
 
         context['jobs'] = current_operation_objects
