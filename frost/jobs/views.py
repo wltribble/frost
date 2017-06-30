@@ -67,7 +67,7 @@ class IndexView(generic.ListView):
                     current_center_operations.append(operation)
 
         print ("Current Center Operations:")
-        for operation in current_center_operations.iterator():
+        for operation in current_center_operations:
             print (operation.job_id + "\t" + operation.assembly_id + "\t" + operation.operation_id)
 
 
