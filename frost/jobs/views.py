@@ -22,7 +22,8 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         workcenter_id = self.kwargs['center_pk']
-        center_operations = Operation.objects.all().filter(work_center_id=workcenter_id)
+        workcenter = WorkCenter.objects.get(pk=workcenter_id)
+        center_operations = Operation.objects.all().filter(work_center_id=workcenter)
 
         print ("Center Operations:")
         for center in center_operations.iterator():
