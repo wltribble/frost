@@ -33,7 +33,7 @@ class IndexView(generic.ListView):
 
         print ('Timecards:')
         for operation in center_operations:
-            print (str(timecard_id))
+            print (str(operation.timecard_id))
 
         center_operators = []
         for timecard in center_timecards:
