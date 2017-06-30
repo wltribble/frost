@@ -6,9 +6,7 @@
 
 </head>
 
-{% if template_set %}
-    <h1><a class="navbar-brand" href="{% url 'jobs:index' center %}">{{ job }}</a></h1>
-{% endif %}
+<h1><a class="navbar-brand" href="{% url 'jobs:index' center %}">{{ job }}</a></h1>
 
 {% if messages %}
     <ul class="messages">
