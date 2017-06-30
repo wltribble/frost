@@ -25,26 +25,14 @@ class IndexView(generic.ListView):
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
         center_operations = Operation.objects.all().filter(work_center_id=workcenter)
 
-        print ("Center Operations:")
-        for center in center_operations.iterator():
-            print (center.work_center_id)
-
         center_timecards = []
         for operation in center_operations.iterator():
             center_timecards.append(operation.timecard_id)
-
-        print ("Center Timecards:")
-        for timecard in center_timecards:
-            print (timecard)
 
         center_operators = []
         for timecard in center_timecards:
             for worker in Worker.objects.all().filter(timecard_id=timecard).iterator():
                 center_operators.append(worker)
-
-        print ("Center Operators:")
-        for operator in center_operators:
-            print (operator.employee_id)
 
         current_center_operators= []
         for worker in center_operators:
@@ -54,10 +42,6 @@ class IndexView(generic.ListView):
             #     pass
             # else:
             current_center_operators.append(worker)
-
-        print ("Current Center Operators:")
-        for operator in current_center_operators:
-            print (operator.employee_id)
 
         current_center_operations = []
         for operator in current_center_operators:
@@ -69,11 +53,6 @@ class IndexView(generic.ListView):
                     else:
                         current_center_operations.append(operation)
 
-        print ("Current Center Operations:")
-        for operation in current_center_operations:
-            print (operation.job_id + "\t" + str(operation.assembly_id) + "\t" + str(operation.operation_id))
-
-
         current_operation_objects = []
         for operation in current_center_operations:
             real_operation_object = Job.objects.all().filter(jmojobid=operation.job_id).filter(jmojobassemblyid=operation.assembly_id).filter(jmojoboperationid=operation.operation_id)
@@ -83,11 +62,6 @@ class IndexView(generic.ListView):
         for operation in current_operation_objects:
             for object_within in operation.iterator():
                 final_list.append(object_within)
-
-        print ("Current Center Operation UUIDs:")
-        for operation in current_operation_objects:
-            for object_within in operation.iterator():
-                print (object_within.jmouniqueid)
 
         context['jobs'] = final_list
         context['center'] = workcenter_id
@@ -184,9 +158,7 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
 
 def go_to_detail_or_picker(request, center_pk, urluniqueid):
     for field in Field.objects.all().filter(job=urluniqueid):
-        print (field.field_name)
         if field.field_name == "template_set" and field.is_a_meta_field == True:
-            print ('found')
             return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
     return HttpResponseRedirect(reverse('jobs:pick_template', args=(center_pk, urluniqueid,)))
 
@@ -226,7 +198,6 @@ def submit(request, center_pk, urluniqueid):
         submit_sentinel.field_text == "true"
         submit_sentinel.full_clean()
         submit_sentinel.save()
-    print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
     return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
 def reopen(request, center_pk, urluniqueid):
