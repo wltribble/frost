@@ -13,7 +13,7 @@ from django.contrib import messages
 from processes.models import Process
 from workcenters.models import WorkCenter, Worker, Operation
 
-from .models import Job, Field
+from .models import Job, Field, JobInstructions, AssemblyInstructions
 
 
 class IndexView(generic.ListView):
@@ -129,13 +129,15 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
-            context['job'] = job_iterator
+        job = Job.objects.get(jmouniqueid = self.kwargs['urluniqueid'])
+        context['job'] = job
         context['fields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=False)
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=True)
         context['reopen_number'] = range(1, 2 + int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
         context['center'] = self.kwargs['center_pk']
+        context['job_instructions'] = JobInstructions.objects.all().filter(jobid=job.jmojobid)
+        context['assembly_instructions'] = AssemblyInstructions.objects.all().filter(jobid=job.jmojobid).filter(assemblyid=job.jmojobassemblyid)
         return context
 
 

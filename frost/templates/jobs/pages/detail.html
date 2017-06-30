@@ -24,19 +24,26 @@
     {% endif %}
 {% endfor %}
 
-<strong>INSTRUCTIONS:&emsp;</strong>
-<br />
 <strong>JOB INSTRUCTIONS:&emsp;</strong>
-<br />
-<strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
-<br />
-<strong>OPERATION INSTRUCTIONS:&emsp;</strong>
-<br />
-{% if job.jmosfemessagetext %}
-    <strong>EXTRA INSTRUCTIONS:&emsp;</strong>
-        {{ job.jmosfemessagetext }}
-    <br />
+{% if job_instructions %}
+    {% for memo in job_instructions %}
+        {{ memo.instructions }}
+    {% endfor %}
 {% endif %}
+<br /><br />
+<strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
+{% if assembly_instructions %}
+    {% for memo in assembly_instructions %}
+        {{ memo.instructions }}
+    {% endfor %}
+{% endif %}
+<br /><br />
+<strong>OPERATION INSTRUCTIONS:&emsp;</strong>
+{% if job.jmosfemessagetext %}
+        {{ job.jmosfemessagetext }}
+{% endif %}
+<br /><br />
+
 
 
 <p>&emsp;</p>
