@@ -11,9 +11,9 @@
 {% endif %}
 
 
-{% ifnot template_set %}
+{% ifequal template_set False %}
     <h1><a class="navbar-brand" href="javascript:history.go(-2)">{{ job }}</a></h1>
-{% endifnot %}
+{% endifequal %}
 
 {% if messages %}
     <ul class="messages">
