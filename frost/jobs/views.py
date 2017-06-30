@@ -68,7 +68,7 @@ class IndexView(generic.ListView):
 
         print ("Current Center Operations:")
         for operation in current_center_operations:
-            print (operation.job_id + "\t" + operation.assembly_id + "\t" + operation.operation_id)
+            print (operation.job_id + "\t" + str(operation.assembly_id) + "\t" + str(operation.operation_id))
 
 
         current_operation_objects = []
