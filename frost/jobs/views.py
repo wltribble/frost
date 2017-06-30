@@ -90,6 +90,7 @@ class IndexView(generic.ListView):
                 print (object_within.jmouniqueid)
 
         context['jobs'] = final_list
+        context['center'] = workcenter_id
         return context
 
     def get_queryset(self):
@@ -107,6 +108,7 @@ class PickTemplateView(generic.ListView):
         context = super(PickTemplateView, self).get_context_data(**kwargs)
         context['processes'] = Process.objects.all()
         context['uniqueid'] = self.kwargs['urluniqueid']
+        context['center'] = self.kwargs['center_pk']
         return context
 
 
@@ -126,53 +128,50 @@ class DetailView(generic.DetailView):
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['metafields'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(is_a_meta_field=True)
         context['reopen_number'] = range(1, 2 + int(Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="reopens").get().field_text))
-        try:
-            context['template_set'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="template_set")
-        except:
-            context['template_set'] = False
+        context['center'] = self.kwargs['center_pk']
         return context
 
 
-def save_data(request, urluniqueid):
+def save_data(request, center_pk, urluniqueid):
     field_to_be_saved = Field.objects.get(pk=request.POST['save_field'])
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') != "":
         field_to_be_saved.field_name = request.POST.get('save_field_name')
     if field_to_be_saved.name_is_operator_editable and request.POST.get('save_field_name') == "":
         messages.error(request, 'Fields require names to be submitted')
-        return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+        return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
     if field_to_be_saved.text_is_operator_editable:
         field_to_be_saved.field_text = request.POST.get('save_field_text')
     if (request.POST.get('save_field_name') == "Default Name"):
         field_to_be_saved.field_has_been_set = False
         field_to_be_saved.editing_mode = True
         messages.error(request, 'Fields require names to be submitted')
-        return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+        return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
     field_to_be_saved.field_has_been_set = True
     field_to_be_saved.editing_mode = False
     field_to_be_saved.full_clean()
     field_to_be_saved.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
 def edit_data(request, urluniqueid):
     field_to_be_edited = Field.objects.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
     field_to_be_edited.save()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
-def add_field(request, urluniqueid):
+def add_field(request, center_pk, urluniqueid):
     job = urluniqueid
     new_field_name = "Default Name"
     new_field_text = ""
     submission_number = str(1 + int(Field.objects.all().filter(job=job).filter(field_name="reopens").get().field_text))
     field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False, submission_number)
-    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
-def delete_field(request, urluniqueid):
+def delete_field(request, center_pk, urluniqueid):
     field_to_be_deleted = Field.objects.get(pk=request.POST['delete_field']).delete()
-    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
-def set_process_template(request, urluniqueid, process_name):
+def set_process_template(request, center_pk, urluniqueid, process_name):
     job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
@@ -181,17 +180,17 @@ def set_process_template(request, urluniqueid, process_name):
     job_has_been_submitted_boolean = Field.objects.create_field(job, "submitted", "false", False, False, False, True, False, True, "1")
     submit_button_works = Field.objects.create_field(job, "submit_button_works", "true", False, False, False, True, False, True, "1")
     number_of_reopens_field = Field.objects.create_field(job, "reopens", "0", False, False, False, True, False, True, "1")
-    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
-def go_to_detail_or_picker(request, urluniqueid):
+def go_to_detail_or_picker(request, center_pk, urluniqueid):
     for field in Field.objects.all().filter(job=urluniqueid):
         print (field.field_name)
         if field.field_name == "template_set" and field.is_a_meta_field == True:
             print ('found')
-            return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
-    return HttpResponseRedirect(reverse('jobs:pick_template', args=(urluniqueid,)))
+            return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:pick_template', args=(center_pk, urluniqueid,)))
 
-def submit(request, urluniqueid):
+def submit(request, center_pk, urluniqueid):
     fields = Field.objects.all().filter(job=urluniqueid)
     has_been_submitted = fields.filter(field_name='submitted').get()
     submit_sentinel = fields.filter(field_name='submit_button_works').get()
@@ -205,14 +204,14 @@ def submit(request, urluniqueid):
                     submit_sentinel.full_clean()
                     submit_sentinel.save()
                     print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
-                    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+                    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
             if field.editing_mode == True:
                 messages.error(request, 'Finish editing fields before submiting')
                 submit_sentinel.field_text == "false"
                 submit_sentinel.full_clean()
                 submit_sentinel.save()
                 print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
-                return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+                return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
     if submit_sentinel.field_text == "true":
         has_been_submitted.field_text = "true"
         has_been_submitted.full_clean()
@@ -228,9 +227,9 @@ def submit(request, urluniqueid):
         submit_sentinel.full_clean()
         submit_sentinel.save()
     print ("reopens = " + fields.filter(job=urluniqueid).filter(field_name="reopens").get().field_text)
-    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
-def reopen(request, urluniqueid):
+def reopen(request, center_pk, urluniqueid):
     fields = Field.objects.all().filter(job=urluniqueid)
     has_been_submitted = fields.filter(field_name='submitted').get()
     number_of_reopens_field = fields.filter(field_name='reopens').get()
@@ -250,4 +249,4 @@ def reopen(request, urluniqueid):
         new_field_text = ""
         submission_number = str(1 + int(Field.objects.all().filter(job=job).filter(field_name="reopens").get().field_text))
         field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False, submission_number)
-    return HttpResponseRedirect(reverse('jobs:detail', args=(urluniqueid,)))
+    return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))

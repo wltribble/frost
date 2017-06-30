@@ -1,5 +1,5 @@
 <p>
-<form action="{% url 'jobs:save_data' urluniqueid %}" method="post" class="enter_data_form">
+<form action="{% url 'jobs:save_data' center_pk urluniqueid %}" method="post" class="enter_data_form">
     {% csrf_token %}
     {% include 'jobs/form_templates/existing_field_form_template.html' %}
     &emsp;&emsp;
@@ -7,7 +7,7 @@
 </form>
 
 {% if field.can_be_deleted %}
-<form action="{% url 'jobs:delete_field' urluniqueid %}" method="post" class="enter_data_form">
+<form action="{% url 'jobs:delete_field' center_pk urluniqueid %}" method="post" class="enter_data_form">
     {% csrf_token %}
     <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
 </form>
