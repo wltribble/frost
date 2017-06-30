@@ -79,12 +79,17 @@ class IndexView(generic.ListView):
             real_operation_object = Job.objects.all().filter(jmojobid=operation.job_id).filter(jmojobassemblyid=operation.assembly_id).filter(jmojoboperationid=operation.operation_id)
             current_operation_objects.append(real_operation_object)
 
+        final_list = []
+        for operation in current_operation_objects:
+            for object_within in operation.iterator():
+                final_list.append(object_within)
+
         print ("Current Center Operation UUIDs:")
         for operation in current_operation_objects:
             for object_within in operation.iterator():
                 print (object_within.jmouniqueid)
 
-        context['jobs'] = current_operation_objects
+        context['jobs'] = final_list
         return context
 
     def get_queryset(self):
