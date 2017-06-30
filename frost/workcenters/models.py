@@ -34,6 +34,8 @@ class Operation(models.Model):
     work_center_id = models.CharField(db_column='lmlWorkCenterID', max_length=5)
     employee_id = models.CharField(db_column='lmlEmployeeID', max_length=10)
     uuid = models.CharField(db_column='lmlUniqueID', max_length=36, primary_key=True)
+    start_time = models.DateTimeField(db_column='lmlActualStartTime')
+    end_time = models.DateTimeField(db_column='lmlActualEndTime')
 
     class Meta:
         managed = False
