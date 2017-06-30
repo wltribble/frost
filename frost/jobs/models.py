@@ -119,15 +119,3 @@ class Field(models.Model):
 
     def __str__(self):
         return self.field_name
-
-
-class JobMemos(models.Model):
-    job = models.CharField(db_column='jmkJobID', max_length=20)
-    memo = models.TextField(db_column='jmkLongDescriptionText')
-
-    class Meta:
-        managed = False
-        db_table = 'JobMemos'
-
-    def __str__(self):
-        return self.job
