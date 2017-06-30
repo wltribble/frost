@@ -152,7 +152,7 @@ def save_data(request, center_pk, urluniqueid):
     field_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))
 
-def edit_data(request, urluniqueid):
+def edit_data(request, center_pk, urluniqueid):
     field_to_be_edited = Field.objects.get(pk=request.POST['edit_field'])
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
