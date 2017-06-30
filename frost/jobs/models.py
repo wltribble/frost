@@ -121,13 +121,25 @@ class Field(models.Model):
         return self.field_name
 
 
-class JobMemo(models.Model):
-    jobid = models.CharField(db_column='jmkJobID', max_length=20, primary_key=True)
-    memo = models.TextField(db_column='jmkLongDescriptionText')
+class JobInstructions(models.Model):
+    jobid = models.CharField(db_column='jmpJobID', max_length=20, primary_key=True)
+    instructions = models.TextField(db_column='jmpPartLongDescriptionText')
 
     class Meta:
         managed = False
-        db_table = 'JobMemos'
+        db_table = 'Jobs'
 
     def __str__(self):
-        return self.job
+        return self.jobid
+
+class AssemblyInstructions(models.Model):
+    jobid = models.CharField(db_column='jmaJobID', max_length=20, primary_key=True)
+    assemblyid = models.IntegerField(db_column='jmaJobAssemblyID')
+    instructions = models.TextField(db_column='jmaPartLongDescriptionText')
+
+    class Meta:
+        managed = False
+        db_table = 'JobAssemblies'
+
+    def __str__(self):
+        return self.jobid
