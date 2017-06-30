@@ -1,5 +1,5 @@
 <p>
-<form action="{% url 'jobs:edit_data' center_pk urluniqueid %}" method="post">
+<form action="{% url 'jobs:edit_data' center urluniqueid %}" method="post">
     {% csrf_token %}
     <label for="field{{ forloop.counter }}"><strong>{{ field.field_name }}</strong>:&emsp;{{ field.field_text }}&emsp;&emsp;</label>
     {% if field.name_is_operator_editable or field.text_is_operator_editable %}
