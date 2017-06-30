@@ -66,6 +66,8 @@ class IndexView(generic.ListView):
             for object_within in operation.iterator():
                 final_list.append(object_within)
 
+        final_list = set(final_list)
+        final_list = list(final_list)
         context['jobs'] = final_list
         context['center'] = workcenter_id
         return context
