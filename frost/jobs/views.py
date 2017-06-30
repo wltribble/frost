@@ -38,7 +38,7 @@ class IndexView(generic.ListView):
         for worker in center_operators:
             start = worker.start_time
             end = worker.end_time
-            if end == None or start < end - datetime.timedelta(days=30):
+            if end == None or start < end - datetime.timedelta(days=1):
                 pass
             else:
                 current_center_operators.append(worker)
