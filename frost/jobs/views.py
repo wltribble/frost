@@ -31,6 +31,10 @@ class IndexView(generic.ListView):
         center_timecards = set(center_timecards)
         center_timecards = list(center_timecards)
 
+        print ('Timecards:')
+        for operation in center_operations:
+            print (str(timecard_id))
+
         center_operators = []
         for timecard in center_timecards:
             for worker in Worker.objects.all().filter(timecard_id=timecard).iterator():
