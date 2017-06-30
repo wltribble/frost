@@ -83,7 +83,8 @@ class PickTemplateView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PickTemplateView, self).get_context_data(**kwargs)
-        context['processes'] = Process.objects.all()
+        workcenter = WorkCenter.objects.get(pk=self.kwargs['center_pk'])
+        context['processes'] = Process.objects.all().filter(workcenter=workcenter.workcenter_id)
         context['uniqueid'] = self.kwargs['urluniqueid']
         context['center'] = self.kwargs['center_pk']
         return context
