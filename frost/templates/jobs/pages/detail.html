@@ -27,6 +27,11 @@
 <strong>INSTRUCTIONS:&emsp;</strong>
 <br />
 <strong>JOB INSTRUCTIONS:&emsp;</strong>
+{% if job_memos %}
+    {% for memo in job_memos %}
+        {{ memo.memo }}
+    {% endfor %}
+{% endif %}
 <br />
 <strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
 <br />

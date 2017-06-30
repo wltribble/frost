@@ -121,7 +121,7 @@ class Field(models.Model):
         return self.field_name
 
 
-class JobMemos(models.Model):
+class JobMemo(models.Model):
     jobid = models.CharField(db_column='jmkJobID', max_length=20)
     memo = models.TextField(db_column='jmkLongDescriptionText')
 
