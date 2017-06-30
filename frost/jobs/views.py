@@ -129,7 +129,7 @@ class DetailView(generic.DetailView):
         try:
             context['template_set'] = Field.objects.all().filter(job=self.kwargs['urluniqueid']).filter(field_name="template_set")
         except:
-            pass
+            context['template_set'] = False
         return context
 
 

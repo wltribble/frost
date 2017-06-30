@@ -7,13 +7,8 @@
 </head>
 
 {% if template_set %}
-    <h1><a class="navbar-brand" href="javascript:history.go(-1)">{{ job }}</a></h1>
+    <h1><a class="navbar-brand" href="{% url 'jobs:index' %}">{{ job }}</a></h1>
 {% endif %}
-
-
-{% ifequal template_set False %}
-    <h1><a class="navbar-brand" href="javascript:history.go(-2)">{{ job }}</a></h1>
-{% endifequal %}
 
 {% if messages %}
     <ul class="messages">
