@@ -92,6 +92,23 @@ class PickTemplateView(generic.ListView):
         return context
 
 
+class PickReopenTemplateView(generic.ListView):
+    template_name = 'jobs/pages/pick_reopen_template.html'
+    model = Job
+
+    def get_queryset(self):
+        return Job.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(PickReopenTemplateView, self).get_context_data(**kwargs)
+        workcenter = WorkCenter.objects.get(pk=self.kwargs['center_pk'])
+        context['processes'] = Process.objects.all().filter(workcenter=workcenter.workcenter_id)
+        context['uniqueid'] = self.kwargs['urluniqueid']
+        context['center'] = self.kwargs['center_pk']
+        context['submission_number'] = self.kwargs['submission_number']
+        return context
+
+
 class DetailView(generic.DetailView):
     template_name = 'jobs/pages/detail.html'
 
@@ -219,9 +236,12 @@ def reopen(request, center_pk, urluniqueid):
         number_of_reopens_field.field_text = str(number_of_reopens)
         number_of_reopens_field.full_clean()
         number_of_reopens_field.save()
-        job = urluniqueid
-        new_field_name = "Default Name"
-        new_field_text = ""
         submission_number = str(1 + int(Field.objects.all().filter(job=job).filter(field_name="reopens").get().field_text))
-        field = Field.objects.create_field(job, new_field_name, new_field_text, True, True, True, False, True, False, submission_number)
+    return HttpResponseRedirect(reverse('jobs:reopen_template', args=(center_pk, urluniqueid, submission_number)))
+
+def set_reopen_template(request, center_pk, urluniqueid, process_name, submission_number):
+    job = urluniqueid
+    process = get_object_or_404(Process, pk=process_name)
+    for field in process.outlinefield_set.all():
+        new_field = Field.objects.create_field(job, field.OUTLINE_field_name, field.OUTLINE_field_text, field.OUTLINE_name_is_operator_editable, field.OUTLINE_text_is_operator_editable, field.OUTLINE_required_for_full_submission, True, field.OUTLINE_can_be_deleted, False, submission_number)
     return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk, urluniqueid,)))

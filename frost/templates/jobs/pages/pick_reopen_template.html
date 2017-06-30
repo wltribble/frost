@@ -2,13 +2,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
 
 
-<h1>Pick A Template To Begin</h1>
+<h1>Pick A Template For Reopening This Job Operation</h1>
 
 {% if processes %}
     <ul>
     {% for process in processes %}
         {% ifnotequal process.process_name "None" %}
-            <li><a href="{% url 'jobs:set_process_template' center uniqueid process.id %}">{{ process.process_name }}</a></li>
+            <li><a href="{% url 'jobs:set_reopen_template' center uniqueid submission_number process.id %}">{{ process.process_name }}</a></li>
         {% endifnotequal %}
     {% endfor %}
     </ul>
@@ -18,7 +18,7 @@
 
 {% for process in processes %}
     {% ifequal process.process_name "None" %}
-        <form action="{% url 'jobs:set_process_template' center uniqueid process.id %}" name="continue_without_template" class="bottom_buttons">
+        <form action="{% url 'jobs:set_reopen_template' center uniqueid submission_number process.id %}" name="continue_without_template" class="bottom_buttons">
             <button type="submit">Continue Without A Template</button>
         </form>
     {% endifequal %}
