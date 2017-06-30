@@ -42,7 +42,7 @@ class IndexView(generic.ListView):
                 center_operators.append(worker)
 
         print ("Center Operators:")
-        for operator in center_operatorss.iterator():
+        for operator in center_operators.iterator():
             print (operator.employee_id)
 
         current_center_operators= []
