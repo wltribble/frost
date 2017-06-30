@@ -122,7 +122,7 @@ class Field(models.Model):
 
 
 class JobMemos(models.Model):
-    job = models.CharField(db_column='jmkJobID', max_length=20)
+    jobid = models.CharField(db_column='jmkJobID', max_length=20)
     memo = models.TextField(db_column='jmkLongDescriptionText')
 
     class Meta:
