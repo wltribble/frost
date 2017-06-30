@@ -6,7 +6,14 @@
 
 </head>
 
-<h1><a class="navbar-brand" href="javascript:history.go(-2)">{{ job }}</a></h1>
+{% if template_set %}
+    <h1><a class="navbar-brand" href="javascript:history.go(-1)">{{ job }}</a></h1>
+{% endifequal %}
+
+
+{% ifnot template_set %}
+    <h1><a class="navbar-brand" href="javascript:history.go(-2)">{{ job }}</a></h1>
+{% endifnot %}
 
 {% if messages %}
     <ul class="messages">
