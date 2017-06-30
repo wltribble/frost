@@ -107,7 +107,7 @@ class Field(models.Model):
     field_name = models.CharField(max_length=100)
     field_text = models.CharField(max_length=200, blank=True)
     field_has_been_set = models.BooleanField(default=False)
-    editing_mode = models.BooleanField(default=True)
+    editing_mode = models.BooleanField(default=False)
     name_is_operator_editable = models.BooleanField(default=True)
     text_is_operator_editable = models.BooleanField(default=True)
     required_for_full_submission = models.BooleanField(default=True)
