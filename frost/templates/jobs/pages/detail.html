@@ -6,7 +6,7 @@
 
 </head>
 
-<h1><a class="navbar-brand" href="/jobs/">{{ job }}</a></h1>
+<h1><a class="navbar-brand" href="{% url 'jobs:index' center %}">{{ job }}</a></h1>
 
 {% if messages %}
     <ul class="messages">
@@ -63,7 +63,7 @@
 {% for field in metafields %}
     {% ifequal field.field_name "submitted" %}
         {% ifequal field.field_text "false" %}
-            <form action="{% url 'jobs:add_field' urluniqueid %}" method="post" name="add_field">
+            <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field">
                 {% csrf_token %}
                 <input type="submit" name="add_field" value="Add Field" id="add_field"/>
             </form>

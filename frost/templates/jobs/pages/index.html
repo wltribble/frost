@@ -1,13 +1,13 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
 
-<h1>List Of Operations</h1>
+<h1><a class="navbar-brand" href="{% url 'workcenters:pick_center' %}">List of Operations</a></h1>
 
 {% if jobs %}
     <h4>Current Operations</h4>
     <ul>
-    {% for job in current_jobs %}
-        <li><a href="{% url 'jobs:go_to_detail_or_picker' job.jmouniqueid %}">{{ job }}</a></li>
+    {% for job in jobs %}
+        <li><a href="{% url 'jobs:go_to_detail_or_picker' center job.jmouniqueid %}">{{ job }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

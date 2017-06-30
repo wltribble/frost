@@ -9,7 +9,7 @@ class OutlineFieldInLine(admin.TabularInline):
 
 class ProcessAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,      {'fields': ['process_name',]}),
+        (None,      {'fields': ['process_name', 'workcenter']}),
     ]
     inlines = [OutlineFieldInLine]
     list_display = ('process_name', 'process_date_created')
