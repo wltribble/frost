@@ -64,7 +64,9 @@ class IndexView(generic.ListView):
             current_operator_employee_id = operator.employee_id
             for operation in center_operations:
                 if operation.employee_id == current_operator_employee_id:
-                    if operation.job_id != None or operation.job_id != "":
+                    if operation.operation_id == 0 and operation.assembly_id == 0:
+                        pass
+                    else:
                         current_center_operations.append(operation)
 
         print ("Current Center Operations:")
