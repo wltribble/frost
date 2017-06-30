@@ -78,6 +78,11 @@ class IndexView(generic.ListView):
         for operation in current_center_operations:
             real_operation_object = Job.objects.all().filter(jmojobid=operation.job_id).filter(jmojobassemblyid=operation.assembly_id).filter(jmojoboperationid=operation.operation_id)
             current_operation_objects.append(real_operation_object)
+
+        print ("Current Center Operation UUIDs:")
+        for operation in current_operation_objects:
+            print (operation.jmouniqueid)
+
         context['jobs'] = current_operation_objects
         return context
 
