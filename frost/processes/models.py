@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Process(models.Model):
-    process_name = models.CharField(max_length=100, default="New Process Template", unique=True)
+    process_name = models.CharField(max_length=100, default="New Process Template")
     process_date_created = models.DateTimeField('process date created', auto_now_add=True)
     workcenter = models.CharField('work center', max_length=5)
 
