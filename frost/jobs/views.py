@@ -51,7 +51,7 @@ class IndexView(generic.ListView):
                     if operation.operation_id == 0 and operation.assembly_id == 0:
                         pass
                     else:
-                        if operation.end_time == None or (operation.start_time < operator.start_time and operation.end_time > operator.start_time + datetime.timedelta(days=1)):
+                        if operation.end_time == None or operation.start_time < operator.start_time or operation.start_time > operator.start_time + datetime.timedelta(days=1)):
                             pass
                         else:
                             current_center_operations.append(operation)
