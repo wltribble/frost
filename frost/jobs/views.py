@@ -49,6 +49,8 @@ class IndexView(generic.ListView):
             for operation in center_operations:
                 if operation.employee_id == current_operator_employee_id:
                     if operation.operation_id == 0 and operation.assembly_id == 0:
+                        pass
+                    else:
                         if operation.start_time < operator.start_time or operation.end_time == None:
                             pass
                         else:
