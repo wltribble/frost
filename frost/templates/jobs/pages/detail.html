@@ -44,7 +44,7 @@
 {% endif %}
 <br /><br />
 
-<input type="submit" name="data_view" value="View Job Data From Other Work Centers" id="data_view" a="{% url 'jobs:add_field' center urluniqueid %}"/>
+<button type="button" name="data_view" id="data_view" href="{% url 'jobs:add_field' center urluniqueid %}">View Job Data From Other Work Centers</button>
 
 <p>&emsp;</p>
 <p>&emsp;</p>
