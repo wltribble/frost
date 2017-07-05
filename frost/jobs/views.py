@@ -123,8 +123,7 @@ class DetailView(generic.DetailView):
     template_name = 'jobs/pages/detail.html'
 
     def get_object(self, **kwargs):
-        for job_iterator in Job.objects.raw('SELECT * FROM JobOperations WHERE [jmouniqueid] = %s', [self.kwargs['urluniqueid']]):
-            job = job_iterator
+        job = Job.objects.get(jmouniqueid=self.kwargs['urluniqueid'])
         return job
 
     def get_context_data(self, **kwargs):
@@ -138,6 +137,25 @@ class DetailView(generic.DetailView):
         context['center'] = self.kwargs['center_pk']
         context['job_instructions'] = JobInstructions.objects.all().filter(jobid=job.jmojobid)
         context['assembly_instructions'] = AssemblyInstructions.objects.all().filter(jobid=job.jmojobid).filter(assemblyid=job.jmojobassemblyid)
+        return context
+
+
+class DataView(generic.DetailView):
+    template_name = 'jobs/pages/data_view.html'
+
+    def get_object(self, **kwargs):
+        job = Job.objects.get(jmouniqueid=self.kwargs['urluniqueid'])
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(DataView, self).get_context_data(**kwargs)
+        job = Job.objects.get(jmouniqueid=self.kwargs['urluniqueid'])
+        jobs = Job.objects.filter(jmojobid=job.jmojobid)
+        context['jobs'] = jobs
+        context['urluniqueid'] = self.kwargs['urluniqueid']
+        context['current_center'] = self.kwargs['center_pk']
+        center = WorkCenter.objects.get(pk=self.kwargs['center_pk'])
+        context['centers'] = WorkCenter.objects.all().exclude(workcenter_id=center.workcenter_id)
         return context
 
 

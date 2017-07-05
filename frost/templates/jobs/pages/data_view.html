@@ -1,0 +1,20 @@
+<html lang="en">
+<head>
+{% load static %}
+{% load job_filters %}
+<link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
+
+</head>
+
+<h1>Data From Other Work Centers</h1>
+
+{% for center in centers %}
+    {% fields_by_center job.jmojobid center %}
+{% endfor %}
+
+<form action="{% url 'jobs:detail' current_center urluniqueid %}" name="detail">
+    <input type="submit" name="detail" value="Back" id="detail"/>
+</form>
+<br /><br /><br /><br />
+
+</html>
