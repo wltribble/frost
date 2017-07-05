@@ -12,9 +12,14 @@
 <p>&emsp;</p>
 
 {% for center in centers %}
-    {% if fields_by_center job.jmojobid center %}
+    {% fields_by_center job.jmojobid center %}
+    {% if fields_needed %}
         <h4>{{ center }}</h4>
-        {% fields_by_center job.jmojobid center %}
+        <ul>
+        {% for field in fields_needed %}
+            <li>{{ field.field_name }}:&emsp;{{ field.field_text }}</li>
+        {% endfor %}
+        </ul>
     {% endif %}
 {% endfor %}
 
