@@ -14,6 +14,7 @@
 {% for center in centers %}
     <h4>{{ center }}</h4>
     {% fields_by_center job.jmojobid center %}
+{% endfor %}
 
 <form action="{% url 'jobs:detail' current_center urluniqueid %}" method="post" name="detail">
     {% csrf_token %}
