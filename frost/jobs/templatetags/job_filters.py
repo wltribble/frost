@@ -6,7 +6,7 @@ register = template.Library()
 
 @register.inclusion_tag('fields_by_center.html')
 def fields_by_center(job, center):
-    jobs = Job.objects.all.filter(jmojobid=job)
+    jobs = Job.objects.all().filter(jmojobid=job)
 
     counter = 0
     fields_needed = []
