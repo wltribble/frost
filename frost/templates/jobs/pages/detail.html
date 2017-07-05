@@ -44,10 +44,7 @@
 {% endif %}
 <br /><br />
 
-<form action="{% url 'jobs:data_view' center urluniqueid %}" method="get" name="data_view">
-    {% csrf_token %}
-    <input type="submit" name="data_view" value="View Job Data From Other Work Centers" id="data_view"/>
-</form>
+<input type="submit" name="data_view" value="View Job Data From Other Work Centers" id="data_view" a="{% url 'jobs:add_field' center urluniqueid %}"/>
 
 <p>&emsp;</p>
 <p>&emsp;</p>
