@@ -4,7 +4,7 @@ from jobs.models import Job, Field
 
 register = template.Library()
 
-@register.inclusion_tag('fields_by_center.html')
+@register.inclusion_tag('jobs/misc/fields_by_center.html')
 def fields_by_center(job, center):
     jobs = Job.objects.all().filter(jmojobid=job)
 
