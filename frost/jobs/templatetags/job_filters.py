@@ -10,8 +10,8 @@ def fields_by_center(job, center):
 
     counter = 0
     fields_needed = []
-    for operation in jobs
-        for field in Field.objects.all().filter(job=operation.jmouniqueid)
+    for operation in jobs:
+        for field in Field.objects.all().filter(job=operation.jmouniqueid):
             if int(field.submission_number) > counter:
                 counter = int(field.submission_number)
             else:
