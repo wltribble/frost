@@ -12,8 +12,10 @@
 <p>&emsp;</p>
 
 {% for center in centers %}
-    <h4>{{ center }}</h4>
-    {% fields_by_center job.jmojobid center %}
+    {% if fields_by_center job.jmojobid center %}
+        <h4>{{ center }}</h4>
+        {% fields_by_center job.jmojobid center %}
+    {% endif %}
 {% endfor %}
 
 <form action="{% url 'jobs:detail' current_center urluniqueid %}" name="detail">
