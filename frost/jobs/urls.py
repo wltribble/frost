@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template
+from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template, DataView
 
 app_name = 'jobs'
 urlpatterns = [
@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/reopen/$', reopen, name='reopen'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/reopen/(?P<submission_number>[0-9]+)/$', PickReopenTemplateView.as_view(), name='reopen_template'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/reopen/(?P<submission_number>[0-9]+)/set/(?P<process_name>[0-9]+)/$', set_reopen_template, name='set_reopen_template'),
+    url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/data/$', DataView.as_view(), name='data_view'),
 ]
