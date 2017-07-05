@@ -16,5 +16,6 @@ def fields_by_center(job, center):
                 counter = int(field.submission_number)
             else:
                 pass
-        fields_needed.append(Field.objects.all().filter(job=operation.jmouniqueid).filter(is_a_meta_field=False).filter(submission_number=counter))
-    return fields_needed
+        for field in Field.objects.all().filter(job=operation.jmouniqueid).filter(is_a_meta_field=False).filter(submission_number=counter):
+            fields_needed.append(field)
+    return {'fields_needed': fields_needed}
