@@ -5,7 +5,7 @@ from .models import Job, Field
 
 class FieldAdmin(admin.ModelAdmin):
 
-    fieldsets = [(None, {'fields': ['job', 'field_name', 'field_text', 'required_for_full_submission', 'text_is_operator_editable', 'name_is_operator_editable']}),]
+    fieldsets = [(None, {'fields': ['job', 'field_name', 'field_text', 'required_for_full_submission', 'text_is_operator_editable', 'name_is_operator_editable', 'field_has_been_set']}),]
 
 
 class JobAdmin(admin.ModelAdmin):
