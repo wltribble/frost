@@ -8,7 +8,7 @@ class Job(models.Model):
     jmojobassemblyid = models.IntegerField(db_column='jmoJobAssemblyID')
     jmojoboperationid = models.IntegerField(db_column='jmoJobOperationID')
     jmoprocesslongdescriptiontext = models.TextField(db_column='jmoProcessLongDescriptionText')
-    jmoworkcenterid = models.models.CharField(db_column='jmoworkcenterid', max_length=5)
+    jmoworkcenterid = models.CharField(db_column='jmoworkcenterid', max_length=5)
     # jmoproductioncomplete = models.DecimalField(db_column='jmoProductionComplete', max_digits=1, decimal_places=0)
     # jmosfemessagetext = models.TextField(db_column='jmoSFEMessageText')
     # jmoclosed = models.DecimalField(db_column='jmoClosed', max_digits=1, decimal_places=0)
