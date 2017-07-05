@@ -13,14 +13,6 @@
 
 {% for center in centers %}
     {% fields_by_center job.jmojobid center %}
-    {% if fields_needed %}
-        <h4>{{ center }}</h4>
-        <ul>
-        {% for field in fields_needed %}
-            <li>{{ field.field_name }}:&emsp;{{ field.field_text }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
 {% endfor %}
 
 <form action="{% url 'jobs:detail' current_center urluniqueid %}" name="detail">
