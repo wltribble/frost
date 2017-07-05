@@ -140,7 +140,7 @@ class DetailView(generic.DetailView):
         return context
 
 
-class DataView(models.DetailView):
+class DataView(generic.DetailView):
     template_name = 'jobs/pages/data_view.html'
 
     def get_object(self, **kwargs):
