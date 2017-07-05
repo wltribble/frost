@@ -17,4 +17,4 @@ def fields_by_center(job, center):
             else:
                 pass
         fields_needed.append(Field.objects.all().filter(job=operation.jmouniqueid).filter(is_a_meta_field=False).filter(submission_number=counter)
-    return {'fields': fields_needed}
+    return fields_needed
