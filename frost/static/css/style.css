@@ -19,8 +19,10 @@ p {
     color: red;
     list-style-type: none;
 }
-
 .bottom-space {
     padding-top: 15px;
     padding-bottom: 15px;
+}
+.logo {
+    margin-top: 15px;
 }
