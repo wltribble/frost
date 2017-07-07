@@ -10,7 +10,7 @@
             <div class="row">
                 <ul class="list-unstyled">
                 {% for workcenter in workcenters %}
-                        <li class="col-sm-12"><a href="{% url 'jobs:index' workcenter.id %}">&emsp;{{ workcenter }}</a></li>
+                    <li class="col-sm-12"><a href="{% url 'jobs:index' workcenter.id %}">&emsp;{{ workcenter }}</a></li>
                 {% endfor %}
                 </ul>
             </div>
