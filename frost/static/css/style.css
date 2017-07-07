@@ -1,15 +1,18 @@
 /* Base Page Styling */
-html,body {
+body {
     height: 100%;
 }
+
 p {
     text-align: left;
     line-height: 5px;
 }
+
 .bottom-space {
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
 .logo {
     margin-top: 15px;
 }
