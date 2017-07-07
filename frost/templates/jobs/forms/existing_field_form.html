@@ -1,8 +1,7 @@
 <form action="{% url 'jobs:save_data' center urluniqueid %}" method="post" class="enter_data_form">
     {% csrf_token %}
     {% include 'jobs/form_templates/existing_field_form_template.html' %}
-    &emsp;&emsp;
-    <button type="submit" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
+    <button type="submit" class="save-button" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
 </form>
 
 {% if field.can_be_deleted %}
