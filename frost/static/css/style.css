@@ -11,8 +11,11 @@ p {
 .bottom_buttons {
     display: inline-block;
 }
-
 .error {
     color: red;
     list-style-type: none;
+}
+.logo {
+    margin-top: 15px;
+    padding-top: 15px;
 }
