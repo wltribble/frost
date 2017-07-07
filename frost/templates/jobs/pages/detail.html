@@ -78,17 +78,17 @@
     {% for field in metafields %}
         {% ifequal field.field_name "submitted" %}
             {% ifequal field.field_text "false" %}
-                <div class="row">
+                <div class="row bottom-buttons">
                     <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field">
                         {% csrf_token %}
                         <input type="submit" name="add_field" value="Add Field" id="add_field"/>
                     </form>
                 </div>
-                <div class="row">
+                <div class="row bottom-buttons">
                     {% include 'jobs/forms/submit.html' %}
                 </div>
             {% else %}
-                <div class="row">
+                <div class="row bottom-buttons">
                     {% include 'jobs/forms/reopen.html' %}
                 </div>
             {% endifequal %}

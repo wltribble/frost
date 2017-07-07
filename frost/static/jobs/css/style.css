@@ -34,6 +34,11 @@ p {
     margin-bottom: 20px;
 }
 
+.bottom-buttons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 /* Form Stylings */
 .enter_data_form {
     display: inline-block;
