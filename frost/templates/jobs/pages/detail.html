@@ -17,28 +17,31 @@
 
     <br />
     <div class="row">
-        <div class="col-sm-12 instructions"
+        <div class="col-sm-12 date"
             <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
             {% for field in fields %}
                 {% if field.is_a_meta_field == True and field.field_name == "template_set"  %}
                     <p>Template In Use:&emsp;&emsp;{{ field.field_text }}</p><br />
                 {% endif %}
             {% endfor %}
-
+        </div>
+        <div class="job-instructions">
             <strong>JOB INSTRUCTIONS:&emsp;</strong>
             {% if job_instructions %}
                 {% for memo in job_instructions %}
                     {{ memo.instructions }}
                 {% endfor %}
             {% endif %}
-            <br /><br />
+        </div>
+        <div class="assembly-instructions">
             <strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
             {% if assembly_instructions %}
                 {% for memo in assembly_instructions %}
                     {{ memo.instructions }}
                 {% endfor %}
             {% endif %}
-            <br /><br />
+        </div>
+        <div class="operation-instructions">
             <strong>OPERATION INSTRUCTIONS:&emsp;</strong>
             {% if job.jmosfemessagetext %}
                     {{ job.jmoprocesslongdescriptiontext }}
