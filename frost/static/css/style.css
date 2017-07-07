@@ -26,6 +26,11 @@ p {
     color: #d9534f;
 }
 
+.instructions {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 /* Form Stylings */
 .enter_data_form {
     display: inline-block;

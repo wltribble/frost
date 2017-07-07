@@ -25,7 +25,7 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="job-instructions">
+        <div class="instructions">
             <strong>JOB INSTRUCTIONS:&emsp;</strong>
             {% if job_instructions %}
                 {% for memo in job_instructions %}
@@ -33,7 +33,7 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="assembly-instructions">
+        <div class="instructions">
             <strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
             {% if assembly_instructions %}
                 {% for memo in assembly_instructions %}
@@ -41,7 +41,7 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="operation-instructions">
+        <div class="instructions">
             <strong>OPERATION INSTRUCTIONS:&emsp;</strong>
             {% if job.jmosfemessagetext %}
                     {{ job.jmoprocesslongdescriptiontext }}
