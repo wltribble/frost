@@ -17,7 +17,7 @@
 
     <br />
     <div class="row">
-        <div class="col-sm-12 date">
+        <div class="date">
             <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
             {% for field in fields %}
                 {% if field.is_a_meta_field == True and field.field_name == "template_set"  %}
