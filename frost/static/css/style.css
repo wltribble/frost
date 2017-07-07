@@ -15,8 +15,8 @@ p {
 }
 
 /* Pick Work Center Page Styling */
-.workcenter-list, .workcenter-list-item {
-    list-style-type: none;
+.workcenter-list-item {
+    margin-left: 15px;
 }
 
 /* Form Stylings */
