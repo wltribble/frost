@@ -1,11 +1,25 @@
+/* Base Page Styling */
 html,body {
     height: 100%;
 }
-
 p {
     text-align: left;
     line-height: 5px;
 }
+.bottom-space {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.logo {
+    margin-top: 15px;
+}
+
+/* Pick Work Center Page Styling */
+.workcenter-list {
+    list-style: none;
+}
+
+/* Form Stylings */
 .enter_data_form {
     display: inline-block;
 }
@@ -18,11 +32,4 @@ p {
 .error {
     color: red;
     list-style-type: none;
-}
-.bottom-space {
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-.logo {
-    margin-top: 15px;
 }
