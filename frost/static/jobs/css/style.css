@@ -39,6 +39,10 @@ p {
     margin-bottom: 10px;
 }
 
+.label {
+    font-weight: normal !important;
+}
+
 /* Form Stylings */
 .enter_data_form {
     display: inline-block;
