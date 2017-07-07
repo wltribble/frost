@@ -39,8 +39,8 @@ p {
     margin-bottom: 10px;
 }
 
-.label {
-    font-weight: normal !important;
+label {
+    font-weight: normal;
 }
 
 /* Form Stylings */
