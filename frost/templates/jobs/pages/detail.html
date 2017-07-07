@@ -2,15 +2,18 @@
 {% block content %}
 
 <div class="container">
-<h1><a class="navbar-brand" href="{% url 'jobs:index' center %}">{{ job }}</a></h1>
-
-{% if messages %}
-    <ul class="messages">
-            {% for message in messages %}
-                <li class="error">{{ message }}</li>
-            {% endfor %}
-    </ul>
-{% endif %}
+    <div class="row page-title">
+        <h1><a href="{% url 'jobs:index' center %}">{{ job }}</a></h1>
+    </div>
+    <div class="row messages-block">
+        {% if messages %}
+            <ul class="messages list-unstyled">
+                    {% for message in messages %}
+                        <li class="danger">{{ message }}</li>
+                    {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 
 <br />
 <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
