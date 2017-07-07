@@ -7,7 +7,7 @@
     </div>
     <div class="row messages-block">
         {% if messages %}
-            <ul class="messages">
+            <ul class="messages list-unstyled danger">
                     {% for message in messages %}
                         <li class="danger">{{ message }}</li>
                     {% endfor %}
@@ -15,33 +15,37 @@
         {% endif %}
     </div>
 
-<br />
-<p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
-{% for field in fields %}
-    {% if field.is_a_meta_field == True and field.field_name == "template_set"  %}
-        <p>Template In Use:&emsp;&emsp;{{ field.field_text }}</p><br />
-    {% endif %}
-{% endfor %}
+    <br />
+    <div class="row">
+        <div class="col-sm-12 instructions"
+            <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
+            {% for field in fields %}
+                {% if field.is_a_meta_field == True and field.field_name == "template_set"  %}
+                    <p>Template In Use:&emsp;&emsp;{{ field.field_text }}</p><br />
+                {% endif %}
+            {% endfor %}
 
-<strong>JOB INSTRUCTIONS:&emsp;</strong>
-{% if job_instructions %}
-    {% for memo in job_instructions %}
-        {{ memo.instructions }}
-    {% endfor %}
-{% endif %}
-<br /><br />
-<strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
-{% if assembly_instructions %}
-    {% for memo in assembly_instructions %}
-        {{ memo.instructions }}
-    {% endfor %}
-{% endif %}
-<br /><br />
-<strong>OPERATION INSTRUCTIONS:&emsp;</strong>
-{% if job.jmosfemessagetext %}
-        {{ job.jmoprocesslongdescriptiontext }}
-{% endif %}
-<br /><br />
+            <strong>JOB INSTRUCTIONS:&emsp;</strong>
+            {% if job_instructions %}
+                {% for memo in job_instructions %}
+                    {{ memo.instructions }}
+                {% endfor %}
+            {% endif %}
+            <br /><br />
+            <strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
+            {% if assembly_instructions %}
+                {% for memo in assembly_instructions %}
+                    {{ memo.instructions }}
+                {% endfor %}
+            {% endif %}
+            <br /><br />
+            <strong>OPERATION INSTRUCTIONS:&emsp;</strong>
+            {% if job.jmosfemessagetext %}
+                    {{ job.jmoprocesslongdescriptiontext }}
+            {% endif %}
+            <br /><br />
+        </div>
+    </div>
 
 <form action="{% url 'jobs:data_view' center urluniqueid %}" name="data_view">
     <input type="submit" name="data_view" value="View Job Data From Other Work Centers" id="data_view"/>
