@@ -2,7 +2,7 @@
     {% csrf_token %}
     <label for="field{{ forloop.counter }}"><strong>{{ field.field_name }}</strong>:&emsp;{{ field.field_text }}&emsp;&emsp;</label>
     {% if field.name_is_operator_editable or field.text_is_operator_editable %}
-        <button type="submit" name="edit_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Edit</button><br /><br />
+        <button type="submit" class="edit-button" name="edit_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Edit</button><br /><br />
     {% else %}
         <br /><br />
     {% endif %}

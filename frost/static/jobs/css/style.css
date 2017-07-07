@@ -43,6 +43,10 @@ label {
     font-weight: normal;
 }
 
+.edit-button {
+    margin-left: 10px;
+}
+
 /* Form Stylings */
 .enter_data_form {
     display: inline-block;
