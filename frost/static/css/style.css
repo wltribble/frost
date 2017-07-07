@@ -1,3 +1,7 @@
+html,body {
+    height: 100%;
+}
+
 p {
     text-align: left;
     line-height: 5px;
