@@ -42,10 +42,7 @@ p {
 /* Form Stylings */
 .enter_data_form {
     display: inline-block;
-}
-
-.enter_job_form {
-    display: inline-block;
+    margin-bottom: 10px;
 }
 
 .bottom_buttons {
