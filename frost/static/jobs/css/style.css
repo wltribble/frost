@@ -20,6 +20,9 @@ p {
 /* Pick Work Center Page Styling */
 
 /* Job Index Page Styling */
+.operation-list {
+    margin-left: 15px;
+}
 
 /* Job Detail Page Styling */
 .danger {
