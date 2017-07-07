@@ -1,0 +1,72 @@
+/* Base Page Styling */
+html,body {
+    height: 100%;
+}
+
+p {
+    text-align: left;
+    line-height: 5px;
+}
+
+.bottom-space {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.logo {
+    margin-top: 15px;
+}
+
+.none-avail {
+    margin-left: 0px;
+    margin-top: 15px;
+}
+
+/* Pick Work Center Page Styling */
+
+/* Job Index Page Styling */
+.operation-list {
+    margin-left: 0px;
+}
+
+/* Job Detail Page Styling */
+.danger {
+    color: #d9534f;
+}
+
+.instructions {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bottom-buttons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: normal;
+}
+
+.edit-button {
+    margin-left: 10px;
+}
+
+.other-button {
+    margin-bottom: 30px;
+}
+
+/* Form Stylings */
+.enter_data_form {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.bottom_buttons {
+    display: inline-block;
+}
+
+.error {
+    color: red;
+    list-style-type: none;
+}

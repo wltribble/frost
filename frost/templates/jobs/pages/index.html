@@ -1,15 +1,25 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
+{% extends "jobs/pages/base.html" %}
+{% block content %}
 
-<h1><a class="navbar-brand" href="{% url 'workcenters:pick_center' %}">List of Operations</a></h1>
-
-{% if jobs %}
-    <h4>Current Operations</h4>
-    <ul>
-    {% for job in jobs %}
-        <li><a href="{% url 'jobs:go_to_detail_or_picker' center job.jmouniqueid %}">{{ job }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No jobs are available.</p>
-{% endif %}
+<div class="container">
+    <div class="row page-title">
+        <h1><a href="{% url 'workcenters:pick_center' %}">List of Operations</a></h1>
+    </div>
+    <div class="row">
+        {% if jobs %}
+            <div class="row operation-list">
+                <h3>Current Operations</h3>
+                    <ul class="list-unstyled">
+                    {% for job in jobs %}
+                        <li class="col-sm-12"><a href="{% url 'jobs:go_to_detail_or_picker' center job.jmouniqueid %}">{{ job }}</a></li>
+                    {% endfor %}
+                    </ul>
+            </div>
+        {% else %}
+            <div class="row none-avail">
+                <p>No jobs are available.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
