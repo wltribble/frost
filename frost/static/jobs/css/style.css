@@ -47,6 +47,10 @@ label {
     margin-left: 10px;
 }
 
+.other-button {
+    margin-bottom: 30px;
+}
+
 /* Form Stylings */
 .enter_data_form {
     display: inline-block;
