@@ -1,7 +1,7 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
+{% extends "base.html" %}
+{% block content %}
 
-
+<div class="container">
 <h1>Pick A Work Center To Begin</h1>
 
 {% if workcenters %}
@@ -13,3 +13,6 @@
 {% else %}
     <p>No work centers available.</p>
 {% endif %}
+
+</div>
+{% endblock %}

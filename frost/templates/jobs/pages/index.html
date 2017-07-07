@@ -1,6 +1,7 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'jobs/style.css' %}" />
+{% extends "base.html" %}
+{% block content %}
 
+<div class="container">
 <h1><a class="navbar-brand" href="{% url 'workcenters:pick_center' %}">List of Operations</a></h1>
 
 {% if jobs %}
@@ -13,3 +14,5 @@
 {% else %}
     <p>No jobs are available.</p>
 {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load job_filters %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>FROST Shop Floor</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="/static/js/scroll-sneak.js"></script>
+</head>
+
+<body>
+    <header class="container">
+        <div class="row">
+            <img src="https://static1.squarespace.com/static/5469445ae4b0cbc539f1ed1e/t/58711453c534a543f9c59699/1493930851325/?format=1500w" class="img-rounded col-sm-4">
+        </div>
+    </header>
+
+{% block content %}
+{% endblock %}
+
+<footer class="container">
+    <div class="row">
+        <p class="col-sm-4">
+          &copy; 2016 FROST Converting Systems, Inc.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
