@@ -18,6 +18,9 @@ p {
 .workcenter-list {
     list-style: none;
 }
+.workcenter-list-item {
+    list-style: none;
+}
 
 /* Form Stylings */
 .enter_data_form {
