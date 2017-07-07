@@ -13,10 +13,6 @@ p {
     padding-bottom: 15px;
 }
 
-.logo {
-    margin-top: 15px;
-}
-
 /* Pick Work Center Page Styling */
 
 /* Job Index Page Styling */
@@ -25,9 +21,6 @@ p {
 }
 
 /* Job Detail Page Styling */
-.danger {
-    color: #d9534f;
-}
 
 .instructions {
     margin-top: 20px;

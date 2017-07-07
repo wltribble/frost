@@ -58,37 +58,43 @@
 <p>&emsp;</p>
 
 <div id="fields">
-{% for reopen_iterator in reopen_number %}
-    {% for field in fields %}
-        {% ifequal field.submission_number reopen_iterator|slugify %}
-            {% ifnotequal field.field_has_been_set False %}
-                {% ifnotequal field.editing_mode True %}
-                    {% include 'jobs/forms/saved_field_form.html' %}
+    {% for reopen_iterator in reopen_number %}
+        {% for field in fields %}
+            {% ifequal field.submission_number reopen_iterator|slugify %}
+                {% ifnotequal field.field_has_been_set False %}
+                    {% ifnotequal field.editing_mode True %}
+                        {% include 'jobs/forms/saved_field_form.html' %}
+                    {% else %}
+                        {% include 'jobs/forms/existing_field_form.html' %}
+                    {% endifnotequal %}
                 {% else %}
-                    {% include 'jobs/forms/existing_field_form.html' %}
+                    {% include 'jobs/forms/new_field_form.html' %}
                 {% endifnotequal %}
+            {% endifequal %}
+        {% endfor %}
+        <hr>
+    {% endfor %}
+
+    {% for field in metafields %}
+        {% ifequal field.field_name "submitted" %}
+            {% ifequal field.field_text "false" %}
+                <div class="row">
+                    <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field">
+                        {% csrf_token %}
+                        <input type="submit" name="add_field" value="Add Field" id="add_field"/>
+                    </form>
+                </div>
+                <div class="row">
+                    {% include 'jobs/forms/submit.html' %}
+                </div>
             {% else %}
-                {% include 'jobs/forms/new_field_form.html' %}
-            {% endifnotequal %}
+                <div class="row">
+                    {% include 'jobs/forms/reopen.html' %}
+                </div>
+            {% endifequal %}
         {% endifequal %}
     {% endfor %}
-    <hr>
-{% endfor %}
-
-{% for field in metafields %}
-    {% ifequal field.field_name "submitted" %}
-        {% ifequal field.field_text "false" %}
-            <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field">
-                {% csrf_token %}
-                <input type="submit" name="add_field" value="Add Field" id="add_field"/>
-            </form>
-            {% include 'jobs/forms/submit.html' %}
-        {% else %}
-            {% include 'jobs/forms/reopen.html' %}
-        {% endifequal %}
-    {% endifequal %}
-{% endfor %}
-<br /><br /><br /><br />
+    <br /><br /><br /><br />
 </div>
 </div>
 {% endblock %}
