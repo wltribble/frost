@@ -15,7 +15,9 @@ p {
 }
 
 /* Pick Work Center Page Styling */
-
+.workcenter-list-item {
+    margin-left: 15px;
+}
 
 /* Form Stylings */
 .enter_data_form {
