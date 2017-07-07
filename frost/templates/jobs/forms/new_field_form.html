@@ -1,4 +1,3 @@
-<p>
 <form action="{% url 'jobs:save_data' center urluniqueid %}" method="post" class="enter_data_form">
     {% csrf_token %}
     {% include 'jobs/form_templates/new_field_form_template.html' %}
@@ -8,4 +7,3 @@
     {% csrf_token %}
     <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
 </form>
-</p>

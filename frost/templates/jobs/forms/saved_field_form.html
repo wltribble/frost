@@ -1,4 +1,3 @@
-<p>
 <form action="{% url 'jobs:edit_data' center urluniqueid %}" method="post">
     {% csrf_token %}
     <label for="field{{ forloop.counter }}"><strong>{{ field.field_name }}</strong>:&emsp;{{ field.field_text }}&emsp;&emsp;</label>
@@ -8,4 +7,3 @@
         <br /><br />
     {% endif %}
 </form>
-</p>
