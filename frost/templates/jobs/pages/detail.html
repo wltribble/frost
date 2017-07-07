@@ -53,19 +53,25 @@
             <input class="other-button" type="submit" name="data_view" value="View Job Data From Other Work Centers" id="data_view"/>
         </form>
     </div>
-    
+
     <div id="fields">
         {% for reopen_iterator in reopen_number %}
             {% for field in fields %}
                 {% ifequal field.submission_number reopen_iterator|slugify %}
                     {% ifnotequal field.field_has_been_set False %}
                         {% ifnotequal field.editing_mode True %}
-                            {% include 'jobs/forms/saved_field_form.html' %}
+                            <div class="row">
+                                {% include 'jobs/forms/saved_field_form.html' %}
+                            </div>
                         {% else %}
-                            {% include 'jobs/forms/existing_field_form.html' %}
+                            <div class="row">
+                                {% include 'jobs/forms/existing_field_form.html' %}
+                            </div>
                         {% endifnotequal %}
                     {% else %}
-                        {% include 'jobs/forms/new_field_form.html' %}
+                        <div class="row">
+                            {% include 'jobs/forms/new_field_form.html' %}
+                        </div>
                     {% endifnotequal %}
                 {% endifequal %}
             {% endfor %}
