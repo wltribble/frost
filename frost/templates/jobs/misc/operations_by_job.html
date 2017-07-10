@@ -18,13 +18,12 @@
     </ul>
 
     {% if report %}
-        <form action="{% url 'jobs:populate_report' job %}" method="get" name="populate_report">
-            <input type="submit" name="populate" value="Populate Report"/>
-        </form>
-    {% else %}
-        <div class="row report-button">
-            {% include 'jobs/forms/create_report.html' %}
-        </div>
+        <input type="submit" name="populate" value="Populate Report"/>
     {% endif %}
 </form>
+
+{% ifnotequal report True %}
+    <div class="row report-button">
+        {% include 'jobs/forms/create_report.html' %}
+    </div>
 {% endif %}
