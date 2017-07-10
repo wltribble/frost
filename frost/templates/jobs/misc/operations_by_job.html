@@ -2,6 +2,8 @@
     <ul class="list-unstyled">
     {% for operation in operations %}
         <li class="col-sm-12"><a href=''><h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3></a></li>
+        {% if report %}
+        {% endif %}
     {% endfor %}
     </ul>
 

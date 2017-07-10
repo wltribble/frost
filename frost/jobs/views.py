@@ -489,7 +489,7 @@ class ManagerDataView(generic.DetailView):
         return context
 
 class ManagerCreateReport(generic.DetailView):
-    template_name = 'jobs/pages/manager_data_view.html'
+    template_name = 'jobs/pages/manager_create_report.html'
 
     def get_object(self, **kwargs):
         job = Job.objects.all()
