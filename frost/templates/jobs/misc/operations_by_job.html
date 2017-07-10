@@ -7,12 +7,7 @@
             <div class="row">
                 <div class="row operation-number-row"
                     <li>
-                        {% if report %}
-                            <h3><input type='checkbox' name='operation' value='{{ operation.jmojobassemblyid }} {{ operation.jmojoboperationid }}'>&emsp;Operation:&emsp;{{ operation.jmojoboperationid }}<br></h3>
-                        {% else %}
-                            <h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
-                        {% endif %}
-
+                        <h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
                         {% fields_by_operation operation.jmojobid operation.jmojobassemblyid operation.jmojoboperationid report %}
                     </li>
                 </div>
