@@ -1,7 +1,7 @@
 {% if operations %}
+<form action="">
     <ul class="list-unstyled">
     {% for operation in operations %}
-        <form action="">
             <div class="row operation-number-row">
                 <li class="col-sm-12"><h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
                 {% if report %}
@@ -11,18 +11,18 @@
                 </li>
                 </ul>
             </div>
-
-            {% if report %}
-                <form action="{% url 'jobs:populate_report' job %}" method="post" name="populate_report">
-                    {% csrf_token %}
-                    <input type="submit" name="populate" value="Populate Report"/>
-                </form>
-            {% else %}
-                <div class="row report-button">
-                    {% include 'jobs/forms/create_report.html' %}
-                </div>
-            {% endif %}
-        </form>
     {% endfor %}
     </ul>
+    
+    {% if report %}
+        <form action="{% url 'jobs:populate_report' job %}" method="post" name="populate_report">
+            {% csrf_token %}
+            <input type="submit" name="populate" value="Populate Report"/>
+        </form>
+    {% else %}
+        <div class="row report-button">
+            {% include 'jobs/forms/create_report.html' %}
+        </div>
+    {% endif %}
+</form>
 {% endif %}
