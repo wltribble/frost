@@ -484,7 +484,7 @@ class ManagerDataView(generic.DetailView):
         return job
 
     def get_context_data(self, **kwargs):
-        context = super(DataView, self).get_context_data(**kwargs)
+        context = super(ManagerDataView, self).get_context_data(**kwargs)
         context['job'] = self.kwargs['jobid']
         return context
 
@@ -496,6 +496,6 @@ class ManagerCreateReport(generic.DetailView):
         return job
 
     def get_context_data(self, **kwargs):
-        context = super(DataView, self).get_context_data(**kwargs)
+        context = super(ManagerCreateReport, self).get_context_data(**kwargs)
         context['job'] = self.kwargs['jobid']
         return context
