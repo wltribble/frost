@@ -23,7 +23,7 @@ def fields_by_center(job, center):
 @register.inclusion_tag('jobs/misc/operations_by_job.html')
 def operations_by_job(job, report):
     jobs = Job.objects.all().filter(jmojobid=job)
-    return {'operations': jobs, 'report': report}
+    return {'operations': jobs, 'report': report, 'job': job}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation.html')
 def fields_by_operation(job, assembly, operation, report):
