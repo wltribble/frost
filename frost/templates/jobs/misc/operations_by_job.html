@@ -4,11 +4,11 @@
         <li class="col-sm-3"><a href=''>{{ operation.jmojoboperationid }}</a></li>
     {% endfor %}
     </ul>
-    
+
     <br />
-    <div class="report-button">
-        {% include 'jobs/forms/create_report.html' %}
-    </div>
+    <ul class="list-unstyled">
+        <li>{% include 'jobs/forms/create_report.html' %}</li>
+    </ul>
     <br />
     <br />
 {% endif %}
