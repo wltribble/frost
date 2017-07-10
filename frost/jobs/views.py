@@ -473,3 +473,16 @@ class ManagerIndex(generic.ListView):
         unique_job_ids = set(unique_job_ids)
         context['jobs'] = unique_job_ids
         return context
+
+
+class ManagerDataView(generic.DetailView):
+    template_name = 'jobs/pages/manager_data_view.html'
+
+    def get_object(self, **kwargs):
+        job = Job.objects.all()
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(DataView, self).get_context_data(**kwargs)
+        context['job'] = self.kwargs['jobid']
+        return context
