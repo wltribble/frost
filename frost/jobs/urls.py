@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template, DataView, ManagerIndex, ManagerDataView, create_report
+from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template, DataView, ManagerIndex, ManagerDataView, ManagerCreateReport
 
 app_name = 'jobs'
 urlpatterns = [
