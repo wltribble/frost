@@ -463,3 +463,6 @@ class ManagerIndex(generic.ListView):
         jobs = Job.objects.all()
         context['jobs'] = jobs
         return context
+
+    def get_queryset(self):
+        return Job.objects.all()
