@@ -1,8 +1,10 @@
 {% if fields_needed %}
-    <h4>{{ center }}</h4>
     <ul class="list-unstyled">
     {% for field in fields_needed %}
         <li>{{ field.field_name }}:&emsp;{{ field.field_text }}</li>
+        {% if report %}
+            <input type='checkbox' name='field' value='{{ operation.jmojobassemblyid }} {{ operation.jmojoboperationid }} {{ field.id }}'>
+        {% endif %}
     {% endfor %}
     </ul>
 {% endif %}
