@@ -19,6 +19,6 @@ urlpatterns = [
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/reopen/(?P<submission_number>[0-9]+)/set/(?P<process_name>[0-9]+)/$', set_reopen_template, name='set_reopen_template'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/data/$', DataView.as_view(), name='data_view'),
     url(r'^manager/$', ManagerIndex.as_view(), name='manager_index'),
-    url(r'^manager/(?P<jobid>[0-9a-fA-F-]+)/$', ManagerDataView.as_view(), name='manager_data_view'),
-    url(r'^manager/(?P<jobid>[0-9a-fA-F-]+)/create_report/$', ManagerCreateReport.as_view(), name='create_report'),
+    url(r'^manager/(?P<jobid>[0-9a-zA-Z-]+)/$', ManagerDataView.as_view(), name='manager_data_view'),
+    url(r'^manager/(?P<jobid>[0-9a-zA-Z-]+)/create_report/$', ManagerCreateReport.as_view(), name='create_report'),
 ]
