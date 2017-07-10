@@ -81,12 +81,12 @@
         {% for field in metafields %}
             {% ifequal field.field_name "submitted" %}
                 {% ifequal field.field_text "false" %}
-                    <div class="row bottom-buttons bottom-add-field-buttons">
-                        <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field">
+                    <div class="row bottom-buttons">
+                        <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field" class=" bottom-add-field-buttons">
                             {% csrf_token %}
                             <input type="submit" name="add_field" value="Add Custom Field" id="add_field"/>
                         </form>
-                        <form action="{% url 'jobs:reopen' center urluniqueid %}" method="post" name="add_template_to_open_submission">
+                        <form action="{% url 'jobs:reopen' center urluniqueid %}" method="post" name="add_template_to_open_submission" class=" bottom-add-field-buttons">
                             {% csrf_token %}
                             <input type="submit" name="reopen" value="Add Fields From A Template"/>
                         </form>
