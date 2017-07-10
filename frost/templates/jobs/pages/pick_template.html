@@ -5,7 +5,7 @@
 <h1>Pick A Template To Begin</h1>
 
 {% if processes %}
-    <ul>
+    <ul class="list-unstyled">
     {% for process in processes %}
         {% ifnotequal process.process_name "None" %}
             <li><h3><a href="{% url 'jobs:set_process_template' center uniqueid process.id %}">{{ process.process_name }}</a></h3></li>
