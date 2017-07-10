@@ -19,7 +19,7 @@
                 {% for job in jobs %}
                     <div class="row">
                     <li class="list-inline-item"><h4>{{ job }}</h4>
-                        <form action="{% url 'jobs:manager_data_view' job %}" method="post" name="view_details" class="report-and-deatil-buttons">
+                        <form action="{% url 'jobs:manager_data_view' job %}" method="get" name="view_details" class="report-and-deatil-buttons">
                             {% csrf_token %}
                             <input type="submit" name="reopen" value="View Details"/>
                         </form>
