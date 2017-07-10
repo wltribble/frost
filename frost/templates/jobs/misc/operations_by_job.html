@@ -9,7 +9,7 @@
                 {% if report %}
                     <input type='checkbox' name='operation' value='{{ operation.jmojobassemblyid }} {{ operation.jmojoboperationid }}'>
                 {% endif %}
-                {% fields_by_operation operation.jmojobid operation.jmojobassemblyid operation.jmojoboperationid %}
+                {% fields_by_operation operation.jmojobid operation.jmojobassemblyid operation.jmojoboperationid report %}
                 </li>
             </div>
     {% endfor %}
