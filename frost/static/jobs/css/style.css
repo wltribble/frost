@@ -63,6 +63,12 @@ label {
     display: inline-block;
 }
 
+/* Manager Data Styling */
+.report-button {
+    margin-top: 20px;
+}
+
+
 .operation-list {
     margin-left: 25px;
 }
