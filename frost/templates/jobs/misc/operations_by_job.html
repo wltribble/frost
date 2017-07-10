@@ -1,11 +1,11 @@
 {% if operations %}
     <ul class="list-unstyled">
     {% for operation in operations %}
-        <li class="col-sm-12"><a href=''>{{ operation.jmojoboperationid }}</a></li>
+        <li class="col-sm-12"><a href=''><h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3></a></li>
     {% endfor %}
     </ul>
 
-    <br /><br />
+    <br /><br /><br />
     <div class="row">
         {% include 'jobs/forms/create_report.html' %}
     </div>
