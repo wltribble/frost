@@ -464,7 +464,8 @@ class ManagerIndex(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ManagerIndex, self).get_context_data(**kwargs)
-        jobs = queryset
+        search_query = self.request.GET.get('search_box', '')
+        jobs = Job.objects.all().filter(jmojobid__icontains=search_query)
         unique_job_ids = []
         for job in jobs:
             unique_job_ids.append(job.jmojobid)
