@@ -19,7 +19,6 @@
 
     {% if report %}
         <form action="{% url 'jobs:populate_report' job %}" method="get" name="populate_report">
-            {% csrf_token %}
             <input type="submit" name="populate" value="Populate Report"/>
         </form>
     {% else %}
