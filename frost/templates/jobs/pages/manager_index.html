@@ -12,8 +12,9 @@
                 <h3>Current Operations</h3>
                     <ul class="list-unstyled">
                     {% for job in jobs %}
-                        <li class="col-sm-12">{{ job }}</li>
-                        {% operations_by_job job %}
+                        <li class="col-sm-12">{{ job }}
+                            {% operations_by_job job %}
+                        </li>
                     {% endfor %}
                     </ul>
             </div>
