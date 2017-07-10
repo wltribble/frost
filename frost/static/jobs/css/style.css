@@ -58,8 +58,9 @@ label {
 }
 
 /* Manager Index Styling */
-.report-button {
+.report-and-deatil-buttons {
     margin-left: 15px;
+    display: inline-block;
 }
 
 .operation-list {
