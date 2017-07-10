@@ -75,9 +75,12 @@ label {
     margin-top: 20px;
 }
 
-
 .operation-list {
     margin-left: 25px;
+}
+
+.operation-number-row {
+    display: inline-block;
 }
 
 /* Form Stylings */
