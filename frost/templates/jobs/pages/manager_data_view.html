@@ -6,10 +6,6 @@
 <h1>Data From All Operations</h1>
 
 {% operations_by_job job %}
-
-<form action="{% url 'jobs:create_report' job %}" name="create_report">
-    <input type="submit" name="create_report" value="report"/>
-</form>
 </div>
 <br /><br /><br /><br />
 {% endblock %}
