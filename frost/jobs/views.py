@@ -469,10 +469,12 @@ class ManagerIndex(generic.ListView):
         unique_job_ids = []
         for job in jobs:
             unique_job_ids.append(job.jmojobid)
+        print ("print 1")
         print (unique_job_ids)
         unique_job_ids = set(unique_job_ids)
         unique_job_ids = list(unique_job_ids)
         context['jobs'] = [item[0] for item in unique_job_ids]
+        print ("print 2")
         print (item[0] for item in unique_job_ids)
         return context
 
