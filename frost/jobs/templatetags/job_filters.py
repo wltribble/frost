@@ -23,4 +23,4 @@ def fields_by_center(job, center):
 @register.inclusion_tag('jobs/misc/operations_by_job.html')
 def operations_by_job(job):
     jobs = Job.objects.all().filter(jmojobid=job)
-    return {'operations': jobs, 'job': job}
+    return {'operations': jobs}
