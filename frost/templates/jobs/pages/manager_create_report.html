@@ -3,7 +3,7 @@
 {% load job_filters %}
 
 <div class="container">
-    <h1>Create A Job Report</h1>
+    <h1><a href="{% url 'jobs:manager_index' %}">Create A Job Report</a></h1>
 
     {% operations_by_job job %}
 
