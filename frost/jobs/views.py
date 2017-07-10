@@ -459,7 +459,7 @@ class ManagerIndex(generic.ListView):
     template_name = 'jobs/pages/manager_index.html'
 
     def get_context_data(self, **kwargs):
-        context = super(DataView, self).get_context_data(**kwargs)
+        context = super(ManagerIndex, self).get_context_data(**kwargs)
         jobs = Job.objects.all()
         context['jobs'] = jobs
         return context
