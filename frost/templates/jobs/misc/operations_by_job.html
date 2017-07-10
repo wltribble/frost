@@ -4,7 +4,10 @@
         <li class="col-sm-3"><a href=''>{{ operation.jmojoboperationid }}</a></li>
     {% endfor %}
     </ul>
-    {% include 'jobs/forms/create_report.html' %}
+    <br />
+    <div class="report-button">
+        {% include 'jobs/forms/create_report.html' %}
+    </div>
     <br />
     <br />
 {% endif %}

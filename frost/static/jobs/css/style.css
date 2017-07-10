@@ -57,6 +57,11 @@ label {
     margin-bottom: 30px;
 }
 
+/* Manager Index Styling */
+.report-button {
+    margin-left: 15px;
+}
+
 /* Form Stylings */
 .enter_data_form {
     display: inline-block;
