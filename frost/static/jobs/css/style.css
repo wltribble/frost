@@ -23,6 +23,9 @@ p {
 }
 
 /* Pick Work Center Page Styling */
+.manager-button {
+    margin-top: 20px;
+}
 
 /* Job Index Page Styling */
 .operation-list {
