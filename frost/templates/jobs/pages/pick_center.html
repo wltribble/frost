@@ -7,7 +7,7 @@
     </div>
     <div class="row">
         {% if workcenters %}
-            <div class="row">
+            <div class="row centers">
                 <ul class="list-unstyled">
                 {% for workcenter in workcenters %}
                     <li><h3><a href="{% url 'jobs:index' workcenter.id %}">{{ workcenter }}</a></h3></li>
