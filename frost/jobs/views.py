@@ -468,7 +468,8 @@ class ManagerIndex(generic.ListView):
         jobs = Job.objects.all().filter(jmojobid__icontains=search_query)
         unique_job_ids = []
         for job in jobs:
-            unique_job_ids.append(job.jmojobid)
+            id_to_add = job.jmojobid.translate({ord(c): "" for c in ' '})
+            unique_job_ids.append(id_to_add)
         unique_job_ids = list(unique_job_ids)
         unique_job_ids = set(unique_job_ids)
         context['jobs'] = unique_job_ids
