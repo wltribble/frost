@@ -84,7 +84,11 @@
                     <div class="row bottom-buttons">
                         <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field">
                             {% csrf_token %}
-                            <input type="submit" name="add_field" value="Add Field" id="add_field"/>
+                            <input type="submit" name="add_field" value="Add Custom Field" id="add_field"/>
+                        </form>
+                        <form action="{% url 'jobs:reopen' center urluniqueid %}" method="post" name="add_template_to_open_submission">
+                            {% csrf_token %}
+                            <input type="submit" name="reopen" value="Add Fields From A Template"/>
                         </form>
                     </div>
                     <div class="row bottom-buttons">
