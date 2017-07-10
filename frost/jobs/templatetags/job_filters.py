@@ -19,3 +19,8 @@ def fields_by_center(job, center):
         for field in Field.objects.all().filter(job=operation.jmouniqueid).filter(is_a_meta_field=False).filter(submission_number=counter):
             fields_needed.append(field)
     return {'fields_needed': fields_needed, 'center': center}
+
+@register.inclusion_tag('jobs/misc/operations_by_job.html')
+def operations_by_job(job):
+    jobs = Job.objects.all().filter(jmojobid=job)
+    return {'operations': jobs, 'job': job}

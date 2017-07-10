@@ -1,0 +1,26 @@
+{% extends "jobs/pages/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row page-title">
+        <h1><a href="{% url 'workcenters:pick_center' %}">List of Jobs</a></h1>
+    </div>
+    <div class="row">
+        {% if jobs %}
+            <div class="row operation-list">
+                <h3>Current Operations</h3>
+                    <ul class="list-unstyled">
+                    {% for job in jobs %}
+                        <li class="col-sm-12">{{ job }}</li>
+                        {% operations_by_job job %}
+                    {% endfor %}
+                    </ul>
+            </div>
+        {% else %}
+            <div class="row none-avail">
+                <p>No jobs are available.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

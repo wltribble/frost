@@ -1,0 +1,7 @@
+{% if operations %}
+    <ul class="list-unstyled">
+    {% for operation in operations %}
+        <li class="col-sm-12">{{ operation.jmojoboperationid }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}

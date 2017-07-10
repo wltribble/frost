@@ -1,0 +1,4 @@
+<form action="{% url 'jobs:create_report' urluniqueid %}" method="post" name="create_report">
+    {% csrf_token %}
+    <input type="submit" name="reopen" value="Create Report"/>
+</form>
