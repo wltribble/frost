@@ -8,12 +8,12 @@
     <ul>
     {% for process in processes %}
         {% ifnotequal process.process_name "None" %}
-            <li><a href="{% url 'jobs:set_reopen_template' center uniqueid submission_number process.id %}">{{ process.process_name }}</a></li>
+            <li><h3><a href="{% url 'jobs:set_reopen_template' center uniqueid submission_number process.id %}">{{ process.process_name }}</a></h3></li>
         {% endifnotequal %}
     {% endfor %}
     </ul>
 {% else %}
-    <p>No templates available.</p>
+    <p><h3>No templates available.</h3></p>
 {% endif %}
 
 {% for process in processes %}

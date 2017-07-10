@@ -18,7 +18,7 @@
                 <ul class="list-inline">
                 {% for job in jobs %}
                     <div class="row">
-                    <li class="list-inline-item"><h4>{{ job }}</h4>
+                    <li class="list-inline-item"><h3>{{ job }}</h3>
                         <form action="{% url 'jobs:manager_data_view' job %}" method="get" name="view_details" class="report-and-deatil-buttons">
                             {% csrf_token %}
                             <input type="submit" name="reopen" value="View Details"/>
