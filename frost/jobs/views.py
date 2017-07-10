@@ -500,3 +500,7 @@ class ManagerCreateReport(generic.DetailView):
         context['job'] = self.kwargs['jobid']
         context['report'] = True
         return context
+
+def populate(request, jobid):
+    print ("populate request received for job " + str(jobid))
+    return HttpResponseRedirect(reverse('jobs:manager_index'))
