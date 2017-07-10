@@ -16,7 +16,14 @@
     {% endfor %}
     </ul>
 
-    <div class="row report-button">
-        {% include 'jobs/forms/create_report.html' %}
-    </div>
+    {% if report %}
+        <form action="{% url 'jobs:populate_report' job %}" method="post" name="populate_report">
+            {% csrf_token %}
+            <input type="submit" name="populate" value="Populate Report"/>
+        </form>
+    {% else %}
+        <div class="row report-button">
+            {% include 'jobs/forms/create_report.html' %}
+        </div>
+    {% endif %}
 {% endif %}
