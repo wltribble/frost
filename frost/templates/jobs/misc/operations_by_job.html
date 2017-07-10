@@ -9,11 +9,10 @@
                 {% endif %}
                 {% include 'jobs/misc/fields_by_operation.html' %}
                 </li>
-                </ul>
             </div>
     {% endfor %}
     </ul>
-    
+
     {% if report %}
         <form action="{% url 'jobs:populate_report' job %}" method="post" name="populate_report">
             {% csrf_token %}
