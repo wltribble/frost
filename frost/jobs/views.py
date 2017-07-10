@@ -458,9 +458,13 @@ def set_reopen_template(request, center_pk, urluniqueid,
 class ManagerIndex(generic.ListView):
     template_name = 'jobs/pages/manager_index.html'
 
+    def get_queryset(self):
+        search_query = self.request.GET.get('search_box', '')
+        return Job.objects.all().filter(jmojobid__icontains=search_query)
+
     def get_context_data(self, **kwargs):
         context = super(ManagerIndex, self).get_context_data(**kwargs)
-        jobs = Job.objects.all()
+        jobs = queryset
         unique_job_ids = []
         for job in jobs:
             unique_job_ids.append(job.jmojobid)
@@ -468,7 +472,3 @@ class ManagerIndex(generic.ListView):
         unique_job_ids = set(unique_job_ids)
         context['jobs'] = unique_job_ids
         return context
-
-    def get_queryset(self):
-        search_query = self.request.GET.get('search_box', '')
-        return Job.objects.all().filter(jmojobid__icontains=search_query)
