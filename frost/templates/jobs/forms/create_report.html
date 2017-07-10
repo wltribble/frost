@@ -1,4 +1,4 @@
-<form action="{% url 'jobs:create_report' job}" method="get" name="create_report" class="report-and-deatil-buttons">
+<form action="{% url 'jobs:create_report' job %}" method="get" name="create_report" class="report-and-deatil-buttons">
     {% csrf_token %}
     <input type="submit" name="reopen" value="Create Report"/>
 </form>
