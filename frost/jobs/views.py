@@ -418,6 +418,19 @@ def reopen(request, center_pk, urluniqueid):
                                         field_name="reopens"
                                         ).get().field_text)
                                         )
+    else:
+        number_of_reopens = int(number_of_reopens_field.field_text)
+        number_of_reopens_field.field_text = str(number_of_reopens)
+        number_of_reopens_field.full_clean()
+        number_of_reopens_field.save()
+        job = urluniqueid
+        submission_number = str(1 + int(
+                                        Field.objects.all().filter(
+                                        job=job
+                                        ).filter(
+                                        field_name="reopens"
+                                        ).get().field_text)
+                                        )
     return HttpResponseRedirect(reverse('jobs:reopen_template',
                                 args=(center_pk, urluniqueid,
                                         submission_number))
