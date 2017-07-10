@@ -6,9 +6,9 @@
     {% for operation in operations %}
             <div class="row">
                 <div class="row operation-number-row"
-                    <li class="col-sm-12">
+                    <li>
                         {% if report %}
-                            <input type='checkbox' name='operation' value='{{ operation.jmojobassemblyid }} {{ operation.jmojoboperationid }}'><h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3><br>
+                            <input type='checkbox' name='operation' value='{{ operation.jmojobassemblyid }} {{ operation.jmojoboperationid }}'>Operation:&emsp;{{ operation.jmojoboperationid }}<br>
                         {% else %}
                             <h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
                         {% endif %}
