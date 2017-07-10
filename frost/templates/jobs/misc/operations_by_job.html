@@ -3,8 +3,8 @@
     {% for operation in operations %}
         <li class="col-sm-3"><a href=''>{{ operation.jmojoboperationid }}</a></li>
     {% endfor %}
-        {% include 'jobs/forms/create_report.html' %}
-        <br />
-        <br />
     </ul>
+    {% include 'jobs/forms/create_report.html' %}
+    <br />
+    <br />
 {% endif %}
