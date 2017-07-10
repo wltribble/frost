@@ -470,5 +470,5 @@ class ManagerIndex(generic.ListView):
         return context
 
     def get_queryset(self):
-        search_query = self.request.GET.get('search_box', None)
+        search_query = self.request.GET.get('search_box', '')
         return Job.objects.all().filter(jmojobid__icontains=search_query)
