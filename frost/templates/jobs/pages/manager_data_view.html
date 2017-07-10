@@ -3,7 +3,7 @@
 {% load job_filters %}
 
 <div class="container">
-    <h1>Data From All Operations</h1>
+    <a href="{% url 'jobs:manager_index' %}"><h1>Data From All Operations</h1></a>
 
     {% operations_by_job job %}
 
