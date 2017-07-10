@@ -473,7 +473,7 @@ class ManagerIndex(generic.ListView):
         print ("print 1")
         print (unique_job_ids)
         unique_job_ids = set(unique_job_ids)
-        unique_job_ids = list(unique_job_ids)[1:]
+        unique_job_ids = list(unique_job_ids)
         print ("print 2")
         print (unique_job_ids)
         context['jobs'] = unique_job_ids
