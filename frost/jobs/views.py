@@ -503,5 +503,19 @@ class ManagerCreateReport(generic.DetailView):
         return context
 
 def populate(request, jobid):
-    print ("populate request received for job " + str(jobid))
+    fields = []
+    for item in request.POST:
+        print (str(item))
     return HttpResponseRedirect(reverse('jobs:manager_index'))
+
+class JobReport(generic.DetailView):
+    template_name = 'jobs/pages/job_report.html'
+
+    def get_object(self, **kwargs):
+        job = Job.objects.all()
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(JobReport, self).get_context_data(**kwargs)
+        context['job'] = self.kwargs['jobid']
+        return context
