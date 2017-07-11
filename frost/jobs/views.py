@@ -512,6 +512,7 @@ def populate(request, jobid):
     print(fields)
     return HttpResponseRedirect(reverse('jobs:manager_index'))
 
+
 class JobReport(generic.DetailView):
     template_name = 'jobs/pages/job_report.html'
 
@@ -529,6 +530,6 @@ class JobReport(generic.DetailView):
                 pass
             else:
                 fields.append(self.request.GET[item])
-        print(fields)
+        context['fields'] = fields
 
         return context
