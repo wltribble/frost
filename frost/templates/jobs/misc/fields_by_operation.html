@@ -3,7 +3,7 @@
     {% for field in fields_needed %}
         <li>
         {% if report %}
-            <input type='checkbox' name='field{{ forloop.counter }}' value='{{ operation.jmojobassemblyid }} {{ operation.jmojoboperationid }} {{ field.id }}'>&emsp;{{ field.field_name }}:&emsp;{{ field.field_text }}<br>
+            <input type='checkbox' name='op{{ loop_counter }} field{{ forloop.counter }}' value='{{ job }} {{ assembly }} {{ operation }} {{ field.id }}'>&emsp;{{ field.field_name }}:&emsp;{{ field.field_text }}<br>
         {% else %}
             {{ field.field_name }}:&emsp;{{ field.field_text }}
         {% endif %}
