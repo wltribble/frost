@@ -40,5 +40,10 @@ def fields_by_operation(job, assembly, operation, report, loop_counter):
             fields_needed.append(field)
     return {'fields_needed': fields_needed, 'report': report, 'loop_counter': loop_counter, 'job': job, 'assembly': assembly, 'operation': operation.jmojoboperationid}
 
-# @register.inclusion_tag('jobs/misc/fields_for_report.html')
-# def fields_for_report(fields, ):
+@register.inclusion_tag('jobs/misc/fields_for_report.html')
+def fields_for_report(job, fields):
+    operations = Job.objects.all().filter(jmojobid=job)
+    job = job
+    report = False
+    fields = fields
+    return {'operations': jobs, 'report': report, 'job': job, 'fields': fields}
