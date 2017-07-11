@@ -54,7 +54,7 @@ def fields_by_operation_for_report(job, assembly, operation, field_ids):
     job = Job.objects.all().filter(jmojobid=job).filter(jmojobassemblyid=assembly).filter(jmojoboperationid=operation)
     job_uuid = job.jmouniqueid
 
-    fields_need = []
+    fields_needed = []
     for field in Field.objects.all().filter(job=job_uuid):
         if field.id not in field_ids:
             pass

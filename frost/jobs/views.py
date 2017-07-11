@@ -525,7 +525,7 @@ class JobReport(generic.DetailView):
         context['job'] = self.kwargs['jobid']
 
         fields = []
-        field_ids
+        field_ids = []
         for item in self.request.GET:
             if "field" not in str(item):
                 pass
