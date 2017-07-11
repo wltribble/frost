@@ -525,16 +525,12 @@ class JobReport(generic.DetailView):
         context['job'] = self.kwargs['jobid']
 
         fields = []
-        field_ids = []
         for item in self.request.GET:
             if "field" not in str(item):
                 pass
             else:
                 get_item = self.request.GET[item]
                 fields.append(get_item)
-                get_item = get_item.split(",")
-                field_ids.append(get_item[3])
         context['fields'] = fields
-        context['field_ids'] = field_ids
 
         return context

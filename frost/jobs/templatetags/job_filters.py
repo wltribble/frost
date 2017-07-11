@@ -41,19 +41,22 @@ def fields_by_operation(job, assembly, operation, report, loop_counter):
     return {'fields_needed': fields_needed, 'report': report, 'loop_counter': loop_counter, 'job': job, 'assembly': assembly, 'operation': operation.jmojoboperationid}
 
 @register.inclusion_tag('jobs/misc/fields_for_report.html')
-def fields_for_report(job, fields, field_ids):
+def fields_for_report(job, fields):
     operations = Job.objects.all().filter(jmojobid=job)
     job = job
     fields = fields
-    field_ids = field_ids
-    return {'operations': operations, 'job': job, 'fields': fields, 'field_ids': field_ids}
+    return {'operations': operations, 'job': job, 'fields': fields}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation_for_report.html')
-def fields_by_operation_for_report(job, assembly, operation, field_ids):
+def fields_by_operation_for_report(job, assembly, operation):
     job = Job.objects.all().filter(jmojobid=job).filter(jmojobassemblyid=assembly).filter(jmojoboperationid=operation).get()
     job_uuid = job.jmouniqueid
 
     fields_needed = []
+    field_ids = []
+    for item in fields:
+        if fields[item][0] = job and fields[item][1] = assembly and fields[item][2] = operation:
+            field_ids.append(fields[item][3])
     print (field_ids)
     for field in Field.objects.all().filter(job=job_uuid):
         for field_id in field_ids:

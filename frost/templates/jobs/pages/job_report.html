@@ -5,7 +5,7 @@
 <div class="container">
     <h1><a href="{% url 'jobs:manager_index' %}">Report For Job: {{ job }}</a></h1>
 
-    {% fields_for_report job fields field_ids %}
+    {% fields_for_report job fields %}
 
     </div>
 {% endblock %}
