@@ -56,6 +56,7 @@ def fields_by_operation_for_report(job, assembly, operation, fields):
     field_ids = []
     for item in range(0, len(fields)):
         print (fields[item])
+        fields[item] = fields[item].split(',')
         if fields[item][0] == job and fields[item][1] == assembly and fields[item][2] == operation:
             field_ids.append(fields[item][3])
     print (field_ids)
