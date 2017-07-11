@@ -3,6 +3,12 @@ html,body {
     height: 100%;
 }
 
+@media print {
+  a[href]:after {
+    content: none !important;
+  }
+}
+
 p {
     text-align: left;
     line-height: 5px;
