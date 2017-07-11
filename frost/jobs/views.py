@@ -528,7 +528,7 @@ class JobReport(generic.DetailView):
             if "field" not in str(item):
                 pass
             else:
-                fields.append(request.POST[item])
+                fields.append(self.request.GET[item])
         print(fields)
 
         return context
