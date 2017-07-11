@@ -100,10 +100,7 @@ class IndexView(generic.ListView):
         final_list = set(final_list)
         final_list = list(final_list)
 
-        # context['jobs'] = final_list
-        context['jobs'] = (Operation.objects.all().filter(
-                                    work_center_id=workcenter)
-                                    )
+        context['jobs'] = final_list
         context['center'] = workcenter_id
         return context
 
