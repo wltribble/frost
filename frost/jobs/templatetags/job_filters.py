@@ -55,7 +55,7 @@ def fields_by_operation_for_report(job, assembly, operation):
     fields_needed = []
     field_ids = []
     for item in fields:
-        if fields[item][0] = job and fields[item][1] = assembly and fields[item][2] = operation:
+        if fields[item][0] == job and fields[item][1] == assembly and fields[item][2] == operation:
             field_ids.append(fields[item][3])
     print (field_ids)
     for field in Field.objects.all().filter(job=job_uuid):
