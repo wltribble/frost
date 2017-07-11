@@ -48,7 +48,7 @@ def fields_for_report(job, fields):
     return {'operations': operations, 'job': job, 'fields': fields}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation_for_report.html')
-def fields_by_operation_for_report(job, assembly, operation):
+def fields_by_operation_for_report(job, assembly, operation, fields):
     job = Job.objects.all().filter(jmojobid=job).filter(jmojobassemblyid=assembly).filter(jmojoboperationid=operation).get()
     job_uuid = job.jmouniqueid
 
