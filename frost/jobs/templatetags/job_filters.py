@@ -54,6 +54,7 @@ def fields_by_operation_for_report(job, assembly, operation, field_ids):
     job_uuid = job.jmouniqueid
 
     fields_needed = []
+    print (field_ids)
     for field in Field.objects.all().filter(job=job_uuid):
         for field_id in field_ids:
             if field.id == field_id:
