@@ -522,4 +522,13 @@ class JobReport(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(JobReport, self).get_context_data(**kwargs)
         context['job'] = self.kwargs['jobid']
+
+        fields = []
+        for item in self.request.POST:
+            if "field" not in str(item):
+                pass
+            else:
+                fields.append(request.POST[item])
+        print(fields)
+
         return context

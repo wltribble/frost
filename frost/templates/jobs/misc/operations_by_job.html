@@ -1,7 +1,7 @@
 {% load job_filters %}
 
 {% if operations %}
-<form action="{% url 'jobs:populate_report' job %}" method="post" name="create_report">
+<form action="{% url 'jobs:job_report' job %}" method="post" name="create_report">
     {% csrf_token %}
     <ul class="list-unstyled">
     {% for operation in operations %}

@@ -28,7 +28,6 @@ def operations_by_job(job, report):
 @register.inclusion_tag('jobs/misc/fields_by_operation.html')
 def fields_by_operation(job, assembly, operation, report, loop_counter):
     jobs = Job.objects.all().filter(jmojobid=job).filter(jmojobassemblyid=assembly).filter(jmojoboperationid=operation)
-
     counter = 0
     fields_needed = []
     for operation in jobs:
