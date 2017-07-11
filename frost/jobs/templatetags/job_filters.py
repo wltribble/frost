@@ -39,3 +39,6 @@ def fields_by_operation(job, assembly, operation, report, loop_counter):
         for field in Field.objects.all().filter(job=operation.jmouniqueid).filter(is_a_meta_field=False).filter(submission_number=counter):
             fields_needed.append(field)
     return {'fields_needed': fields_needed, 'report': report, 'loop_counter': loop_counter, 'job': job, 'assembly': assembly, 'operation': operation.jmojoboperationid}
+
+# @register.inclusion_tag('jobs/misc/fields_for_report.html')
+# def fields_for_report(fields, ):
