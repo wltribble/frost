@@ -44,10 +44,9 @@ def fields_by_operation(job, assembly, operation, report, loop_counter):
 def fields_for_report(job, fields, field_ids):
     operations = Job.objects.all().filter(jmojobid=job)
     job = job
-    report = False
     fields = fields
     field_ids = field_ids
-    return {'operations': operations, 'report': report, 'job': job, 'fields': fields, 'field_ids': field_ids}
+    return {'operations': operations, 'job': job, 'fields': fields, 'field_ids': field_ids}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation_for_report.html')
 def fields_by_operation_for_report(job, assembly, operation, field_ids):
