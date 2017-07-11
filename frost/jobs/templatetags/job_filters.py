@@ -47,7 +47,7 @@ def fields_for_report(job, fields, field_ids):
     report = False
     fields = fields
     field_ids = field_ids
-    return {'operations': jobs, 'report': report, 'job': job, 'fields': fields, 'field_ids': field_ids}
+    return {'operations': operations, 'report': report, 'job': job, 'fields': fields, 'field_ids': field_ids}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation_for_report.html')
 def fields_by_operation_for_report(job, assembly, operation, field_ids):
