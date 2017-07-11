@@ -505,7 +505,11 @@ class ManagerCreateReport(generic.DetailView):
 def populate(request, jobid):
     fields = []
     for item in request.POST:
-        print (str(item))
+        if "field" not in str(item):
+            pass
+        else:
+            fields.append(request.POST[item])
+    print(fields)
     return HttpResponseRedirect(reverse('jobs:manager_index'))
 
 class JobReport(generic.DetailView):
