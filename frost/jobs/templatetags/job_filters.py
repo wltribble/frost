@@ -55,8 +55,9 @@ def fields_by_operation_for_report(job, assembly, operation, field_ids):
 
     fields_needed = []
     for field in Field.objects.all().filter(job=job_uuid):
-        # if field.id not in field_ids:
-        #     pass
-        # else:
-        fields_needed.append(field)
+        for field_id in field_ids:
+            if field.id == field_id:
+                fields_needed.append(field)
+            else:
+                pass
     return {'fields_needed': fields_needed}
