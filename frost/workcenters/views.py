@@ -208,11 +208,8 @@ class PickEngineeringProcessView(generic.ListView):
                     ).get_context_data(**kwargs)
                     )
         job = Job.objects.all().filter(jmouniqueid=self.kwargs['urluniqueid']).get()
-        workcenter = WorkCenter.objects.get(
-                                        workcenter_id=job.jmoworkcenterid
-                                        )
         context['processes'] = (Process.objects.all().filter(
-                                workcenter=workcenter.workcenter_id
+                                workcenter=job.jmoworkcenterid
                                 ).filter(operator_template=False)
                                 )
         context['uniqueid'] = self.kwargs['urluniqueid']
@@ -267,5 +264,5 @@ def go_to_detail_or_picker(request, urluniqueid):
 
 def release_to_operator(request, urluniqueid):
     fields = Field.objects.all().filter(job=urluniqueid)
-    
+
     return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,)))
