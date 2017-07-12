@@ -93,14 +93,6 @@ class EngineeringDetailView(generic.DetailView):
                                     )
 
 
-        context['reopen_number'] = (
-                                    range(1, 2 + int(
-                                    Field.objects.all().filter(
-                                    job=self.kwargs['urluniqueid']
-                                    ).filter(
-                                    field_name="reopens"
-                                    ).get().field_text))
-                                    )
         context['center'] = job.jmoworkcenterid
         context['job_instructions'] = (
                                     JobInstructions.objects.all(
