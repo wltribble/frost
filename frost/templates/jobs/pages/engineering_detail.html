@@ -78,7 +78,7 @@
                 {% csrf_token %}
                 <input type="submit" name="add_field" value="Add Custom Field" id="add_field"/>
             </form>
-            <form action="{% url 'workcenters:engineering_add_template' urluniqueid %}" method="post" name="add_template_to_open_submission" class=" bottom-add-field-buttons">
+            <form action="{% url 'workcenters:pick_process_template' urluniqueid %}" method="post" name="add_template_to_open_submission" class=" bottom-add-field-buttons">
                 {% csrf_token %}
                 <input type="submit" name="reopen" value="Add Fields From A Template"/>
             </form>
