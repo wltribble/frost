@@ -241,10 +241,6 @@ def set_process_template(request, urluniqueid, process_name):
                                         False, False, False, True,
                                         False, True, "0"
                                         )
-    number_of_reopens_field = Field.objects.create_field(job,
-                                        "reopens", "0", False, False,
-                                        False, True, False, True, "1"
-                                        )
     return HttpResponseRedirect(reverse('workcenters:engineering_detail',
                                         args=(urluniqueid,))
                                         )
