@@ -485,7 +485,7 @@ class ManagerDataView(generic.DetailView):
     template_name = 'jobs/pages/manager_data_view.html'
 
     def get_object(self, **kwargs):
-        job = Job.objects.all()
+        job = Job.objects.all().order_by('jmojoboperationid')
         return job
 
     def get_context_data(self, **kwargs):
@@ -497,7 +497,7 @@ class ManagerCreateReport(generic.DetailView):
     template_name = 'jobs/pages/manager_create_report.html'
 
     def get_object(self, **kwargs):
-        job = Job.objects.all()
+        job = Job.objects.all().order_by('jmojoboperationid')
         return job
 
     def get_context_data(self, **kwargs):
@@ -521,7 +521,7 @@ class JobReport(generic.DetailView):
     template_name = 'jobs/pages/job_report.html'
 
     def get_object(self, **kwargs):
-        job = Job.objects.all()
+        job = Job.objects.all().order_by('jmojoboperationid')
         return job
 
     def get_context_data(self, **kwargs):
