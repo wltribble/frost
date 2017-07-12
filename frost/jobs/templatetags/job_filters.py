@@ -22,7 +22,7 @@ def fields_by_center(job, center):
 
 @register.inclusion_tag('jobs/misc/operations_by_job.html')
 def operations_by_job(job, report):
-    jobs = Job.objects.all().filter(jmojobid=job)
+    jobs = Job.objects.all().filter(jmojobid=job).order_by('jmojoboperationid')
     return {'operations': jobs, 'report': report, 'job': job}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation.html')
@@ -42,7 +42,7 @@ def fields_by_operation(job, assembly, operation, report, loop_counter):
 
 @register.inclusion_tag('jobs/misc/fields_for_report.html')
 def fields_for_report(job, fields):
-    operations = Job.objects.all().filter(jmojobid=job)
+    operations = Job.objects.all().filter(jmojobid=job).order_by('jmojoboperationid')
     job = job
     for item in range(0, len(fields)):
         print (fields[item])
