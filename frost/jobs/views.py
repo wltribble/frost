@@ -315,9 +315,11 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                         True, "1"
                                         )
     try:
-        job_has_been_submitted_boolean = Field.objects.get(field_name="submitted")
-        job_has_been_submitted_boolean.field_text = "false"
-
+        job_has_been_submitted_boolean = Field.objects.create_field(job,
+                                            "submitted", "false", False,
+                                            False, False, True, False,
+                                            True, "0"
+                                            )
         submit_button_works = Field.objects.get(field_name="submit_button_works")
         submit_button_works.field_text = "true"
 

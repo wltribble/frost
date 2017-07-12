@@ -195,54 +195,6 @@ def engineering_delete_field(request, urluniqueid):
                                         )
 
 
-def release_to_operator(request, urluniqueid):
-    fields = Field.objects.all().filter(job=urluniqueid)
-    has_been_submitted = fields.filter(field_name='submitted').get()
-    submit_sentinel = (fields.filter(
-                                field_name='submit_button_works').get()
-                                )
-    if submit_sentinel.field_text == "true":
-        for field in fields:
-            if field.required_for_full_submission == True:
-                if (field.field_name == "Default Name" or
-                   field.field_text == ""
-                   ):
-                    messages.error(request,
-                                'Required Fields cannot be blank ' +
-                                'and must be named')
-                    submit_sentinel.field_text == "false"
-                    submit_sentinel.full_clean()
-                    submit_sentinel.save()
-                    return HttpResponseRedirect(reverse('workcenters:engineering_detail',
-                                                args=(urluniqueid,))
-                                                )
-            if field.editing_mode == True:
-                messages.error(request,
-                            'Finish editing fields before submiting'
-                            )
-                submit_sentinel.field_text == "false"
-                submit_sentinel.full_clean()
-                submit_sentinel.save()
-                return HttpResponseRedirect(reverse('workcenters:engineering_detail',
-                                            args=(urluniqueid,))
-                                            )
-    if submit_sentinel.field_text == "true":
-        has_been_submitted.field_text = "false"
-        has_been_submitted.full_clean()
-        has_been_submitted.save()
-        for field in fields:
-            if field.is_a_meta_field == False:
-                field.name_is_operator_editable = False
-                field.text_is_operator_editable = False
-                field.full_clean()
-                field.save()
-    else:
-        submit_sentinel.field_text == "true"
-        submit_sentinel.full_clean()
-        submit_sentinel.save()
-    return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,)))
-
-
 class PickEngineeringProcessView(generic.ListView):
     template_name = 'jobs/pages/pick_engineering_template.html'
     model = Job
@@ -267,7 +219,7 @@ class PickEngineeringProcessView(generic.ListView):
         return context
 
 
-def set_process_template(request, center_pk, urluniqueid, process_name):
+def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
@@ -281,8 +233,8 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                             False, "0"
                             )
 
-    job_has_been_submitted_boolean = Field.objects.create_field(job,
-                                        "submitted", "false", False,
+    job_has_been_released_boolean = Field.objects.create_field(job,
+                                        "released", "true", False,
                                         False, False, True, False,
                                         True, "0"
                                         )
@@ -298,3 +250,22 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
     return HttpResponseRedirect(reverse('workcenters:engineering_detail',
                                         args=(urluniqueid,))
                                         )
+
+def go_to_detail_or_picker(request, urluniqueid):
+    for field in Field.objects.all().filter(job=urluniqueid):
+        if (field.field_name == "template_set" and
+           field.is_a_meta_field == True
+           ):
+            return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                                args=(
+                                                urluniqueid,))
+                                                )
+    return HttpResponseRedirect(reverse('workcenters:pick_process_template',
+                                        args=(urluniqueid,))
+                                        )
+
+
+def release_to_operator(request, urluniqueid):
+    fields = Field.objects.all().filter(job=urluniqueid)
+    
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,)))

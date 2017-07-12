@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 
 from jobs.views import ManagerIndex, ManagerDataView, ManagerCreateReport, populate, JobReport
 
-from .views import PickCenterView, EngineeringIndexView, EngineeringDetailView, EngineeringPickOperationView, EngineeringDataView, engineering_save_data, engineering_edit_data, engineering_add_field, engineering_delete_field, PickEngineeringProcessView, set_process_template, release_to_operator
+from .views import PickCenterView, EngineeringIndexView, EngineeringDetailView, EngineeringPickOperationView, EngineeringDataView, engineering_save_data, engineering_edit_data, engineering_add_field, engineering_delete_field, PickEngineeringProcessView, set_process_template, release_to_operator, go_to_detail_or_picker
 
 
 app_name = 'workcenters'
@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^engineering/(?P<jobid>[0-9a-zA-Z-]+)/pick_operation/$', EngineeringPickOperationView.as_view(), name='engineering_pick_operation'),
     url(r'^engineering/(?P<urluniqueid>[0-9a-fA-F-]+)/data/$', EngineeringDataView.as_view(), name='engineering_data_view'),
     url(r'^engineering/(?P<urluniqueid>[0-9a-fA-F-]+)/save/$', engineering_save_data, name='engineering_save_data'),
+    url(r'^engineering/(?P<urluniqueid>[0-9a-fA-F-]+)/decide/$', go_to_detail_or_picker, name='go_to_detail_or_picker'),
     url(r'^engineering/(?P<urluniqueid>[0-9a-fA-F-]+)/edit/$', engineering_edit_data, name='engineering_edit_data'),
     url(r'^engineering/(?P<urluniqueid>[0-9a-fA-F-]+)/add/$', engineering_add_field, name='engineering_add_field'),
     url(r'^engineering/(?P<urluniqueid>[0-9a-fA-F-]+)/delete/$', engineering_delete_field, name='engineering_delete_field'),
