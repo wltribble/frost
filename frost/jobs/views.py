@@ -35,7 +35,7 @@ class IndexView(generic.ListView):
                             ))
 
         final_list = []
-        for operation in center_operations:
+        for operation in center_operations.iterator():
             for object_within in operation.iterator():
                 real_operation_object = (
                                 Job.objects.all().filter(
