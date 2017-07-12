@@ -95,6 +95,7 @@ class EngineeringDetailView(generic.DetailView):
 
 
         context['center'] = job.jmoworkcenterid
+        context['reopen_number'] = 0
         context['job_instructions'] = (
                                     JobInstructions.objects.all(
                                     ).filter(
