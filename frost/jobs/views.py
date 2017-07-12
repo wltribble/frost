@@ -24,79 +24,19 @@ class IndexView(generic.ListView):
         workcenter_id = self.kwargs['center_pk']
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
         center_operations = (Operation.objects.all().filter(
-                                work_center_id=workcenter)
-                                )
-        center_timecards = []
-        for operation in center_operations.iterator():
-            center_timecards.append(operation.timecard_id)
-        center_timecards = set(center_timecards)
-        center_timecards = list(center_timecards)
-
-        center_operators = []
-        for timecard in center_timecards:
-            for worker in (Worker.objects.all().filter(
-               timecard_id=timecard).iterator()
-               ):
-                center_operators.append(worker)
-        center_operators = set(center_operators)
-        center_operators = list(center_operators)
-
-        current_center_operators= []
-        for worker in center_operators:
-            start = worker.start_time
-            end = worker.end_time
-            if end == None or (
-               start < timezone.make_aware(datetime.datetime(
-               2011, 3, 21))
-               ) or end > timezone.make_aware(
-               datetime.datetime(2011, 3, 22)
-               ):
-                pass
-            else:
-                current_center_operators.append(worker)
-        current_center_operators = set(current_center_operators)
-        current_center_operators = list(current_center_operators)
-
-        current_center_operations = []
-        for operator in current_center_operators:
-            current_operator_employee_id = operator.employee_id
-            for operation in center_operations:
-                if operation.employee_id == current_operator_employee_id:
-                    if operation.operation_id == 0 and (
-                       operation.assembly_id == 0
-                       ):
-                        pass
-                    else:
-                        if (operation.end_time == None) or (
-                           operation.start_time < operator.start_time
-                           ) or (
-                           operation.start_time > (
-                           operator.start_time + datetime.timedelta(
-                                                            days=1))
-                           ):
-                            pass
-                        else:
-                            current_center_operations.append(operation)
-        current_center_operations = set(current_center_operations)
-        current_center_operations = list(current_center_operations)
-
-        current_operation_objects = []
-        for operation in current_center_operations:
-            real_operation_object = (
-                            Job.objects.all().filter(
-                            jmojobid=operation.job_id).filter(
-                            jmojobassemblyid=operation.assembly_id
-                            ).filter(
-                            jmojoboperationid=operation.operation_id)
-                            )
-            current_operation_objects.append(real_operation_object)
-        current_operation_objects = set(current_operation_objects)
-        current_operation_objects = list(current_operation_objects)
-
+                            work_center_id=workcenter).filter(
+                            start_time__gte=(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )).exclude(
+                            end_time=None
+                            ).filter(end_time__lte=timezone.make_aware(
+                                    datetime.datetime(2011, 3, 22))
+                            ))
         final_list = []
-        for operation in current_operation_objects:
-            for object_within in operation.iterator():
-                final_list.append(object_within)
+        for operation in center_operations:
+            final_list.append(operation)
+
         final_list = set(final_list)
         final_list = list(final_list)
 
