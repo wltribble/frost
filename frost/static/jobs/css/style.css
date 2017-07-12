@@ -38,7 +38,7 @@ p {
 }
 
 .two-buttons {
-    display: inline;
+    display: inline-block;
 }
 
 /* Job Index Page Styling */
