@@ -91,6 +91,8 @@ class EngineeringDetailView(generic.DetailView):
                                     job=self.kwargs['urluniqueid']
                                     ).filter(is_a_meta_field=True)
                                     )
+
+
         context['reopen_number'] = (
                                     range(1, 2 + int(
                                     Field.objects.all().filter(
@@ -244,5 +246,61 @@ def release_to_operator(request, urluniqueid):
         submit_sentinel.field_text == "true"
         submit_sentinel.full_clean()
         submit_sentinel.save()
-    return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,))
-                                                        )
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,)))
+
+
+class PickEngineeringProcessView(generic.ListView):
+    template_name = 'jobs/pages/pick_engineering_template.html'
+    model = Job
+
+    def get_queryset(self):
+        return Job.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = (super(
+                    PickEngineeringProcessView, self
+                    ).get_context_data(**kwargs)
+                    )
+        job = Job.objects.all().filter(jmouniqueid=self.kwargs['urluniqueid']).get()
+        workcenter = WorkCenter.objects.get(
+                                        workcenter_id=job.jmoworkcenterid]
+                                        )
+        context['processes'] = (Process.objects.all().filter(
+                                workcenter=workcenter.workcenter_id
+                                ).filter(operator_template=False)
+                                )
+        context['uniqueid'] = self.kwargs['urluniqueid']
+        return context
+
+
+def set_process_template(request, center_pk, urluniqueid, process_name):
+    job = urluniqueid
+    process = get_object_or_404(Process, pk=process_name)
+    for field in process.outlinefield_set.all():
+        new_field = Field.objects.create_field(job,
+                            field.OUTLINE_field_name,
+                            field.OUTLINE_field_text,
+                            field.OUTLINE_name_is_operator_editable,
+                            field.OUTLINE_text_is_operator_editable,
+                            field.OUTLINE_required_for_full_submission,
+                            True, field.OUTLINE_can_be_deleted,
+                            False, "0"
+                            )
+    
+    job_has_been_submitted_boolean = Field.objects.create_field(job,
+                                        "submitted", "false", False,
+                                        False, False, True, False,
+                                        True, "0"
+                                        )
+    submit_button_works = Field.objects.create_field(job,
+                                        "submit_button_works", "true",
+                                        False, False, False, True,
+                                        False, True, "0"
+                                        )
+    number_of_reopens_field = Field.objects.create_field(job,
+                                        "reopens", "0", False, False,
+                                        False, True, False, True, "1"
+                                        )
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                        args=(urluniqueid,))
+                                        )
