@@ -236,8 +236,8 @@ def set_process_template(request, urluniqueid, process_name):
                                         False, False, True, False,
                                         True, "0"
                                         )
-    submit_button_works = Field.objects.create_field(job,
-                                        "submit_button_works", "true",
+    release_button_works = Field.objects.create_field(job,
+                                        "release_button_works", "true",
                                         False, False, False, True,
                                         False, True, "0"
                                         )
@@ -261,5 +261,45 @@ def go_to_detail_or_picker(request, urluniqueid):
 
 def release_to_operator(request, urluniqueid):
     fields = Field.objects.all().filter(job=urluniqueid)
-
+    has_been_released = fields.filter(field_name='released').get()
+    release_sentinel = (fields.filter(
+                                field_name='release_button_works').get()
+                                )
+    if release_sentinel.field_text == "true":
+        for field in fields:
+            if (field.field_name == "Default Name" or
+               field.field_text == ""
+               ):
+                messages.error(request,
+                            'Required Fields cannot be blank')
+                release_sentinel.field_text == "false"
+                release_sentinel.full_clean()
+                release_sentinel.save()
+                return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                            args=(urluniqueid,))
+                                            )
+            if field.editing_mode == True:
+                messages.error(request,
+                            'Finish editing fields before submiting'
+                            )
+                release_sentinel.field_text == "false"
+                release_sentinel.full_clean()
+                release_sentinel.save()
+                return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                            args=(urluniqueid,))
+                                            )
+    if release_sentinel.field_text == "true":
+        has_been_released.field_text = "true"
+        has_been_released.full_clean()
+        has_been_released.save()
+        for field in fields:
+            if field.is_a_meta_field == False:
+                field.name_is_operator_editable = False
+                field.text_is_operator_editable = False
+                field.full_clean()
+                field.save()
+    else:
+        release_sentinel.field_text == "true"
+        release_sentinel.full_clean()
+        release_sentinel.save()
     return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,)))
