@@ -527,7 +527,6 @@ def populate(request, jobid):
             pass
         else:
             fields.append(request.POST[item])
-    print(fields)
     return HttpResponseRedirect(reverse('jobs:manager_index'))
 
 
