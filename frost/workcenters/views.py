@@ -5,6 +5,8 @@ except:
     from django.core.urlresolvers import reverse
 from django.views import generic
 
+from jobs.models import Job
+
 from .models import WorkCenter, Worker, Operation
 # Create your views here.
 
