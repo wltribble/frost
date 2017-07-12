@@ -263,7 +263,7 @@ class PickEngineeringProcessView(generic.ListView):
                     )
         job = Job.objects.all().filter(jmouniqueid=self.kwargs['urluniqueid']).get()
         workcenter = WorkCenter.objects.get(
-                                        workcenter_id=job.jmoworkcenterid]
+                                        workcenter_id=job.jmoworkcenterid
                                         )
         context['processes'] = (Process.objects.all().filter(
                                 workcenter=workcenter.workcenter_id
@@ -286,7 +286,7 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                             True, field.OUTLINE_can_be_deleted,
                             False, "0"
                             )
-    
+
     job_has_been_submitted_boolean = Field.objects.create_field(job,
                                         "submitted", "false", False,
                                         False, False, True, False,
