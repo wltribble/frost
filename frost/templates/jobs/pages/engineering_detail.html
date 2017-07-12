@@ -74,7 +74,7 @@
         {% endfor %}
 
         <div class="row bottom-buttons">
-            <form action="{% url 'workcenters:enginering_add_field' urluniqueid %}" method="post" name="add_field" class=" bottom-add-field-buttons">
+            <form action="{% url 'workcenters:engineering_add_field' urluniqueid %}" method="post" name="add_field" class=" bottom-add-field-buttons">
                 {% csrf_token %}
                 <input type="submit" name="add_field" value="Add Custom Field" id="add_field"/>
             </form>
