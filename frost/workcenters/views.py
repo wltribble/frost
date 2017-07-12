@@ -261,7 +261,7 @@ def go_to_detail_or_picker(request, urluniqueid):
 
 
 def release_to_operator(request, urluniqueid):
-    fields = Field.objects.all().filter(job=urluniqueid)
+    fields = Field.objects.all().filter(job=urluniqueid).filter(submission_number="0")
     has_been_released = fields.filter(field_name='released').get()
     release_sentinel = (fields.filter(
                                 field_name='release_button_works').get()
