@@ -12,7 +12,7 @@ class ProcessAdmin(admin.ModelAdmin):
         (None,      {'fields': ['process_name', 'workcenter', 'operator_template']}),
     ]
     inlines = [OutlineFieldInLine]
-    list_display = ('process_name', 'process_date_created')
+    list_display = ('process_name', 'process_date_created', 'operator_template')
 
 
 admin.site.register(Process, ProcessAdmin)
