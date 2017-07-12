@@ -37,6 +37,10 @@ p {
     margin-left: 15px;
 }
 
+.two-buttons {
+    display: inline-block;
+}
+
 /* Job Index Page Styling */
 .operation-list {
     margin-left: 0px;
