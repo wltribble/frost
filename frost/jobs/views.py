@@ -314,32 +314,42 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                         False, False, True, False,
                                         True, "1"
                                         )
+    job_has_been_submitted_boolean = Field.objects.create_field(job,
+                                        "submitted", "false", False,
+                                        False, False, True, False,
+                                        True, "0"
+                                        )
     try:
-        job_has_been_submitted_boolean = Field.objects.create_field(job,
-                                            "submitted", "false", False,
-                                            False, False, True, False,
-                                            True, "0"
-                                            )
         submit_button_works = Field.objects.get(field_name="submit_button_works")
         submit_button_works.field_text = "true"
-
-        number_of_reopens_field = Field.objects.get(field_name="reopens")
     except:
-        job_has_been_submitted_boolean = Field.objects.create_field(job,
-                                            "submitted", "false", False,
-                                            False, False, True, False,
-                                            True, "0"
-                                            )
         submit_button_works = Field.objects.create_field(job,
                                             "submit_button_works", "true",
                                             False, False, False, True,
                                             False, True, "0"
                                             )
+    try:
+        number_of_reopens_field = Field.objects.get(field_name="reopens")
+        number_of_reopens_field = Field.objects.get(field_name="0")
+    except:
         number_of_reopens_field = Field.objects.create_field(job,
                                             "reopens", "0", False, False,
                                             False, True, False, True, "1"
                                             )
-
+    job_has_been_submitted_boolean = Field.objects.create_field(job,
+                                            "submitted", "false", False,
+                                            False, False, True, False,
+                                            True, "0"
+                                            )
+    try:
+        submit_button_works = Field.objects.get(field_name="submit_button_works")
+        submit_button_works.field_text = "true"
+    except:
+        submit_button_works = Field.objects.create_field(job,
+                                            "submit_button_works", "true",
+                                            False, False, False, True,
+                                            False, True, "0"
+                                            )
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk, urluniqueid,))
                                         )
