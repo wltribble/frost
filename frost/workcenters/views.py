@@ -60,7 +60,7 @@ class EngineeringPickOperationView(generic.ListView):
         return Job.objects.all().filter(jmojobid__icontains=job)
 
     def get_context_data(self, **kwargs):
-        context = super(EngineeringIndexView, self).get_context_data(**kwargs)
+        context = super(EngineeringPickOperationView, self).get_context_data(**kwargs)
         job = self.kwargs['jobid']
         jobs = Job.objects.all().filter(jmojobid__icontains=job)
         context['jobs'] = jobs
