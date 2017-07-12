@@ -129,3 +129,120 @@ class EngineeringDataView(generic.DetailView):
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['centers'] = WorkCenter.objects.all()
         return context
+
+
+def engineering_save_data(request, urluniqueid):
+    field_to_be_saved = Field.objects.get(
+                        pk=request.POST['save_field']
+                        )
+    if (field_to_be_saved.name_is_operator_editable and
+       request.POST.get('save_field_name') != ""):
+        field_to_be_saved.field_name = request.POST.get(
+                                        'save_field_name'
+                                        )
+    if (field_to_be_saved.name_is_operator_editable and
+       request.POST.get('save_field_name') == ""):
+        messages.error(request, 'Fields require names to be submitted')
+        return HttpResponseRedirect(reverse(
+            'workcenters:engineering_detail', args=(urluniqueid,))
+            )
+    if field_to_be_saved.text_is_operator_editable:
+        field_to_be_saved.field_text = request.POST.get(
+                                                'save_field_text'
+                                                )
+    if (request.POST.get('save_field_name') == "Default Name"):
+        field_to_be_saved.field_has_been_set = False
+        field_to_be_saved.editing_mode = True
+        messages.error(request, 'Fields require names to be submitted')
+        return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                            args=(urluniqueid,))
+                                            )
+    field_to_be_saved.field_has_been_set = True
+    field_to_be_saved.editing_mode = False
+    field_to_be_saved.full_clean()
+    field_to_be_saved.save()
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                        args=(urluniqueid,))
+                                        )
+
+def engineering_edit_data(request, urluniqueid):
+    field_to_be_edited = Field.objects.get(
+                                        pk=request.POST['edit_field']
+                                        )
+    field_to_be_edited.editing_mode = True
+    field_to_be_edited.full_clean()
+    field_to_be_edited.save()
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                        args=(urluniqueid,))
+                                        )
+
+def engineering_add_field(request, urluniqueid):
+    job = urluniqueid
+    new_field_name = "Default Name"
+    new_field_text = ""
+    submission_number = str(1)
+    field = Field.objects.create_field(job, new_field_name,
+                                       new_field_text, True,
+                                       True, True, False, True,
+                                       False, submission_number
+                                       )
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,))
+                                                        )
+
+def engineering_delete_field(request, urluniqueid):
+    field_to_be_deleted = (Field.objects.get(
+                                        pk=request.POST['delete_field']
+                                        ).delete()
+                                        )
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                        args=(urluniqueid,))
+                                        )
+
+
+def release_to_operator(request, urluniqueid):
+    fields = Field.objects.all().filter(job=urluniqueid)
+    has_been_submitted = fields.filter(field_name='submitted').get()
+    submit_sentinel = (fields.filter(
+                                field_name='submit_button_works').get()
+                                )
+    if submit_sentinel.field_text == "true":
+        for field in fields:
+            if field.required_for_full_submission == True:
+                if (field.field_name == "Default Name" or
+                   field.field_text == ""
+                   ):
+                    messages.error(request,
+                                'Required Fields cannot be blank ' +
+                                'and must be named')
+                    submit_sentinel.field_text == "false"
+                    submit_sentinel.full_clean()
+                    submit_sentinel.save()
+                    return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                                args=(urluniqueid,))
+                                                )
+            if field.editing_mode == True:
+                messages.error(request,
+                            'Finish editing fields before submiting'
+                            )
+                submit_sentinel.field_text == "false"
+                submit_sentinel.full_clean()
+                submit_sentinel.save()
+                return HttpResponseRedirect(reverse('workcenters:engineering_detail',
+                                            args=(urluniqueid,))
+                                            )
+    if submit_sentinel.field_text == "true":
+        has_been_submitted.field_text = "false"
+        has_been_submitted.full_clean()
+        has_been_submitted.save()
+        for field in fields:
+            if field.is_a_meta_field == False:
+                field.name_is_operator_editable = False
+                field.text_is_operator_editable = False
+                field.full_clean()
+                field.save()
+    else:
+        submit_sentinel.field_text == "true"
+        submit_sentinel.full_clean()
+        submit_sentinel.save()
+    return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,))
+                                                        )
