@@ -35,12 +35,11 @@ class IndexView(generic.ListView):
                             ))
         # center_operations = (Operation.objects.all().filter(
         #                     work_center_id=workcenter).filter(
-        #                     start_time__gte=(datetime.datetime.now
+        #                     start_time__gte=(datetime.datetime.now()
         #                                     - datetime.timedelta(hours=12))
         #                     ).filter(
         #                     end_time=None
         #                     ))
-        print (datetime.datetime.now() + datetime.timedelta(hours=-12))
 
         final_list = []
         for operation in center_operations.iterator():
