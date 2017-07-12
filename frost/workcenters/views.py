@@ -242,6 +242,49 @@ def set_process_template(request, urluniqueid, process_name):
                                         False, False, False, True,
                                         False, True, "0"
                                         )
+
+    operator_process = Process.objects.filter(process_name=process.process_name).filter(operator_template=True).get()
+    process = operator_process
+    for field in process.outlinefield_set.all():
+        new_field = Field.objects.create_field(job,
+                            field.OUTLINE_field_name,
+                            field.OUTLINE_field_text,
+                            field.OUTLINE_name_is_operator_editable,
+                            field.OUTLINE_text_is_operator_editable,
+                            field.OUTLINE_required_for_full_submission,
+                            True, field.OUTLINE_can_be_deleted,
+                            False, "1"
+                            )
+    job_template_has_now_been_set = Field.objects.create_field(
+                                        job, "template_set",
+                                        process.process_name, False,
+                                        False, False, True, False,
+                                        True, "1"
+                                        )
+    job_has_been_submitted_boolean = Field.objects.create_field(job,
+                                        "submitted", "false", False,
+                                        False, False, True, False,
+                                        True, "0"
+                                        )
+    try:
+        submit_button_works = Field.objects.get(field_name="submit_button_works")
+        submit_button_works.field_text = "true"
+    except:
+        submit_button_works = Field.objects.create_field(job,
+                                            "submit_button_works", "true",
+                                            False, False, False, True,
+                                            False, True, "0"
+                                            )
+    try:
+        number_of_reopens_field = Field.objects.get(field_name="reopens")
+        number_of_reopens_field = Field.objects.get(field_name="0")
+    except:
+        number_of_reopens_field = Field.objects.create_field(job,
+                                            "reopens", "0", False, False,
+                                            False, True, False, True, "1"
+                                            )
+
+
     return HttpResponseRedirect(reverse('workcenters:engineering_detail',
                                         args=(urluniqueid,))
                                         )
