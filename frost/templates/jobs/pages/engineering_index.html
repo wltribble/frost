@@ -18,7 +18,7 @@
                 <ul class="list-inline">
                 {% for job in jobs %}
                     <div class="row">
-                    <li class="list-inline-item"><h3><a href=".">{{ job }}</a></h3></li>
+                    <li class="list-inline-item"><h3><a href="{% url 'workcenters:engineering_pick_operation' job %}">{{ job }}</a></h3></li>
                     </div>
                 {% endfor %}
                 </ul>
