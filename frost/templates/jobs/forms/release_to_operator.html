@@ -1,0 +1,4 @@
+<form action="{% url 'workcenters:release_to_operator' urluniqueid %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="full_page_submit" name="full_page_submit"><strong>Release Job Op To Operator</strong></button>
+</form>

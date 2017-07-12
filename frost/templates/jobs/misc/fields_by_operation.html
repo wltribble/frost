@@ -1,0 +1,13 @@
+{% if fields_needed %}
+    <ul class="list-unstyled">
+    {% for field in fields_needed %}
+        <li>
+        {% if report %}
+            <input type='checkbox' name='op{{ loop_counter }} field{{ forloop.counter }}' value='{{ job }},{{ assembly }},{{ operation }},{{ field.id }}'>&emsp;{{ field.field_name }}:&emsp;{{ field.field_text }}<br>
+        {% else %}
+            {{ field.field_name }}:&emsp;{{ field.field_text }}
+        {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

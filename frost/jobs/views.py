@@ -100,7 +100,13 @@ class IndexView(generic.ListView):
         final_list = set(final_list)
         final_list = list(final_list)
 
-        context['jobs'] = final_list
+        jobs_with_set_templates = []
+        for job in final_list:
+            for field in Field.objects.filter(job=job.jmouniqueid):
+                if field.field_name == "template_set":
+                    jobs_with_set_templates.append(job)
+
+        context['jobs'] = jobs_with_set_templates
         context['center'] = workcenter_id
         return context
 
@@ -124,7 +130,7 @@ class PickTemplateView(generic.ListView):
                         )
         context['processes'] = (Process.objects.all().filter(
                                 workcenter=workcenter.workcenter_id)
-                                )
+                                ).filter(operator_template=True)
         context['uniqueid'] = self.kwargs['urluniqueid']
         context['center'] = self.kwargs['center_pk']
         return context
@@ -146,7 +152,8 @@ class PickReopenTemplateView(generic.ListView):
                                         pk=self.kwargs['center_pk']
                                         )
         context['processes'] = (Process.objects.all().filter(
-                                workcenter=workcenter.workcenter_id)
+                                workcenter=workcenter.workcenter_id
+                                ).filter(operator_template=True)
                                 )
         context['uniqueid'] = self.kwargs['urluniqueid']
         context['center'] = self.kwargs['center_pk']
@@ -175,7 +182,7 @@ class DetailView(generic.DetailView):
                                     ).filter(is_a_meta_field=True)
                                     )
         context['reopen_number'] = (
-                                    range(1, 2 + int(
+                                    range(0, 2 + int(
                                     Field.objects.all().filter(
                                     job=self.kwargs['urluniqueid']
                                     ).filter(
@@ -316,17 +323,25 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
     job_has_been_submitted_boolean = Field.objects.create_field(job,
                                         "submitted", "false", False,
                                         False, False, True, False,
-                                        True, "1"
+                                        True, "0"
                                         )
-    submit_button_works = Field.objects.create_field(job,
-                                        "submit_button_works", "true",
-                                        False, False, False, True,
-                                        False, True, "1"
-                                        )
-    number_of_reopens_field = Field.objects.create_field(job,
-                                        "reopens", "0", False, False,
-                                        False, True, False, True, "1"
-                                        )
+    try:
+        submit_button_works = Field.objects.get(field_name="submit_button_works")
+        submit_button_works.field_text = "true"
+    except:
+        submit_button_works = Field.objects.create_field(job,
+                                            "submit_button_works", "true",
+                                            False, False, False, True,
+                                            False, True, "0"
+                                            )
+    try:
+        number_of_reopens_field = Field.objects.get(field_name="reopens")
+        number_of_reopens_field = Field.objects.get(field_name="0")
+    except:
+        number_of_reopens_field = Field.objects.create_field(job,
+                                            "reopens", "0", False, False,
+                                            False, True, False, True, "1"
+                                            )
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk, urluniqueid,))
                                         )
@@ -418,6 +433,19 @@ def reopen(request, center_pk, urluniqueid):
                                         field_name="reopens"
                                         ).get().field_text)
                                         )
+    else:
+        number_of_reopens = int(number_of_reopens_field.field_text)
+        number_of_reopens_field.field_text = str(number_of_reopens)
+        number_of_reopens_field.full_clean()
+        number_of_reopens_field.save()
+        job = urluniqueid
+        submission_number = str(1 + int(
+                                        Field.objects.all().filter(
+                                        job=job
+                                        ).filter(
+                                        field_name="reopens"
+                                        ).get().field_text)
+                                        )
     return HttpResponseRedirect(reverse('jobs:reopen_template',
                                 args=(center_pk, urluniqueid,
                                         submission_number))
@@ -441,3 +469,85 @@ def set_reopen_template(request, center_pk, urluniqueid,
     return HttpResponseRedirect(reverse('jobs:detail',
                                 args=(center_pk, urluniqueid,))
                                 )
+
+class ManagerIndex(generic.ListView):
+    template_name = 'jobs/pages/manager_index.html'
+
+    def get_queryset(self):
+        search_query = self.request.GET.get('search_box', '')
+        return Job.objects.all().filter(jmojobid__icontains=search_query)
+
+    def get_context_data(self, **kwargs):
+        context = super(ManagerIndex, self).get_context_data(**kwargs)
+        search_query = self.request.GET.get('search_box', '')
+        jobs = (Job.objects.all().filter(
+                                    jmojobid__icontains=search_query
+                                    ).order_by('-jmocreateddate')
+                                    )
+        unique_job_ids = []
+        for job in jobs:
+            if job.jmojobid != '':
+                unique_job_ids.append((job.jmojobid).strip())
+        unique_job_ids = set(unique_job_ids)
+        unique_job_ids = list(unique_job_ids)
+        unique_job_ids_final = [s for s in unique_job_ids if len(s) != 0]
+        context['jobs'] = unique_job_ids_final
+        return context
+
+
+class ManagerDataView(generic.DetailView):
+    template_name = 'jobs/pages/manager_data_view.html'
+
+    def get_object(self, **kwargs):
+        job = Job.objects.all().order_by('jmojoboperationid')
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(ManagerDataView, self).get_context_data(**kwargs)
+        context['job'] = self.kwargs['jobid']
+        return context
+
+class ManagerCreateReport(generic.DetailView):
+    template_name = 'jobs/pages/manager_create_report.html'
+
+    def get_object(self, **kwargs):
+        job = Job.objects.all().order_by('jmojoboperationid')
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(ManagerCreateReport, self).get_context_data(**kwargs)
+        context['job'] = self.kwargs['jobid']
+        context['report'] = True
+        return context
+
+def populate(request, jobid):
+    fields = []
+    for item in request.POST:
+        if "field" not in str(item):
+            pass
+        else:
+            fields.append(request.POST[item])
+    return HttpResponseRedirect(reverse('jobs:manager_index'))
+
+
+class JobReport(generic.DetailView):
+    template_name = 'jobs/pages/job_report.html'
+
+    def get_object(self, **kwargs):
+        job = Job.objects.all().order_by('jmojoboperationid')
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(JobReport, self).get_context_data(**kwargs)
+        context['job'] = self.kwargs['jobid']
+
+        fields = []
+        for item in self.request.GET:
+            if "field" not in str(item):
+                pass
+            else:
+                get_item = self.request.GET[item]
+                fields.append(get_item)
+        context['fields'] = fields
+
+        return context

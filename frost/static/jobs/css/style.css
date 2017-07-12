@@ -3,6 +3,12 @@ html,body {
     height: 100%;
 }
 
+@media print {
+  a[href]:after {
+    content: none !important;
+  }
+}
+
 p {
     text-align: left;
     line-height: 5px;
@@ -23,6 +29,13 @@ p {
 }
 
 /* Pick Work Center Page Styling */
+.manager-button {
+    margin-top: 20px;
+}
+
+.centers {
+    margin-left: 15px;
+}
 
 /* Job Index Page Styling */
 .operation-list {
@@ -39,9 +52,10 @@ p {
     margin-bottom: 20px;
 }
 
-.bottom-buttons {
+.bottom-add-field-buttons {
     margin-top: 10px;
     margin-bottom: 10px;
+    display: inline-block;
 }
 
 label {
@@ -54,6 +68,26 @@ label {
 
 .other-button {
     margin-bottom: 30px;
+}
+
+/* Manager Index Styling */
+.report-and-deatil-buttons {
+    margin-left: 15px;
+    display: inline-block;
+}
+
+/* Manager Data Styling */
+.report-button {
+    margin-top: 20px;
+}
+
+.operation-list {
+    margin-left: 25px;
+}
+
+.operation-info-row {
+    display: inline-block;
+    margin-left: 10px;
 }
 
 /* Form Stylings */

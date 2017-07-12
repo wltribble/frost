@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ProcessesConfig(AppConfig):
+class WorkCentersConfig(AppConfig):
     name = 'workcenters'

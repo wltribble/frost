@@ -1,0 +1,29 @@
+{% load job_filters %}
+
+{% if operations %}
+<form action="{% url 'workcenters:job_report' job %}" method="get" name="create_report">
+    <ul class="list-unstyled">
+    {% for operation in operations %}
+            <div class="row">
+                <div class="row operation-info-row"
+                    <li>
+                        <h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
+                        {% fields_by_operation operation.jmojobid operation.jmojobassemblyid operation.jmojoboperationid report forloop.counter %}
+                    </li>
+                </div>
+            </div>
+    {% endfor %}
+    </ul>
+
+    {% if report %}
+        <input type="submit" name="populate" value="Populate Report"/>
+    {% endif %}
+</form>
+
+{% ifnotequal report True %}
+    <div class="row report-button">
+        {% include 'jobs/forms/create_report.html' %}
+    </div>
+{% endifnotequal %}
+
+{% endif %}

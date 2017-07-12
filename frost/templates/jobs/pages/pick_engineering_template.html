@@ -2,13 +2,13 @@
 {% block content %}
 
 <div class="container">
-<h1>Pick A Template To Add To This Job Operation</h1>
+<h1>Pick A Template For This Job Operation</h1>
 
 {% if processes %}
     <ul class='list-unstyled'>
     {% for process in processes %}
         {% ifnotequal process.process_name "None" %}
-            <li><h3><a href="{% url 'jobs:set_reopen_template' center uniqueid submission_number process.id %}">{{ process.process_name }}</a></h3></li>
+            <li><h3><a href="{% url 'workcenters:set_process_template' uniqueid process.id %}">{{ process.process_name }}</a></h3></li>
         {% endifnotequal %}
     {% endfor %}
     </ul>
@@ -18,7 +18,7 @@
 
 {% for process in processes %}
     {% ifequal process.process_name "None" %}
-        <form action="{% url 'jobs:set_reopen_template' center uniqueid submission_number process.id %}" name="continue_without_template" class="bottom_buttons">
+        <form action="{% url 'workcenters:set_process_template' uniqueid process.id %}" name="continue_without_template" class="bottom_buttons">
             <button type="submit">Continue Without A Template</button>
         </form>
     {% endifequal %}

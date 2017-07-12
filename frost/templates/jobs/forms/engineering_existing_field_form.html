@@ -1,0 +1,12 @@
+<form action="{% url 'workcenters:engineering_save_data' urluniqueid %}" method="post" class="enter_data_form">
+    {% csrf_token %}
+    {% include 'jobs/form_templates/existing_field_form_template.html' %}
+    <button type="submit" class="save-button" name="save_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Save</button>
+</form>
+
+{% if field.can_be_deleted %}
+<form action="{% url 'workcenters:engineering_delete_field' urluniqueid %}" method="post" class="enter_data_form">
+    {% csrf_token %}
+    <button type="submit" name="delete_field" id="field{{ forloop.counter }}" value="{{ field.id }}">Remove Field</button>
+</form>
+{% endif %}

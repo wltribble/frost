@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row page-title">
-        <h1><a href="{% url 'jobs:index' center %}">{{ job }}</a></h1>
+        <h1><a href="{% url 'workcenters:engineering_index' %}">{{ job }}</a></h1>
     </div>
     <div class="row messages-block">
         {% if messages %}
@@ -44,8 +44,8 @@
         </div>
     </div>
     <div class="row">
-        <form action="{% url 'jobs:data_view' center urluniqueid %}" name="data_view">
-            <input class="other-button" type="submit" name="data_view" value="View Job Data From Other Work Centers" id="data_view"/>
+        <form action="{% url 'workcenters:engineering_data_view' urluniqueid %}" name="data_view">
+            <input class="other-button" type="submit" name="data_view" value="View Job Data From Work Centers" id="data_view"/>
         </form>
     </div>
 
@@ -56,16 +56,16 @@
                     {% ifnotequal field.field_has_been_set False %}
                         {% ifnotequal field.editing_mode True %}
                             <div class="row">
-                                {% include 'jobs/forms/saved_field_form.html' %}
+                                {% include 'jobs/forms/engineering_saved_field_form.html' %}
                             </div>
                         {% else %}
                             <div class="row">
-                                {% include 'jobs/forms/existing_field_form.html' %}
+                                {% include 'jobs/forms/engineering_existing_field_form.html' %}
                             </div>
                         {% endifnotequal %}
                     {% else %}
                         <div class="row">
-                            {% include 'jobs/forms/new_field_form.html' %}
+                            {% include 'jobs/forms/engineering_new_field_form.html' %}
                         </div>
                     {% endifnotequal %}
                 {% endifequal %}
@@ -73,29 +73,15 @@
             <hr>
         {% endfor %}
 
-            {% for field in metafields %}
-            {% ifequal field.field_name "submitted" %}
-                {% ifequal field.field_text "false" %}
-                    <div class="row bottom-buttons">
-                        <form action="{% url 'jobs:add_field' center urluniqueid %}" method="post" name="add_field" class=" bottom-add-field-buttons">
-                            {% csrf_token %}
-                            <input type="submit" name="add_field" value="Add Custom Field" id="add_field"/>
-                        </form>
-                        <form action="{% url 'jobs:reopen' center urluniqueid %}" method="post" name="add_template_to_open_submission" class=" bottom-add-field-buttons">
-                            {% csrf_token %}
-                            <input type="submit" name="reopen" value="Add Fields From A Template"/>
-                        </form>
-                    </div>
-                    <div class="row bottom-buttons">
-                        {% include 'jobs/forms/submit.html' %}
-                    </div>
-                {% else %}
-                    <div class="row bottom-buttons">
-                        {% include 'jobs/forms/reopen.html' %}
-                    </div>
-                {% endifequal %}
-            {% endifequal %}
-        {% endfor %}
+        <div class="row bottom-buttons">
+            <form action="{% url 'workcenters:engineering_add_field' urluniqueid %}" method="post" name="add_field" class=" bottom-add-field-buttons">
+                {% csrf_token %}
+                <input type="submit" name="add_field" value="Add Custom Field" id="add_field"/>
+            </form>
+        </div>
+        <div class="row bottom-buttons">
+            {% include 'jobs/forms/release_to_operator.html' %}
+        </div>
     </div>
 </div>
 {% endblock %}

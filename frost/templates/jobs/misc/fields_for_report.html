@@ -1,0 +1,20 @@
+{% load job_filters %}
+
+{% if operations %}
+    <ul class="list-unstyled">
+    {% for operation in operations %}
+            <div class="row">
+                <div class="row operation-info-row"
+                    <li>
+                        <h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
+                        {% fields_by_operation_for_report operation.jmojobid operation.jmojobassemblyid operation.jmojoboperationid fields %}
+                    </li>
+                </div>
+            </div>
+    {% endfor %}
+    </ul>
+{% else %}
+    <div class="row">
+        <h3><p>No data was selected. Try building the report again</p></h3>
+    </div>
+{% endif %}

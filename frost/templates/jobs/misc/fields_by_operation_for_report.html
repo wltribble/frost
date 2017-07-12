@@ -1,0 +1,13 @@
+{% if fields_needed %}
+    <ul class="list-unstyled">
+    {% for field in fields_needed %}
+        <li>
+        {{ field.field_name }}:&emsp;{{ field.field_text }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <ul class="list-unstyled">
+        <li>No data selected for this operation</li>
+    </ul>
+{% endif %}

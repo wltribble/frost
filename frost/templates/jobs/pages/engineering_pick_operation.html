@@ -1,0 +1,24 @@
+{% extends "jobs/pages/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row page-title">
+        <h1><a href="{% url 'workcenters:engineering_index' %}">Pick An Operation To Begin</a></h1>
+    </div>
+    <div class="row">
+        {% if jobs %}
+            <div class="row centers">
+                <ul class="list-unstyled">
+                {% for job in jobs %}
+                    <li><h3><a href="{% url 'workcenters:go_to_detail_or_picker' job.jmouniqueid %}">{{ job.jmojoboperationid }}&emsp;--&emsp;{{ job.jmoworkcenterid }}</a></h3></li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="row">
+                <p><h3>No operations available.</h3></p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

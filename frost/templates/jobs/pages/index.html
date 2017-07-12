@@ -8,16 +8,16 @@
     <div class="row">
         {% if jobs %}
             <div class="row operation-list">
-                <h3>Current Operations</h3>
+                <h2>Current Operations</h2>
                     <ul class="list-unstyled">
                     {% for job in jobs %}
-                        <li class="col-sm-12"><a href="{% url 'jobs:go_to_detail_or_picker' center job.jmouniqueid %}">{{ job }}</a></li>
+                        <li class="col-sm-12"><h3><a href="{% url 'jobs:go_to_detail_or_picker' center job.jmouniqueid %}">{{ job }}</a></h3></li>
                     {% endfor %}
                     </ul>
             </div>
         {% else %}
             <div class="row none-avail">
-                <p>No jobs are available.</p>
+                <p><h3>No jobs are available.</h3></p>
             </div>
         {% endif %}
     </div>

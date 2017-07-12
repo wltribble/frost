@@ -1,0 +1,11 @@
+{% extends "jobs/pages/base.html" %}
+{% block content %}
+{% load job_filters %}
+
+<div class="container">
+    <h1><a href="{% url 'workcenters:manager_index' %}">Data From All Operations</a></h1>
+
+    {% operations_by_job job report %}
+
+    </div>
+{% endblock %}
