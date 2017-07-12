@@ -112,3 +112,20 @@ class EngineeringDetailView(generic.DetailView):
                                 assemblyid=job.jmojobassemblyid)
                                 )
         return context
+
+
+class EngineeringDataView(generic.DetailView):
+    template_name = 'jobs/pages/engineering_data_view.html'
+
+    def get_object(self, **kwargs):
+        job = Job.objects.get(jmouniqueid=self.kwargs['urluniqueid'])
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(EngineeringDataView, self).get_context_data(**kwargs)
+        job = Job.objects.get(jmouniqueid=self.kwargs['urluniqueid'])
+        jobs = Job.objects.filter(jmojobid=job.jmojobid)
+        context['jobs'] = jobs
+        context['urluniqueid'] = self.kwargs['urluniqueid']
+        context['centers'] = WorkCenter.objects.all()
+        return context

@@ -1,0 +1,17 @@
+{% extends "jobs/pages/base.html" %}
+{% block content %}
+{% load job_filters %}
+
+<div class="container">
+<h1>Data From Other Work Centers</h1>
+
+{% for center in centers %}
+    {% fields_by_center job.jmojobid center %}
+{% endfor %}
+
+<form action="{% url 'workcenters:engineering_detail' urluniqueid %}" name="detail">
+    <input type="submit" name="detail" value="Back" id="detail"/>
+</form>
+</div>
+<br /><br /><br /><br />
+{% endblock %}
