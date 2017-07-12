@@ -124,7 +124,7 @@ class PickTemplateView(generic.ListView):
                         )
         context['processes'] = (Process.objects.all().filter(
                                 workcenter=workcenter.workcenter_id)
-                                )
+                                ).filter(operator_template=True)
         context['uniqueid'] = self.kwargs['urluniqueid']
         context['center'] = self.kwargs['center_pk']
         return context
@@ -146,7 +146,8 @@ class PickReopenTemplateView(generic.ListView):
                                         pk=self.kwargs['center_pk']
                                         )
         context['processes'] = (Process.objects.all().filter(
-                                workcenter=workcenter.workcenter_id)
+                                workcenter=workcenter.workcenter_id
+                                ).filter(operator_template=True)
                                 )
         context['uniqueid'] = self.kwargs['urluniqueid']
         context['center'] = self.kwargs['center_pk']
