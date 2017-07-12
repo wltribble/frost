@@ -220,6 +220,8 @@ class PickEngineeringProcessView(generic.ListView):
 
 def set_process_template(request, urluniqueid, process_name):
     job = urluniqueid
+    job_object = Job.objects.get(jmouniqueid=job)
+    workcenter = job_object.jmoworkcenterid
     process = get_object_or_404(Process, pk=process_name)
     for field in process.outlinefield_set.all():
         new_field = Field.objects.create_field(job,
@@ -243,7 +245,7 @@ def set_process_template(request, urluniqueid, process_name):
                                         False, True, "0"
                                         )
 
-    operator_process = Process.objects.filter(process_name=process.process_name).filter(operator_template=True).get()
+    operator_process = Process.objects.filter(workcenter=workcenter).filter(process_name=process.process_name).filter(operator_template=True).get()
     process = operator_process
     for field in process.outlinefield_set.all():
         new_field = Field.objects.create_field(job,
