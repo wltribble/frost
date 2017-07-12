@@ -31,7 +31,7 @@ class EngineeringIndexView(generic.ListView):
         return Job.objects.all().filter(jmojobid__icontains=search_query)
 
     def get_context_data(self, **kwargs):
-        context = super(ManagerIndex, self).get_context_data(**kwargs)
+        context = super(EngineeringIndexView, self).get_context_data(**kwargs)
         search_query = self.request.GET.get('search_box', '')
         jobs = Job.objects.all().filter(jmojobid__icontains=search_query)
         unique_job_ids = []
