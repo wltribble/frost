@@ -181,7 +181,7 @@ def engineering_add_field(request, urluniqueid):
     submission_number = str(0)
     field = Field.objects.create_field(job, new_field_name,
                                        new_field_text, True,
-                                       True, True, False, True,
+                                       True, False, False, True,
                                        False, submission_number
                                        )
     return HttpResponseRedirect(reverse('workcenters:engineering_detail', args=(urluniqueid,))
