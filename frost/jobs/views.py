@@ -40,7 +40,7 @@ class IndexView(generic.ListView):
         #                     ).filter(
         #                     end_time=None
         #                     ))
-        print (datetime.datetime.now - datetime.timedelta(hours=12))
+        print (datetime.datetime.now + datetime.timedelta(hours=-12))
 
         final_list = []
         for operation in center_operations.iterator():
