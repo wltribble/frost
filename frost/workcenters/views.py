@@ -4,6 +4,7 @@ try:
 except:
     from django.core.urlresolvers import reverse
 from django.views import generic
+from django.shortcuts import get_object_or_404
 
 from jobs.models import Job, JobInstructions, AssemblyInstructions, Field
 from processes.models import Process
