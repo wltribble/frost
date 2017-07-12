@@ -33,7 +33,10 @@ class EngineeringIndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(EngineeringIndexView, self).get_context_data(**kwargs)
         search_query = self.request.GET.get('search_box', '')
-        jobs = Job.objects.all().filter(jmojobid__icontains=search_query)
+        jobs = (Job.objects.all().filter(
+                                    jmojobid__icontains=search_query
+                                    ).order_by('jmocreateddate')
+                                    )
         unique_job_ids = []
         for job in jobs:
             if job.jmojobid != '':
