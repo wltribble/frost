@@ -42,7 +42,7 @@ class IndexView(generic.ListView):
                             jmojobassemblyid=operation.assembly_id
                             ).filter(
                             jmojoboperationid=operation.operation_id)
-                            )
+                            ).get()
             final_list.append(real_operation_object)
 
         final_list = set(final_list)
