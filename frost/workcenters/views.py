@@ -177,7 +177,7 @@ def engineering_add_field(request, urluniqueid):
     job = urluniqueid
     new_field_name = "Default Name"
     new_field_text = ""
-    submission_number = str(1)
+    submission_number = str(0)
     field = Field.objects.create_field(job, new_field_name,
                                        new_field_text, True,
                                        True, True, False, True,
