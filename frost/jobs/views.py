@@ -123,8 +123,7 @@ class PickTemplateView(generic.ListView):
                         pk=self.kwargs['center_pk']
                         )
         context['processes'] = (Process.objects.all().filter(
-                                workcenter=workcenter.workcenter_id
-                                ).exclude(workcenter='ENG')
+                                workcenter=workcenter.workcenter_id)
                                 )
         context['uniqueid'] = self.kwargs['urluniqueid']
         context['center'] = self.kwargs['center_pk']
