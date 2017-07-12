@@ -6,6 +6,7 @@ except:
 from django.views import generic
 
 from jobs.models import Job, JobInstructions, AssemblyInstructions, Field
+from processes.models import Process
 
 from .models import WorkCenter, Worker, Operation
 # Create your views here.
