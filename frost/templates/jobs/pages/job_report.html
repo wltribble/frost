@@ -3,7 +3,7 @@
 {% load job_filters %}
 
 <div class="container">
-    <h1><a href="{% url 'jobs:create_report' job %}">Report For Job: {{ job }}</a></h1>
+    <h1><a href="{% url 'workcenters:create_report' job %}">Report For Job: {{ job }}</a></h1>
 
     {% fields_for_report job fields %}
 

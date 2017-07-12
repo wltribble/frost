@@ -19,7 +19,7 @@
                 {% for job in jobs %}
                     <div class="row">
                     <li class="list-inline-item"><h3>{{ job }}</h3>
-                        <form action="{% url 'jobs:manager_data_view' job %}" method="get" name="view_details" class="report-and-deatil-buttons">
+                        <form action="{% url 'workcenters:manager_data_view' job %}" method="get" name="view_details" class="report-and-deatil-buttons">
                             <input type="submit" name="reopen" value="View Details"/>
                         </form>
                         {% include 'jobs/forms/create_report.html' %}
