@@ -1,6 +1,8 @@
 from django.conf.urls import url, include
 
-from .views import PickCenterView, ManagerIndex, ManagerDataView, ManagerCreateReport, populate, JobReport
+from jobs.views import ManagerIndex, ManagerDataView, ManagerCreateReport, populate, JobReport
+
+from .views import PickCenterView
 
 
 app_name = 'workcenters'
