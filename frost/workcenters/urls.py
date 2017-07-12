@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 
 from jobs.views import ManagerIndex, ManagerDataView, ManagerCreateReport, populate, JobReport
 
-from .views import PickCenterView, EngineeringIndexView, EngineeringDetailView, EngineeringPickOperationView, EngineeringDataView, engineering_save_data, engineering_edit_data, engineering_add_field, engineering_delete_field, PickEngineeringProcessView
+from .views import PickCenterView, EngineeringIndexView, EngineeringDetailView, EngineeringPickOperationView, EngineeringDataView, engineering_save_data, engineering_edit_data, engineering_add_field, engineering_delete_field, PickEngineeringProcessView, set_process_template
 
 
 app_name = 'workcenters'
