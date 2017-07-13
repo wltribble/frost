@@ -55,13 +55,7 @@ class IndexView(generic.ListView):
         final_list = set(final_list)
         final_list = list(final_list)
 
-        jobs_with_set_templates = []
-        for job in final_list:
-            for field in Field.objects.filter(job=job.jmouniqueid):
-                if field.field_name == "template_set":
-                    jobs_with_set_templates.append(job)
-
-        context['jobs'] = jobs_with_set_templates
+        context['jobs'] = final_list
         context['center'] = workcenter_id
         return context
 
