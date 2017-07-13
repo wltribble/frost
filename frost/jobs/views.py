@@ -43,15 +43,16 @@ class IndexView(generic.ListView):
 
         final_list = []
         for operation in center_operations.iterator():
-            real_operation_object = (
-                            Job.objects.all().filter(
-                            jmojobid=operation.job_id).filter(
-                            jmojobassemblyid=operation.assembly_id
-                            ).filter(
-                            jmojoboperationid=operation.operation_id
-                            ).exclude(len(jmojobid)<=1).get()
-                            )
-            final_list.append(real_operation_object)
+            if len(operation.job_id) > 1:
+                real_operation_object = (
+                                Job.objects.all().filter(
+                                jmojobid=operation.job_id).filter(
+                                jmojobassemblyid=operation.assembly_id
+                                ).filter(
+                                jmojoboperationid=operation.operation_id
+                                ).get()
+                                )
+                final_list.append(real_operation_object)
 
         final_list = set(final_list)
         final_list = list(final_list)
