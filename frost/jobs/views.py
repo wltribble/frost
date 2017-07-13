@@ -43,7 +43,7 @@ class IndexView(generic.ListView):
 
         final_list = []
         for operation in center_operations.iterator():
-            if len(operation.job_id) > 2:
+            if operation.job_id != "" and operation.job_id != None:
                 real_operation_object = (
                                 Job.objects.all().filter(
                                 jmojobid=operation.job_id).filter(
