@@ -48,8 +48,9 @@ class IndexView(generic.ListView):
                             jmojobid=operation.job_id).filter(
                             jmojobassemblyid=operation.assembly_id
                             ).filter(
-                            jmojoboperationid=operation.operation_id)
-                            ).get()
+                            jmojoboperationid=operation.operation_id
+                            ).exclude(jmojobid=None).get()
+                            )
             final_list.append(real_operation_object)
 
         final_list = set(final_list)
