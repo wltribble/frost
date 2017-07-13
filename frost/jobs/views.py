@@ -43,7 +43,7 @@ class IndexView(generic.ListView):
 
         final_list = []
         for operation in center_operations.iterator():
-            if operation.job_id == None or operation.job_id == "":
+            if operation.assembly_id == "0" and operation.operation_id == "0":
                 pass
             else:
                 real_operation_object = (
