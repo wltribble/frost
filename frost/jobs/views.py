@@ -95,9 +95,8 @@ class IndexView(generic.ListView):
                                 jmojobassemblyid=operation.assembly_id
                                 ).filter(
                                 jmojoboperationid=operation.operation_id
+                                ).get()
                                 )
-                                )
-                real_old_operation_object = real_old_operation_object.get()
                 intermediate_old_op_list.append(real_old_operation_object)
 
         intermediate_old_op_list = set(intermediate_old_op_list)
