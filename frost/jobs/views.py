@@ -70,7 +70,11 @@ class IndexView(generic.ListView):
                             2011, 3, 21))
                             )).exclude(
                             end_time=None
-                            ))
+                            ).filter(
+                            end_time__gte(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )))
 
         # old_center_operations = (Operation.objects.all().filter(
         #                     work_center_id=workcenter).filter(
