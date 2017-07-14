@@ -1,4 +1,4 @@
-<form action="." method="post" name="notes">
+<form action="." method="post" name="notes" autocomplete="off">
     {% csrf_token %}
     <label><strong>Notes:&emsp;</strong></label>
     <input type="text" class="notes" name="notes" value="{{ notes.text }}" />
