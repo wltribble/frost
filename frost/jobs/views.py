@@ -268,6 +268,8 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                             False, "1"
                             )
         new_field.editing_mode = True
+        new_field.full_clean()
+        new_field.save()
     job_template_has_now_been_set = Field.objects.create_field(
                                         job, "template_set",
                                         process.process_name, False,
