@@ -104,4 +104,4 @@ class AssemblyInstructions(models.Model):
 
 class Notes(models.Model):
     job = models.CharField(max_length=36, unique=True)
-    text = models.TextField()
+    text = models.TextField(blank=True, null=True)
