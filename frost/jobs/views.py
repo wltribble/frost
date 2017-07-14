@@ -50,7 +50,7 @@ class IndexView(generic.ListView):
         final_list = set(final_list)
         final_list = list(final_list)
 
-        context['jobs'] = final_list
+        context['jobs'] = final_list.order_by(jmoduedate)
         context['center'] = workcenter_id
 
 
@@ -80,7 +80,7 @@ class IndexView(generic.ListView):
                     pass
 
         intermediate_old_op_list = set(intermediate_old_op_list)
-        intermediate_old_op_list = list(intermediate_old_op_list)
+        intermediate_old_op_list = list(intermediate_old_op_list).order_by(jmoduedate)
 
         final_old_op_list = []
         counter = 0

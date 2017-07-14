@@ -17,6 +17,9 @@ class Job(models.Model):
     jmocreateddate = models.DateTimeField(db_column='jmoCreatedDate',
                                 blank=True, null=True
                                 )
+    jmoduedate = models.DateTimeField(db_column='jmoDueDate',
+                                blank=True, null=True
+                                )                            
     jmouniqueid = models.CharField(db_column='jmoUniqueID',
                                 unique=True, max_length=36,
                                 editable=False, primary_key=True
