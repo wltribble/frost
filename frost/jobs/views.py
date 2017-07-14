@@ -89,7 +89,8 @@ class IndexView(generic.ListView):
             if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
                 pass
             else:
-                real_old_operation_object = (
+                try:
+                    real_old_operation_object = (
                                 Job.objects.all().filter(
                                 jmojobid=operation.job_id).filter(
                                 jmojobassemblyid=operation.assembly_id
@@ -97,7 +98,9 @@ class IndexView(generic.ListView):
                                 jmojoboperationid=operation.operation_id
                                 ).get()
                                 )
-                intermediate_old_op_list.append(real_old_operation_object)
+                    intermediate_old_op_list.append(real_old_operation_object)
+                except:
+                    pass
 
         intermediate_old_op_list = set(intermediate_old_op_list)
         intermediate_old_op_list = list(intermediate_old_op_list)
