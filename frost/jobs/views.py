@@ -38,7 +38,7 @@ class IndexView(generic.ListView):
                 pass
             else:
                 real_operation_object = (
-                                Job.objects.all().filter(
+                                Job.objects.filter(jmoClosed=0).filter(
                                 jmojobid=operation.job_id).filter(
                                 jmojobassemblyid=operation.assembly_id
                                 ).filter(

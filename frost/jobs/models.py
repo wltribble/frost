@@ -19,11 +19,12 @@ class Job(models.Model):
                                 )
     jmoduedate = models.DateTimeField(db_column='jmoDueDate',
                                 blank=True, null=True
-                                )                            
+                                )
     jmouniqueid = models.CharField(db_column='jmoUniqueID',
                                 unique=True, max_length=36,
                                 editable=False, primary_key=True
                                 )
+    jmoclosed = models.IntegerField(db_column='jmoClosed')
 
     class Meta:
         managed = False
