@@ -26,21 +26,11 @@ class IndexView(generic.ListView):
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
         center_operations = (Operation.objects.all().filter(
                             work_center_id=workcenter).filter(
-                            start_time__gte=(
-                            timezone.make_aware(datetime.datetime(
-                            2011, 3, 21))
-                            )).exclude(
+                            start_time__gte=(datetime.datetime.now()
+                                            - datetime.timedelta(hours=12))
+                            ).filter(
                             end_time=None
-                            ).filter(end_time__lte=timezone.make_aware(
-                                    datetime.datetime(2011, 3, 22))
                             ))
-        # center_operations = (Operation.objects.all().filter(
-        #                     work_center_id=workcenter).filter(
-        #                     start_time__gte=(datetime.datetime.now()
-        #                                     - datetime.timedelta(hours=12))
-        #                     ).filter(
-        #                     end_time=None
-        #                     ))
 
         final_list = []
         for operation in center_operations.iterator():
@@ -63,26 +53,14 @@ class IndexView(generic.ListView):
         context['jobs'] = final_list
         context['center'] = workcenter_id
 
+
         old_center_operations = (Operation.objects.all().filter(
                             work_center_id=workcenter).filter(
-                            start_time__lte=(
-                            timezone.make_aware(datetime.datetime(
-                            2011, 3, 21))
-                            )).exclude(
+                            start_time__lte=(datetime.datetime.now()
+                                            - datetime.timedelta(hours=12))
+                            ).exclude(
                             end_time=None
-                            ).filter(
-                            end_time__lte=(
-                            timezone.make_aware(datetime.datetime(
-                            2011, 3, 21))
-                            )))
-
-        # old_center_operations = (Operation.objects.all().filter(
-        #                     work_center_id=workcenter).filter(
-        #                     start_time__lte=(datetime.datetime.now()
-        #                                     - datetime.timedelta(hours=12))
-        #                     ).exclude(
-        #                     end_time=None
-        #                     ))
+                            ))
 
         intermediate_old_op_list = []
         for operation in old_center_operations.iterator():

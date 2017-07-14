@@ -12,7 +12,7 @@ SECRET_KEY = os.environ['FROST_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.5.157',]
 
 # Application definition
 
@@ -65,7 +65,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'm1_ts',
+        'NAME': 'm1_fc',
         'HOST': 'FCSSQL1',
         'USER': 'sa',
         'PASSWORD': '2112frost',
@@ -74,8 +74,6 @@ DATABASES = {
         }
     },
 }
-
-DATABASE_CONNECTION_POOLING = False
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -117,11 +115,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
-try:
-    from .dev import *
-except:
-    pass
 
 import django
 django.setup()
