@@ -96,6 +96,7 @@ class IndexView(generic.ListView):
                                 ).filter(
                                 jmojoboperationid=operation.operation_id
                                 )
+                                )
                 real_old_operation_object = real_old_operation_object.get()
                 intermediate_old_op_list.append(real_old_operation_object)
 
