@@ -24,41 +24,44 @@ class IndexView(generic.ListView):
         search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         workcenter_id = self.kwargs['center_pk']
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
-        center_operations = (Operation.objects.all().filter(
-                            work_center_id=workcenter).filter(
-                            start_time__gte=(
-                            timezone.make_aware(datetime.datetime(
-                            2011, 3, 21))
-                            )).exclude(
-                            end_time=None
-                            ).filter(end_time__lte=timezone.make_aware(
-                                    datetime.datetime(2011, 3, 22))
-                            ))
-        # center_operations = (Operation.objects.all().filter(
-        #                     work_center_id=workcenter).filter(
-        #                     start_time__gte=(datetime.datetime.now()
-        #                                     - datetime.timedelta(hours=12))
-        #                     ).filter(
-        #                     end_time=None
-        #                     ))
+        not_finished = True
+        while not_finished:
+            center_operations = (Operation.objects.all().filter(
+                                work_center_id=workcenter).filter(
+                                start_time__gte=(
+                                timezone.make_aware(datetime.datetime(
+                                2011, 3, 21))
+                                )).exclude(
+                                end_time=None
+                                ).filter(end_time__lte=timezone.make_aware(
+                                        datetime.datetime(2011, 3, 22))
+                                ))
+            # center_operations = (Operation.objects.all().filter(
+            #                     work_center_id=workcenter).filter(
+            #                     start_time__gte=(datetime.datetime.now()
+            #                                     - datetime.timedelta(hours=12))
+            #                     ).filter(
+            #                     end_time=None
+            #                     ))
 
-        final_list = []
-        for operation in center_operations.iterator():
-            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
-                pass
-            else:
-                real_operation_object = (
-                                Job.objects.all().filter(
-                                jmojobid=operation.job_id).filter(
-                                jmojobassemblyid=operation.assembly_id
-                                ).filter(
-                                jmojoboperationid=operation.operation_id
-                                ).get()
-                                )
-                final_list.append(real_operation_object)
+            final_list = []
+            for operation in center_operations.iterator():
+                if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
+                    pass
+                else:
+                    real_operation_object = (
+                                    Job.objects.all().filter(
+                                    jmojobid=operation.job_id).filter(
+                                    jmojobassemblyid=operation.assembly_id
+                                    ).filter(
+                                    jmojoboperationid=operation.operation_id
+                                    ).get()
+                                    )
+                    final_list.append(real_operation_object)
 
-        final_list = set(final_list)
-        final_list = list(final_list)
+            final_list = set(final_list)
+            final_list = list(final_list)
+            not_finished = False
 
         context['jobs'] = final_list
         context['center'] = workcenter_id
