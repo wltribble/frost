@@ -24,96 +24,90 @@ class IndexView(generic.ListView):
         search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         workcenter_id = self.kwargs['center_pk']
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
-        not_finished = True
-        while not_finished:
-            center_operations = (Operation.objects.all().filter(
-                                work_center_id=workcenter).filter(
-                                start_time__gte=(
-                                timezone.make_aware(datetime.datetime(
-                                2011, 3, 21))
-                                )).exclude(
-                                end_time=None
-                                ).filter(end_time__lte=timezone.make_aware(
-                                        datetime.datetime(2011, 3, 22))
-                                ))
-            # center_operations = (Operation.objects.all().filter(
-            #                     work_center_id=workcenter).filter(
-            #                     start_time__gte=(datetime.datetime.now()
-            #                                     - datetime.timedelta(hours=12))
-            #                     ).filter(
-            #                     end_time=None
-            #                     ))
+        center_operations = (Operation.objects.all().filter(
+                            work_center_id=workcenter).filter(
+                            start_time__gte=(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )).exclude(
+                            end_time=None
+                            ).filter(end_time__lte=timezone.make_aware(
+                                    datetime.datetime(2011, 3, 22))
+                            ))
+        # center_operations = (Operation.objects.all().filter(
+        #                     work_center_id=workcenter).filter(
+        #                     start_time__gte=(datetime.datetime.now()
+        #                                     - datetime.timedelta(hours=12))
+        #                     ).filter(
+        #                     end_time=None
+        #                     ))
 
-            final_list = []
-            for operation in center_operations.iterator():
-                if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
-                    pass
-                else:
-                    real_operation_object = (
-                                    Job.objects.all().filter(
-                                    jmojobid=operation.job_id).filter(
-                                    jmojobassemblyid=operation.assembly_id
-                                    ).filter(
-                                    jmojoboperationid=operation.operation_id
-                                    ).get()
-                                    )
-                    final_list.append(real_operation_object)
+        final_list = []
+        for operation in center_operations.iterator():
+            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
+                pass
+            else:
+                real_operation_object = (
+                                Job.objects.all().filter(
+                                jmojobid=operation.job_id).filter(
+                                jmojobassemblyid=operation.assembly_id
+                                ).filter(
+                                jmojoboperationid=operation.operation_id
+                                ).get()
+                                )
+                final_list.append(real_operation_object)
 
-            final_list = set(final_list)
-            final_list = list(final_list)
-            not_finished = False
+        final_list = set(final_list)
+        final_list = list(final_list)
 
         context['jobs'] = final_list
         context['center'] = workcenter_id
 
-        not_finished = True
-        while not_finished:
-            old_center_operations = (Operation.objects.all().filter(
-                                work_center_id=workcenter).filter(
-                                start_time__lte=(
-                                timezone.make_aware(datetime.datetime(
-                                2011, 3, 21))
-                                )).exclude(
-                                end_time=None
+        old_center_operations = (Operation.objects.all().filter(
+                            work_center_id=workcenter).filter(
+                            start_time__lte=(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )).exclude(
+                            end_time=None
+                            ).filter(
+                            end_time__lte=(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )))
+
+        # old_center_operations = (Operation.objects.all().filter(
+        #                     work_center_id=workcenter).filter(
+        #                     start_time__lte=(datetime.datetime.now()
+        #                                     - datetime.timedelta(hours=12))
+        #                     ).exclude(
+        #                     end_time=None
+        #                     ))
+
+        intermediate_old_op_list = []
+        for operation in old_center_operations.iterator():
+            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
+                pass
+            else:
+                real_old_operation_object = (
+                                Job.objects.all().filter(
+                                jmojobid=operation.job_id).filter(
+                                jmojobassemblyid=operation.assembly_id
                                 ).filter(
-                                end_time__lte=(
-                                timezone.make_aware(datetime.datetime(
-                                2011, 3, 21))
-                                )))
+                                jmojoboperationid=operation.operation_id
+                                )
+                real_old_operation_object = real_old_operation_object.get()
+                intermediate_old_op_list.append(real_old_operation_object)
 
-            # old_center_operations = (Operation.objects.all().filter(
-            #                     work_center_id=workcenter).filter(
-            #                     start_time__lte=(datetime.datetime.now()
-            #                                     - datetime.timedelta(hours=12))
-            #                     ).exclude(
-            #                     end_time=None
-            #                     ))
+        intermediate_old_op_list = set(intermediate_old_op_list)
+        intermediate_old_op_list = list(intermediate_old_op_list)
 
-            intermediate_old_op_list = []
-            for operation in old_center_operations.iterator():
-                if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
-                    pass
-                else:
-                    real_old_operation_object = (
-                                    Job.objects.all().filter(
-                                    jmojobid=operation.job_id).filter(
-                                    jmojobassemblyid=operation.assembly_id
-                                    ).filter(
-                                    jmojoboperationid=operation.operation_id
-                                    ).get()
-                                    )
-                    intermediate_old_op_list.append(real_old_operation_object)
-
-            intermediate_old_op_list = set(intermediate_old_op_list)
-            intermediate_old_op_list = list(intermediate_old_op_list)
-
-            final_old_op_list = []
-            for op in intermediate_old_op_list:
-                if search_query in op.jmojobid or search_query in str(op.jmojobassemblyid) or search_query in str(op.jmojoboperationid):
-                    final_old_op_list.append(op)
-                else:
-                    pass
-            not_finished = False
+        final_old_op_list = []
+        for op in intermediate_old_op_list:
+            if search_query in op.jmojobid or search_query in str(op.jmojobassemblyid) or search_query in str(op.jmojoboperationid):
+                final_old_op_list.append(op)
+            else:
+                pass
         context['history'] = final_old_op_list
         return context
 
