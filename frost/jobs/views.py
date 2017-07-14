@@ -62,12 +62,50 @@ class IndexView(generic.ListView):
 
         context['jobs'] = final_list
         context['center'] = workcenter_id
-        context['history'] = (Job.objects.all().filter(
-                                    jmoworkcenterid=workcenter
-                                    ).filter(
-                                    jmojobid__icontains=search_query
-                                    ).order_by('-jmocreateddate')
-                                    )
+
+        old_center_operations = (Operation.objects.all().filter(
+                            work_center_id=workcenter).filter(
+                            start_time__lte=(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )).exclude(
+                            end_time=None
+                            ))
+
+        # old_center_operations = (Operation.objects.all().filter(
+        #                     work_center_id=workcenter).filter(
+        #                     start_time__lte=(datetime.datetime.now()
+        #                                     - datetime.timedelta(hours=12))
+        #                     ).exclude(
+        #                     end_time=None
+        #                     ))
+
+        intermediate_old_op_list = []
+        for operation in old_center_operations.iterator():
+            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
+                pass
+            else:
+                real_operation_object = (
+                                Job.objects.all().filter(
+                                jmojobid=operation.job_id).filter(
+                                jmojobassemblyid=operation.assembly_id
+                                ).filter(
+                                jmojoboperationid=operation.operation_id
+                                ).get()
+                                )
+                intermediate_old_op_list.append(real_operation_object)
+
+        intermediate_old_op_list = set(intermediate_old_op_list)
+        intermediate_old_op_list = list(intermediate_old_op_list)
+
+        final_old_op_list = []
+        for op in intermediate_old_op_list:
+            if search_query in op.jmojobid:
+                final_old_op_list.append(op)
+            else:
+                pass
+
+        context['history'] = final_old_op_list
         return context
 
     def get_queryset(self):
