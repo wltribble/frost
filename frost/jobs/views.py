@@ -56,11 +56,10 @@ class IndexView(generic.ListView):
 
         old_center_operations = (Operation.objects.all().filter(
                             work_center_id=workcenter).filter(
-                            start_time__lte=(datetime.datetime.now()
-                                            - datetime.timedelta(hours=12))
+                            start_time__lte=(datetime.datetime.now())
                             ).exclude(
                             end_time=None
-                            ))[:10]
+                            ))
 
         intermediate_old_op_list = []
         for operation in old_center_operations.iterator():
@@ -84,11 +83,16 @@ class IndexView(generic.ListView):
         intermediate_old_op_list = list(intermediate_old_op_list)
 
         final_old_op_list = []
+        counter = 0
         for op in intermediate_old_op_list:
-            if search_query in op.jmojobid or search_query in str(op.jmojobassemblyid) or search_query in str(op.jmojoboperationid):
-                final_old_op_list.append(op)
+            if counter < 10:
+                if search_query in op.jmojobid or search_query in str(op.jmojobassemblyid) or search_query in str(op.jmojoboperationid):
+                    final_old_op_list.append(op)
+                    counter += 1
+                else:
+                    pass
             else:
-                pass
+                break
         context['history'] = final_old_op_list
         return context
 
