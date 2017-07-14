@@ -73,7 +73,7 @@
             <hr>
         {% endfor %}
 
-            {% for field in metafields %}
+        {% for field in metafields %}
             {% ifequal field.field_name "submitted" %}
                 {% ifequal field.field_text "false" %}
                     <div class="row bottom-buttons">
@@ -96,6 +96,11 @@
                 {% endifequal %}
             {% endifequal %}
         {% endfor %}
+    </div>
+    <div class="row" id="notes">
+        {% if notes %}
+            {% include 'jobs/forms/notes.html' %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

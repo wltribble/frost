@@ -14,18 +14,6 @@ class Job(models.Model):
                                 db_column='jmoworkcenterid',
                                 max_length=5
                                 )
-    # jmoproductioncomplete = models.DecimalField(
-                                # db_column='jmoProductionComplete',
-                                # max_digits=1, decimal_places=0
-                                # )
-    # jmosfemessagetext = models.TextField(db_column='jmoSFEMessageText')
-    # jmoclosed = models.DecimalField(db_column='jmoClosed', max_digits=1,
-                                        # decimal_places=0
-                                        # )
-    # jmoinspectioncomplete = models.DecimalField(
-                                # db_column='jmoInspectionComplete',
-                                # max_digits=1, decimal_places=0
-                                # )
     jmocreateddate = models.DateTimeField(db_column='jmoCreatedDate',
                                 blank=True, null=True
                                 )
@@ -112,3 +100,8 @@ class AssemblyInstructions(models.Model):
 
     def __str__(self):
         return self.jobid
+
+
+class Notes(models.Model):
+    job = models.CharField(max_length=36, unique=True)
+    text = models.TextField()
