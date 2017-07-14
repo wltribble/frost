@@ -100,7 +100,7 @@ class IndexView(generic.ListView):
 
         final_old_op_list = []
         for op in intermediate_old_op_list:
-            if search_query in op.jmojobid:
+            if search_query in op:
                 final_old_op_list.append(op)
             else:
                 pass
