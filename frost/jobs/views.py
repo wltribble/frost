@@ -71,7 +71,7 @@ class IndexView(generic.ListView):
                             )).exclude(
                             end_time=None
                             ).filter(
-                            end_time__gte=(
+                            end_time__lte=(
                             timezone.make_aware(datetime.datetime(
                             2011, 3, 21))
                             )))
