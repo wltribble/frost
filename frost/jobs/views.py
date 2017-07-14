@@ -339,8 +339,13 @@ def submit(request, center_pk, urluniqueid):
     submit_sentinel = (fields.filter(
                                 field_name='submit_button_works').get()
                                 )
+    fields_that_need_to_be_checked = Field.objects.all().filter(
+                                                    job=urluniqueid
+                                                    ).filter(
+                                                    is_a_meta_field=False
+                                                    )
     if submit_sentinel.field_text == "true":
-        for field in fields:
+        for field in fields_that_need_to_be_checked:
             if field.required_for_full_submission == True:
                 if (field.field_name == "Default Name" or
                    field.field_text == ""
