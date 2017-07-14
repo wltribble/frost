@@ -13,7 +13,7 @@ from django.contrib import messages
 from processes.models import Process
 from workcenters.models import WorkCenter, Worker, Operation
 
-from .models import Job, Field, JobInstructions, AssemblyInstructions
+from .models import Job, Field, JobInstructions, AssemblyInstructions, Notes
 
 
 class IndexView(generic.ListView):
@@ -21,6 +21,7 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+        search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         workcenter_id = self.kwargs['center_pk']
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
         center_operations = (Operation.objects.all().filter(
@@ -43,26 +44,74 @@ class IndexView(generic.ListView):
 
         final_list = []
         for operation in center_operations.iterator():
-            real_operation_object = (
-                            Job.objects.all().filter(
-                            jmojobid=operation.job_id).filter(
-                            jmojobassemblyid=operation.assembly_id
-                            ).filter(
-                            jmojoboperationid=operation.operation_id)
-                            ).get()
-            final_list.append(real_operation_object)
+            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
+                pass
+            else:
+                real_operation_object = (
+                                Job.objects.all().filter(
+                                jmojobid=operation.job_id).filter(
+                                jmojobassemblyid=operation.assembly_id
+                                ).filter(
+                                jmojoboperationid=operation.operation_id
+                                ).get()
+                                )
+                final_list.append(real_operation_object)
 
         final_list = set(final_list)
         final_list = list(final_list)
 
-        jobs_with_set_templates = []
-        for job in final_list:
-            for field in Field.objects.filter(job=job.jmouniqueid):
-                if field.field_name == "template_set":
-                    jobs_with_set_templates.append(job)
-
-        context['jobs'] = jobs_with_set_templates
+        context['jobs'] = final_list
         context['center'] = workcenter_id
+
+        old_center_operations = (Operation.objects.all().filter(
+                            work_center_id=workcenter).filter(
+                            start_time__lte=(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )).exclude(
+                            end_time=None
+                            ).filter(
+                            end_time__lte=(
+                            timezone.make_aware(datetime.datetime(
+                            2011, 3, 21))
+                            )))
+
+        # old_center_operations = (Operation.objects.all().filter(
+        #                     work_center_id=workcenter).filter(
+        #                     start_time__lte=(datetime.datetime.now()
+        #                                     - datetime.timedelta(hours=12))
+        #                     ).exclude(
+        #                     end_time=None
+        #                     ))
+
+        intermediate_old_op_list = []
+        for operation in old_center_operations.iterator():
+            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
+                pass
+            else:
+                try:
+                    real_old_operation_object = (
+                                Job.objects.all().filter(
+                                jmojobid=operation.job_id).filter(
+                                jmojobassemblyid=operation.assembly_id
+                                ).filter(
+                                jmojoboperationid=operation.operation_id
+                                ).get()
+                                )
+                    intermediate_old_op_list.append(real_old_operation_object)
+                except:
+                    pass
+
+        intermediate_old_op_list = set(intermediate_old_op_list)
+        intermediate_old_op_list = list(intermediate_old_op_list)
+
+        final_old_op_list = []
+        for op in intermediate_old_op_list:
+            if search_query in op.jmojobid or search_query in str(op.jmojobassemblyid) or search_query in str(op.jmojoboperationid):
+                final_old_op_list.append(op)
+            else:
+                pass
+        context['history'] = final_old_op_list
         return context
 
     def get_queryset(self):
@@ -156,6 +205,7 @@ class DetailView(generic.DetailView):
                                 jobid=job.jmojobid).filter(
                                 assemblyid=job.jmojobassemblyid)
                                 )
+        context['notes'] = Notes.objects.all().filter(job=job.jmouniqueid).get()
         return context
 
 
@@ -211,6 +261,10 @@ def save_data(request, center_pk, urluniqueid):
     field_to_be_saved.editing_mode = False
     field_to_be_saved.full_clean()
     field_to_be_saved.save()
+    note_to_be_saved = Notes.objects.get(job=urluniqueid)
+    note_to_be_saved.text = request.POST.get('notes')
+    note_to_be_saved.full_clean()
+    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk,
                                         urluniqueid,))
@@ -223,6 +277,10 @@ def edit_data(request, center_pk, urluniqueid):
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
     field_to_be_edited.save()
+    note_to_be_saved = Notes.objects.get(job=urluniqueid)
+    note_to_be_saved.text = request.POST.get('notes')
+    note_to_be_saved.full_clean()
+    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk,
                                         urluniqueid,))
@@ -243,6 +301,10 @@ def add_field(request, center_pk, urluniqueid):
                                        True, True, False, True,
                                        False, submission_number
                                        )
+    note_to_be_saved = Notes.objects.get(job=urluniqueid)
+    note_to_be_saved.text = request.POST.get('notes')
+    note_to_be_saved.full_clean()
+    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk,
                                                         urluniqueid,))
                                                         )
@@ -252,6 +314,10 @@ def delete_field(request, center_pk, urluniqueid):
                                         pk=request.POST['delete_field']
                                         ).delete()
                                         )
+    note_to_be_saved = Notes.objects.get(job=urluniqueid)
+    note_to_be_saved.text = request.POST.get('notes')
+    note_to_be_saved.full_clean()
+    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk, urluniqueid,))
                                         )
@@ -297,6 +363,10 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                             "reopens", "0", False, False,
                                             False, True, False, True, "1"
                                             )
+    try:
+        notes = Notes.objects.get(job=urluniqueid)
+    except:
+        notes = Notes.objects.create(job=urluniqueid, text="")
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk, urluniqueid,))
                                         )
@@ -320,8 +390,13 @@ def submit(request, center_pk, urluniqueid):
     submit_sentinel = (fields.filter(
                                 field_name='submit_button_works').get()
                                 )
+    fields_that_need_to_be_checked = Field.objects.all().filter(
+                                                    job=urluniqueid
+                                                    ).filter(
+                                                    is_a_meta_field=False
+                                                    )
     if submit_sentinel.field_text == "true":
-        for field in fields:
+        for field in fields_that_need_to_be_checked:
             if field.required_for_full_submission == True:
                 if (field.field_name == "Default Name" or
                    field.field_text == ""
@@ -361,6 +436,10 @@ def submit(request, center_pk, urluniqueid):
         submit_sentinel.field_text == "true"
         submit_sentinel.full_clean()
         submit_sentinel.save()
+    note_to_be_saved = Notes.objects.get(job=urluniqueid)
+    note_to_be_saved.text = request.POST.get('notes')
+    note_to_be_saved.full_clean()
+    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk,
                                                         urluniqueid,))
                                                         )
@@ -401,6 +480,10 @@ def reopen(request, center_pk, urluniqueid):
                                         field_name="reopens"
                                         ).get().field_text)
                                         )
+    note_to_be_saved = Notes.objects.get(job=urluniqueid)
+    note_to_be_saved.text = request.POST.get('notes')
+    note_to_be_saved.full_clean()
+    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:reopen_template',
                                 args=(center_pk, urluniqueid,
                                         submission_number))

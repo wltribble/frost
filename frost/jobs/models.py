@@ -14,18 +14,6 @@ class Job(models.Model):
                                 db_column='jmoworkcenterid',
                                 max_length=5
                                 )
-    # jmoproductioncomplete = models.DecimalField(
-                                # db_column='jmoProductionComplete',
-                                # max_digits=1, decimal_places=0
-                                # )
-    # jmosfemessagetext = models.TextField(db_column='jmoSFEMessageText')
-    # jmoclosed = models.DecimalField(db_column='jmoClosed', max_digits=1,
-                                        # decimal_places=0
-                                        # )
-    # jmoinspectioncomplete = models.DecimalField(
-                                # db_column='jmoInspectionComplete',
-                                # max_digits=1, decimal_places=0
-                                # )
     jmocreateddate = models.DateTimeField(db_column='jmoCreatedDate',
                                 blank=True, null=True
                                 )
@@ -71,7 +59,7 @@ class Field(models.Model):
     field_name = models.CharField(max_length=100)
     field_text = models.CharField(max_length=200, blank=True)
     field_has_been_set = models.BooleanField(default=False)
-    editing_mode = models.BooleanField(default=False)
+    editing_mode = models.BooleanField(default=True)
     name_is_operator_editable = models.BooleanField(default=True)
     text_is_operator_editable = models.BooleanField(default=True)
     required_for_full_submission = models.BooleanField(default=True)
@@ -112,3 +100,8 @@ class AssemblyInstructions(models.Model):
 
     def __str__(self):
         return self.jobid
+
+
+class Notes(models.Model):
+    job = models.CharField(max_length=36, unique=True)
+    text = models.TextField(blank=True, null=True)
