@@ -60,7 +60,7 @@ class IndexView(generic.ListView):
                                             - datetime.timedelta(hours=12))
                             ).exclude(
                             end_time=None
-                            ))
+                            ))[:10]
 
         intermediate_old_op_list = []
         for operation in old_center_operations.iterator():
