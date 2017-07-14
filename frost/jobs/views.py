@@ -63,7 +63,7 @@ class IndexView(generic.ListView):
         context['jobs'] = final_list
         context['center'] = workcenter_id
         context['history'] = (Job.objects.all().filter(
-                                    jmoworkcenterid=workcenter.workcenter
+                                    jmoworkcenterid=workcenter
                                     ).filter(
                                     jmojobid__icontains=search_query
                                     ).order_by('-jmocreateddate')
