@@ -312,6 +312,10 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                             "reopens", "0", False, False,
                                             False, True, False, True, "1"
                                             )
+    try:
+        notes = Notes.objects.get(job=urluniqueid)
+    except:
+        notes = Notes.objects.create(job=urluniqueid, text="")               
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk, urluniqueid,))
                                         )
@@ -423,7 +427,7 @@ def reopen(request, center_pk, urluniqueid):
     note_to_be_saved = Notes.objects.get(job=job.urluniqueid)
     note_to_be_saved.text = request.POST.get('notes')
     note_to_be_saved.full_clean()
-    note_to_be_saved.save()                                    
+    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:reopen_template',
                                 args=(center_pk, urluniqueid,
                                         submission_number))
