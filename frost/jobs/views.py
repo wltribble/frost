@@ -21,6 +21,7 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+        search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         workcenter_id = self.kwargs['center_pk']
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
         center_operations = (Operation.objects.all().filter(
@@ -61,6 +62,12 @@ class IndexView(generic.ListView):
 
         context['jobs'] = final_list
         context['center'] = workcenter_id
+        context['history'] = (Job.objects.all().filter(
+                                    jmoworkcenterid=workcenter.workcenter
+                                    ).filter(
+                                    jmojobid__icontains=search_query
+                                    ).order_by('-jmocreateddate')
+                                    )
         return context
 
     def get_queryset(self):
