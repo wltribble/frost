@@ -5,6 +5,7 @@ class Process(models.Model):
     process_name = models.CharField(max_length=100, default="New Process Template")
     process_date_created = models.DateTimeField('process date created', auto_now_add=True)
     workcenter = models.CharField('work center', max_length=5)
+    job_type = models.IntegerField(default=1)
     operator_template = models.BooleanField(default=True)
 
 
