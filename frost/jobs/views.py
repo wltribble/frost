@@ -369,7 +369,7 @@ def go_to_detail_or_picker(request, center_pk, urluniqueid):
                                             args=(center_pk, urluniqueid,))
                                             )
     else:
-        job = (Job.objects.get(jmouniqueid=urluniqueid)).jmojobid
+        job = ((Job.objects.get(jmouniqueid=urluniqueid)).jmojobid).strip()
         return HttpResponseRedirect(reverse('workcenters:manager_data_view'), args=(job,))
 
 def submit(request, center_pk, urluniqueid):
