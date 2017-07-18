@@ -20,10 +20,10 @@ def fields_by_center(job, center):
             fields_needed.append(field)
     return {'fields_needed': fields_needed, 'center': center}
 
-@register.inclusion_tag('jobs/misc/operations_by_job.html')
+@register.inclusion_tag('jobs/misc/operations_by_assembly.html')
 def operations_by_job(job, report):
-    jobs = Job.objects.all().filter(jmojobid=job).order_by('jmojoboperationid')
-    return {'operations': jobs, 'report': report, 'job': job}
+    jobs = Job.objects.all().filter(jmojobid=job).order_by('jmojobassemblyid').order_by('jmojoboperationid')
+    return {'operations': jobs, 'report': report, 'job': job
 
 @register.inclusion_tag('jobs/misc/fields_by_operation.html')
 def fields_by_operation(job, assembly, operation, report, loop_counter):
