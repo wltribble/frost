@@ -287,10 +287,6 @@ def delete_field(request, center_pk, urluniqueid):
                                         pk=request.POST['delete_field']
                                         ).delete()
                                         )
-    note_to_be_saved = Notes.objects.get(job=urluniqueid)
-    note_to_be_saved.text = request.POST.get('notes')
-    note_to_be_saved.full_clean()
-    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk, urluniqueid,))
                                         )
