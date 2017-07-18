@@ -20,10 +20,4 @@
     {% endif %}
 </form>
 
-{% ifnotequal report True %}
-    <div class="row report-button">
-        {% include 'jobs/forms/create_report.html' %}
-    </div>
-{% endifnotequal %}
-
 {% endif %}
