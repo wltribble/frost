@@ -23,11 +23,7 @@ def fields_by_center(job, center):
 @register.inclusion_tag('jobs/misc/operations_by_job.html')
 def operations_by_job(job, report):
     jobs = Job.objects.all().filter(jmojobid=job).order_by('jmojoboperationid').order_by('jmojobassemblyid')
-    jobs_list = []
-    for job in jobs:
-        if (Field.objects.filter(job=job.jmouniqueid)).count() != 0:
-            jobs_list.append(job)
-    return {'operations': jobs_list, 'report': report, 'job': job}
+    return {'operations': jobs, 'report': report, 'job': job}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation.html')
 def fields_by_operation(job, assembly, operation, report, loop_counter):
