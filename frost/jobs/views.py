@@ -53,6 +53,7 @@ class IndexView(generic.ListView):
 
         context['jobs'] = final_list
         context['center'] = workcenter_id
+        context['center_name'] = WorkCenter.objects.get(work_center_id=workcenter_id)
 
 
         old_center_operations = (Operation.objects.all().filter(

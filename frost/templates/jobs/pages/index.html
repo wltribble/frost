@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row page-title">
-        <h1><a href="{% url 'workcenters:pick_center' %}">List of Operations</a></h1>
+        <h1><a href="{% url 'workcenters:pick_center' %}">List of Operations:&emsp;{{ center_name }}</a></h1>
     </div>
     <div class="row">
         {% if jobs %}
