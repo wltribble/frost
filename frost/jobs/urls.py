@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template, DataView
+from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template, DataView, save_notes
 
 app_name = 'jobs'
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/edit/$', edit_data, name='edit_data'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/add/$', add_field, name='add_field'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/delete/$', delete_field, name='delete_field'),
+    url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/save_notes/$', save_notes, name='save_notes'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/set/(?P<process_name>[0-9]+)/$', set_process_template, name='set_process_template'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/decide/$', go_to_detail_or_picker, name='go_to_detail_or_picker'),
     url(r'^(?P<center_pk>[0-9]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/submit/$', submit, name='submit'),

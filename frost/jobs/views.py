@@ -246,10 +246,6 @@ def save_data(request, center_pk, urluniqueid):
     field_to_be_saved.editing_mode = False
     field_to_be_saved.full_clean()
     field_to_be_saved.save()
-    note_to_be_saved = Notes.objects.get(job=urluniqueid)
-    note_to_be_saved.text = request.POST.get('notes')
-    note_to_be_saved.full_clean()
-    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk,
                                         urluniqueid,))
@@ -262,10 +258,6 @@ def edit_data(request, center_pk, urluniqueid):
     field_to_be_edited.editing_mode = True
     field_to_be_edited.full_clean()
     field_to_be_edited.save()
-    note_to_be_saved = Notes.objects.get(job=urluniqueid)
-    note_to_be_saved.text = request.POST.get('notes')
-    note_to_be_saved.full_clean()
-    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail',
                                         args=(center_pk,
                                         urluniqueid,))
@@ -286,10 +278,6 @@ def add_field(request, center_pk, urluniqueid):
                                        True, True, False, True,
                                        False, submission_number
                                        )
-    note_to_be_saved = Notes.objects.get(job=urluniqueid)
-    note_to_be_saved.text = request.POST.get('notes')
-    note_to_be_saved.full_clean()
-    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk,
                                                         urluniqueid,))
                                                         )
@@ -578,3 +566,12 @@ class JobReport(generic.DetailView):
         context['fields'] = fields
 
         return context
+
+def save_notes(request, center_pk, urluniqueid):
+    note_to_be_saved = Notes.objects.get(job=urluniqueid)
+    note_to_be_saved.text = request.POST.get('notes')
+    note_to_be_saved.full_clean()
+    note_to_be_saved.save()
+    return HttpResponseRedirect(reverse('jobs:detail',
+                                        args=(center_pk, urluniqueid,))
+                                        )

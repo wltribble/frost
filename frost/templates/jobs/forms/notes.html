@@ -1,5 +1,6 @@
-<form action="." method="post" name="notes" autocomplete="off">
+<form action="{% url 'jobs:save_notes' center_pk urluniqueid %}" method="post" name="notes" autocomplete="off">
     {% csrf_token %}
     <label><strong>Notes:&emsp;</strong></label>
     <input type="text" class="notes" name="notes" value="{{ notes.text }}" />
+    <button type="submit" name="save_notes">Save</button>
 </form>
