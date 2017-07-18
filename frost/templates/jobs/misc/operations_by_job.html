@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="row operation-info-row"
                     <li>
-                        <h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
+                        <h3>Operation:&emsp;{{ operation.jmojoboperationid }}</h3>&emsp;&emsp;{{ operation.jmoworkcenterid }}
                         {% fields_by_operation operation.jmojobid operation.jmojobassemblyid operation.jmojoboperationid report forloop.counter %}
                     </li>
                 </div>
