@@ -98,7 +98,11 @@
         {% endfor %}
     </div>
     <div class="row" id="notes">
-        {% include 'jobs/forms/notes.html' %}
+        {% if notes %}
+            {% include 'jobs/forms/notes.html' %}
+        {% else %}
+            <p>No notes available</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -413,10 +413,6 @@ def submit(request, center_pk, urluniqueid):
         submit_sentinel.field_text == "true"
         submit_sentinel.full_clean()
         submit_sentinel.save()
-    note_to_be_saved = Notes.objects.get(job=urluniqueid)
-    note_to_be_saved.text = request.POST.get('notes')
-    note_to_be_saved.full_clean()
-    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:detail', args=(center_pk,
                                                         urluniqueid,))
                                                         )
@@ -457,10 +453,6 @@ def reopen(request, center_pk, urluniqueid):
                                         field_name="reopens"
                                         ).get().field_text)
                                         )
-    note_to_be_saved = Notes.objects.get(job=urluniqueid)
-    note_to_be_saved.text = request.POST.get('notes')
-    note_to_be_saved.full_clean()
-    note_to_be_saved.save()
     return HttpResponseRedirect(reverse('jobs:reopen_template',
                                 args=(center_pk, urluniqueid,
                                         submission_number))
