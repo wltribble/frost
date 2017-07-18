@@ -25,7 +25,7 @@ def operations_by_job(job, report):
     jobs = Job.objects.all().filter(jmojobid=job).order_by('jmojoboperationid').order_by('jmojobassemblyid')
     jobs_list = []
     for job in jobs:
-        if Field.objects.filter(job=job.jmouniqueid).count() != 0:
+        if (Field.objects.filter(job=job.jmouniqueid)).count() != 0:
             jobs_list.append(job)
     return {'operations': jobs_list, 'report': report, 'job': job}
 
