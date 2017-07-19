@@ -1,11 +1,11 @@
 {% if field.name_is_operator_editable and field.text_is_operator_editable %}
-    <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}"></textarea>
+    <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}" autocomplete="off"></textarea>
     <label for="field{{ forloop.counter }}">:  </label>
-    <input type="text"  name="save_field_text" id="field {{ field.id }}" value="{{ field.field_text }}"></textarea>
+    <input type="text"  name="save_field_text" id="field {{ field.id }}" value="{{ field.field_text }}" autocomplete="off"></textarea>
 {% elif field.name_is_operator_editable and not field.text_is_operator_editable %}
-    <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}"></textarea>
+    <input type="text"  name="save_field_name" id="field {{ field.id }}" value="{{ field.field_name }}" autocomplete="off"></textarea>
     <label for="field{{ forloop.counter }}" name="save_field_text" value="{{ field.field_text }}">:&emsp;{{ field.field_text }}</label>
 {% elif field.text_is_operator_editable and not field.name_is_operator_editable %}
     <label for="field{{ forloop.counter }}" name="save_field_name" value="{{ field.field_name }}"><strong>{{ field.field_name }}</strong>:</label>
-    <input type="text"  name="save_field_text" id="field {{ field.id }}" value="{{ field.field_text }}"></textarea>
+    <input type="text"  name="save_field_text" id="field {{ field.id }}" value="{{ field.field_text }}" autocomplete="off"></textarea>
 {% endif %}
