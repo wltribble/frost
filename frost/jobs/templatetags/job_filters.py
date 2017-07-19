@@ -31,12 +31,7 @@ def fields_by_operation(job, assembly, operation, report, loop_counter):
     counter = 0
     fields_needed = []
     for operation in jobs:
-        for field in Field.objects.all().filter(job=operation.jmouniqueid):
-            if int(field.submission_number) > counter:
-                counter = int(field.submission_number)
-            else:
-                pass
-        for field in Field.objects.all().filter(job=operation.jmouniqueid).filter(is_a_meta_field=False).filter(submission_number=counter):
+        for field in Field.objects.all().filter(job=operation.jmouniqueid).filter(is_a_meta_field=False):
             fields_needed.append(field)
     return {'fields_needed': fields_needed, 'report': report, 'loop_counter': loop_counter, 'job': job, 'assembly': assembly, 'operation': operation.jmojoboperationid}
 
