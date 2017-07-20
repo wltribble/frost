@@ -10,9 +10,7 @@
             <div class="row centers">
                 <ul class="list-unstyled">
                 {% for workcenter in workcenters %}
-                    {% for item in workcenter.workcenter_id %}
-                        <li><h3><a href="{% url 'jobs:index' item.workcenter_id %}">{{ item }}</a></h3></li>
-                    {% endfor %}
+                    <li><h3><a href="{% url 'jobs:index' workcenter %}">{{ workcenter }}</a></h3></li>
                 {% endfor %}
                 </ul>
             </div>

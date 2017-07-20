@@ -22,11 +22,15 @@ class PickCenterView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PickCenterView, self).get_context_data(**kwargs)
-        context['workcenters'] = WorkCenter.objects.all().exclude(
+        workcenters = WorkCenter.objects.all().exclude(
                                                             workcenter_id='ENG'
                                                             ).order_by(
                                                                 'workcenter_id'
                                                             )
+        workcenter_ids = []
+        for workcenter in workcenters:
+            workcenter_ids.append(str(workcenter.workcenter_id))
+        context['workcenters'] =workcenter_ids
         return context
 
 
