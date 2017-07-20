@@ -34,14 +34,15 @@ class IndexView(generic.ListView):
             if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
                 pass
             else:
-                real_operation_object = (
-                                Job.objects.filter(jmoclosed=0).filter(
-                                jmojobid=operation.job_id).filter(
-                                jmojobassemblyid=operation.assembly_id
-                                ).filter(
+                try:
+                    real_operation_object = (
+                                Job.objects.get(jmojobid=operation.job_id,
+                                jmojobassemblyid=operation.assembly_id,
                                 jmojoboperationid=operation.operation_id
-                                ).get()
                                 )
+                                )
+                except:
+                    pass
                 final_list.append(real_operation_object)
 
         final_list = set(final_list)
@@ -65,13 +66,11 @@ class IndexView(generic.ListView):
             else:
                 try:
                     real_old_operation_object = (
-                                Job.objects.filter(
-                                jmojobid=operation.job_id).filter(
-                                jmojobassemblyid=operation.assembly_id
-                                ).filter(
+                                Job.objects.get(
+                                jmojobid=operation.job_id,
+                                jmojobassemblyid=operation.assembly_id,
                                 jmojoboperationid=operation.operation_id
-                                ).get()
-                                )
+                                ))
                     intermediate_old_op_list.append(real_old_operation_object)
                 except:
                     pass
