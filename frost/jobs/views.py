@@ -271,7 +271,7 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                         True, "0"
                                         )
     try:
-        submit_button_works = Field.objects.get(field_name="submit_button_works")
+        submit_button_works = Field.objects.get(job=urluniqueid, field_name="submit_button_works")
         submit_button_works.field_text = "true"
     except:
         submit_button_works = Field.objects.create_field(job,
@@ -280,8 +280,8 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                             False, True, "0"
                                             )
     try:
-        number_of_reopens_field = Field.objects.get(field_name="reopens")
-        number_of_reopens_field = Field.objects.get(field_name="0")
+        number_of_reopens_field = Field.objects.get(job=urluniqueid, field_name="reopens")
+        number_of_reopens_field.field_text = "0"
     except:
         number_of_reopens_field = Field.objects.create_field(job,
                                             "reopens", "0", False, False,
