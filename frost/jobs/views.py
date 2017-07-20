@@ -296,7 +296,7 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                         )
 
 def go_to_detail_or_picker(request, center_pk, urluniqueid):
-    if center_pk == "1":
+    if center_pk == "ECOTE":
         for field in Field.objects.all().filter(job=urluniqueid):
             if (field.field_name == "template_set" and
                field.is_a_meta_field == True
