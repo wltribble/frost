@@ -23,7 +23,7 @@ class IndexView(generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         workcenter_id = self.kwargs['center_pk']
-        workcenter = WorkCenter.objects.get(pk=workcenter_id)
+        workcenter = WorkCenter.objects.get(workcenter_id=workcenter_id)
         center_operations = (Operation.objects.filter(
                             work_center_id=workcenter).exclude(
                             active=0
@@ -52,45 +52,6 @@ class IndexView(generic.ListView):
         context['jobs'] = final_list
         context['center'] = workcenter_id
         context['center_name'] = workcenter
-
-
-        old_center_operations = (Operation.objects.filter(
-                            work_center_id=workcenter).filter(
-                            active=0)
-                            )
-
-        intermediate_old_op_list = []
-        for operation in old_center_operations.iterator():
-            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
-                pass
-            else:
-                try:
-                    real_old_operation_object = (
-                                Job.objects.get(
-                                jmojobid=operation.job_id,
-                                jmojobassemblyid=operation.assembly_id,
-                                jmojoboperationid=operation.operation_id
-                                ))
-                    intermediate_old_op_list.append(real_old_operation_object)
-                except:
-                    pass
-
-        intermediate_old_op_list = set(intermediate_old_op_list)
-        intermediate_old_op_list = list(intermediate_old_op_list)
-        intermediate_old_op_list.sort(key=lambda x: x.jmoduedate, reverse=True)
-
-        final_old_op_list = []
-        counter = 0
-        for op in intermediate_old_op_list:
-            if counter < 10:
-                if search_query in op.jmojobid or search_query in str(op.jmojobassemblyid) or search_query in str(op.jmojoboperationid):
-                    final_old_op_list.append(op)
-                    counter += 1
-                else:
-                    pass
-            else:
-                break
-        context['history'] = final_old_op_list
         return context
 
     def get_queryset(self):
@@ -109,7 +70,7 @@ class PickTemplateView(generic.ListView):
                     PickTemplateView, self).get_context_data(**kwargs)
                     )
         workcenter = WorkCenter.objects.get(
-                        pk=self.kwargs['center_pk']
+                        workcenter_id=self.kwargs['center_pk']
                         )
         context['processes'] = (Process.objects.all().filter(
                                 workcenter=workcenter.workcenter_id)
@@ -132,7 +93,7 @@ class PickReopenTemplateView(generic.ListView):
                     ).get_context_data(**kwargs)
                     )
         workcenter = WorkCenter.objects.get(
-                                        pk=self.kwargs['center_pk']
+                                        workcenter_id=self.kwargs['center_pk']
                                         )
         context['processes'] = (Process.objects.all().filter(
                                 workcenter=workcenter.workcenter_id
@@ -202,7 +163,7 @@ class DataView(generic.DetailView):
         context['jobs'] = jobs
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['current_center'] = self.kwargs['center_pk']
-        center = WorkCenter.objects.get(pk=self.kwargs['center_pk'])
+        center = WorkCenter.objects.get(workcenter_id=self.kwargs['center_pk'])
         context['centers'] = WorkCenter.objects.all().exclude(
                                 workcenter_id=center.workcenter_id
                                 )

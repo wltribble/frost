@@ -29,19 +29,6 @@
                 <button id="search_submit" type="submit" >Search</button>
             </form>
         </div>
-        {% if history %}
-                <div class="row operation-list">
-                    <ul class="list-unstyled">
-                    {% for job in history %}
-                        <li class="col-sm-12"><h3><a href="{% url 'jobs:go_to_detail_or_picker' center job.jmouniqueid %}">{{ job }}</a></h3></li>
-                    {% endfor %}
-                    </ul>
-                </div>
-        {% else %}
-            <div class="row none-avail">
-                <p>No jobs are available.</p>
-            </div>
-        {% endif %}
     </div>
 </div>
 {% endblock %}
