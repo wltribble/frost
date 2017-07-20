@@ -36,6 +36,7 @@ class Operation(models.Model):
     uuid = models.CharField(db_column='lmlUniqueID', max_length=36, primary_key=True)
     start_time = models.DateTimeField(db_column='lmlActualStartTime')
     end_time = models.DateTimeField(db_column='lmlActualEndTime')
+    active = models.IntegerField(db_column='lmlActive')
 
     class Meta:
         managed = False

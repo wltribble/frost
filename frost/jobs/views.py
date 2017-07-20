@@ -24,12 +24,9 @@ class IndexView(generic.ListView):
         search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         workcenter_id = self.kwargs['center_pk']
         workcenter = WorkCenter.objects.get(pk=workcenter_id)
-        center_operations = (Operation.objects.all().filter(
-                            work_center_id=workcenter).filter(
-                            start_time__gte=(datetime.datetime.now()
-                                            - datetime.timedelta(hours=12))
-                            ).filter(
-                            end_time=None
+        center_operations = (Operation.objects.filter(
+                            work_center_id=workcenter).exclude(
+                            active=0
                             ))
 
         final_list = []
@@ -56,12 +53,10 @@ class IndexView(generic.ListView):
         context['center_name'] = workcenter
 
 
-        old_center_operations = (Operation.objects.all().filter(
+        old_center_operations = (Operation.objects.filter(
                             work_center_id=workcenter).filter(
-                            start_time__lte=(datetime.datetime.now())
-                            ).exclude(
-                            end_time=None
-                            ))
+                            active=0)
+                            )
 
         intermediate_old_op_list = []
         for operation in old_center_operations.iterator():
@@ -70,7 +65,7 @@ class IndexView(generic.ListView):
             else:
                 try:
                     real_old_operation_object = (
-                                Job.objects.all().filter(
+                                Job.objects.filter(
                                 jmojobid=operation.job_id).filter(
                                 jmojobassemblyid=operation.assembly_id
                                 ).filter(
