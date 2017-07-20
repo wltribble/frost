@@ -30,7 +30,7 @@ class PickCenterView(generic.ListView):
         workcenter_ids = []
         for workcenter in workcenters:
             workcenter_ids.append(str(workcenter.workcenter_id))
-        context['workcenters'] =workcenter_ids
+        context['workcenters'] = workcenter_ids
         return context
 
 
