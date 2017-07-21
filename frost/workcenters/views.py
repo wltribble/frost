@@ -33,8 +33,9 @@ class PickCenterView(generic.ListView):
         context['workcenters'] = workcenter_ids
 
         employees = {}
-        for workcenter in workcenters:
-            employees[str(workcenter.employee_id)] = str(workcenter.workcenter_id)
+        operations = Operation.objects.exclude(active=0)
+        for operation in operations:
+            employees[str(operation.employee_id)] = str(operation.workcenter_id)
         context['employees'] = employees
         return context
 
