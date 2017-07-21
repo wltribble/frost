@@ -18,7 +18,7 @@
                 <h2>Old Operations</h2>
                     <ul class="list-unstyled">
                     {% for job in jobs %}
-                        {% ifnotequal job.jmouniqueid ''}
+                        {% ifnotequal job.jmoworkcenterid '' %}
                             <li class="col-sm-12"><h3><a href="{% url 'jobs:go_to_detail_or_picker' job.workcenter_id job.jmouniqueid %}">{{ job }}</a></h3></li>
                         {% endifnotequal %}
                     {% endfor %}
