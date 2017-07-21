@@ -557,3 +557,42 @@ class OldIndexView(generic.ListView):
     def get_queryset(self):
         search_query = self.request.GET.get('search_box', '')
         return Job.objects.all().filter(jmojobid__icontains=search_query)
+
+
+class EmployeeIndexView(generic.ListView):
+    template_name = 'jobs/pages/employee_index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        employee_id = self.kwargs['employee_id']
+        employee_operations = (Operation.objects.filter(
+                            employee_id=employee_id).exclude(
+                            active=0
+                            ))
+
+        final_list = []
+        for operation in employee_operations.iterator():
+            if str(operation.assembly_id) == "0" and str(operation.operation_id) == "0":
+                pass
+            else:
+                try:
+                    real_operation_object = (
+                                Job.objects.get(jmojobid=operation.job_id,
+                                jmojobassemblyid=operation.assembly_id,
+                                jmojoboperationid=operation.operation_id
+                                )
+                                )
+                except:
+                    pass
+                final_list.append(real_operation_object)
+
+        final_list = set(final_list)
+        final_list = list(final_list)
+        final_list.sort(key=lambda x: x.jmoduedate, reverse=True)
+
+        context['jobs'] = final_list
+        context['employee_id'] = employee_id
+        return context
+
+    def get_queryset(self):
+        return Job.objects.all()
