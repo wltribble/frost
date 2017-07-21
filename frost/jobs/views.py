@@ -524,7 +524,7 @@ class OldIndexView(generic.ListView):
     template_name = 'jobs/pages/old_index.html'
 
     def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
+        context = super(OldIndexView, self).get_context_data(**kwargs)
         search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         center_operations = (Operation.objects.filter(
                             jobid__icontains=search_query,
