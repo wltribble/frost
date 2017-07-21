@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template, DataView, save_notes
+from .views import IndexView, DetailView, PickTemplateView, save_data, edit_data, add_field, delete_field, set_process_template, go_to_detail_or_picker, submit, reopen, PickReopenTemplateView, set_reopen_template, DataView, save_notes, OldIndexView
 
 app_name = 'jobs'
 urlpatterns = [
@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^(?P<center_pk>[0-9a-zA-Z-]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/data/$', DataView.as_view(), name='data_view'),
     url(r'^(?P<center_pk>[0-9a-zA-Z-]+)/(?P<urluniqueid>[0-9a-fA-F-]+)/$', PickTemplateView.as_view(), name='pick_template'),
     url(r'^(?P<center_pk>[0-9a-zA-Z-]+)/$', IndexView.as_view(), name='index'),
+    url(r'^history/$', OldIndexView.as_view(), name='old_index'),
 ]

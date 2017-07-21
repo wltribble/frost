@@ -39,7 +39,9 @@
         {% endif %}
     </div>
     <div class="row">
-        <form action="{% url 'jobs:old_index' %}"
+        <form action="{% url 'jobs:old_index' %}">
+            <button type="submit" name="old_jobs">Old Jobs</button>
+        </form>
     </div>
 </div>
 {% endblock %}
