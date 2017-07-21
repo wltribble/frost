@@ -529,10 +529,8 @@ class OldIndexView(generic.ListView):
         center_operations = (Operation.objects.filter(
                             job_id__icontains=search_query,
                             active=0
-                            ).exclude(
-                            work_center_id=None,
-                            work_center_id='',
-                            ))[:20]
+                            )
+                            )[:20]
 
         final_list = []
         for operation in center_operations.iterator():
@@ -546,6 +544,8 @@ class OldIndexView(generic.ListView):
                                 jmojoboperationid=operation.operation_id
                                 )
                                 )
+                    if real_operation_object.jmoworkcenterid == None or real_operation_object.jmoworkcenterid == '':
+                        pass
                 except:
                     pass
                 final_list.append(real_operation_object)
