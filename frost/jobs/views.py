@@ -544,8 +544,6 @@ class OldIndexView(generic.ListView):
                                 jmojoboperationid=operation.operation_id
                                 )
                                 )
-                    if real_operation_object.jmoworkcenterid == None or real_operation_object.jmoworkcenterid == '':
-                        pass
                 except:
                     pass
                 final_list.append(real_operation_object)

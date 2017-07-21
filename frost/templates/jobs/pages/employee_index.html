@@ -11,7 +11,7 @@
                 <h2>Current Operations</h2>
                     <ul class="list-unstyled">
                     {% for job in jobs %}
-                        <li class="col-sm-12"><h3><a href="{% url 'jobs:go_to_detail_or_picker' job.workcenter_id job.jmouniqueid %}">{{ job }}</a></h3></li>
+                        <li class="col-sm-12"><h3><a href="{% url 'jobs:go_to_detail_or_picker' job.jmoworkcenterid job.jmouniqueid %}">{{ job }}</a></h3></li>
                     {% endfor %}
                     </ul>
             </div>
