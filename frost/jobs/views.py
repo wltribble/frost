@@ -529,6 +529,9 @@ class OldIndexView(generic.ListView):
         center_operations = (Operation.objects.filter(
                             job_id__icontains=search_query,
                             active=0
+                            ).exclude(
+                            work_center_id=None,
+                            work_center_id='',
                             ))[:20]
 
         final_list = []
