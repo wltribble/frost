@@ -35,7 +35,7 @@ class PickCenterView(generic.ListView):
         employees = {}
         operations = Operation.objects.exclude(active=0)
         for operation in operations:
-            employees[str(operation.employee_id)] = str(operation.workcenter_id)
+            employees[str(operation.employee_id)] = str(operation.work_center_id)
         context['employees'] = employees
         return context
 
