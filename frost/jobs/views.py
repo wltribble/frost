@@ -563,7 +563,7 @@ class EmployeeIndexView(generic.ListView):
     template_name = 'jobs/pages/employee_index.html'
 
     def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
+        context = super(EmployeeIndexView, self).get_context_data(**kwargs)
         employee_id = self.kwargs['employee_id']
         employee_operations = (Operation.objects.filter(
                             employee_id=employee_id).exclude(
