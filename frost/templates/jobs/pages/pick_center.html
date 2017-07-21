@@ -28,7 +28,7 @@
             <div class="row centers">
                 <ul class="list-unstyled">
                 {% for employee in employees %}
-                    <li><h3><a href="{% url 'employees:employee_index' employee %}">{{ employee }}</a></h3></li>
+                    <li><h3><a href="{% url 'processes:employee_index' employee %}">{{ employee }}</a></h3></li>
                 {% endfor %}
                 </ul>
             </div>
