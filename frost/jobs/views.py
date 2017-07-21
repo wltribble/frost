@@ -549,7 +549,6 @@ class OldIndexView(generic.ListView):
 
         final_list = set(final_list)
         final_list = list(final_list)
-        final_list.sort(key=lambda x: x.jmoduedate, reverse=True)
 
         context['jobs'] = final_list
         return context
