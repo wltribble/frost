@@ -27,8 +27,8 @@
         {% if employees %}
             <div class="row centers">
                 <ul class="list-unstyled">
-                {% for employee in employees %}
-                    <li><h3><a href="{% url 'jobs:index' workcenter %}">{{ workcenter }}</a></h3></li>
+                {% for employee, workcenter in employees.items %}
+                    <li><h3><a href="{% url 'jobs:index' workcenter %}">{{ employee }}:&emsp;{{ workcenter }}</a></h3></li>
                 {% endfor %}
                 </ul>
             </div>
@@ -37,6 +37,9 @@
                 <p><h3>No employees are clocked in.</h3></p>
             </div>
         {% endif %}
+    </div>
+    <div class="row">
+        <form action="{% url 'jobs:old_index' %}"
     </div>
 </div>
 {% endblock %}
