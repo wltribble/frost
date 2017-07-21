@@ -527,7 +527,7 @@ class OldIndexView(generic.ListView):
         context = super(OldIndexView, self).get_context_data(**kwargs)
         search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         center_operations = (Operation.objects.filter(
-                            jobid__icontains=search_query,
+                            job_id__icontains=search_query,
                             active=0
                             ))[:20]
 
