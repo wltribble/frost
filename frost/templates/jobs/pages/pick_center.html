@@ -16,9 +16,32 @@
             </div>
         {% else %}
             <div class="row">
-                <p><h3>No work centers available.</h3></p>
+                <p><h3>No work centers are available.</h3></p>
             </div>
         {% endif %}
+    </div>
+    <div class="row page-title">
+        <h1>Pick Your Employee ID To Begin</h1>
+    </div>
+    <div class="row">
+        {% if employees %}
+            <div class="row centers">
+                <ul class="list-unstyled">
+                {% for employee in employees %}
+                    <li><h3><a href="{% url 'processes:employee_index' employee %}">{{ employee }}</a></h3></li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="row">
+                <p><h3>No employees are clocked in.</h3></p>
+            </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <form action="{% url 'jobs:old_index' %}">
+            <button type="submit" name="old_jobs">Old Jobs</button>
+        </form>
     </div>
 </div>
 {% endblock %}
