@@ -21,7 +21,6 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxxxxxxx')
         workcenter_id = self.kwargs['center_pk']
         workcenter = WorkCenter.objects.get(workcenter_id=workcenter_id)
         center_operations = (Operation.objects.filter(
@@ -296,17 +295,21 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                                         )
 
 def go_to_detail_or_picker(request, center_pk, urluniqueid):
-    for field in Field.objects.all().filter(job=urluniqueid):
-        if (field.field_name == "template_set" and
-           field.is_a_meta_field == True
-           ):
-            return HttpResponseRedirect(reverse('jobs:detail',
-                                                args=(
-                                                center_pk, urluniqueid,))
-                                                )
-    return HttpResponseRedirect(reverse('jobs:pick_template',
-                                        args=(center_pk, urluniqueid,))
-                                        )
+    if center_pk in WorkCenter.objects.all():
+        for field in Field.objects.all().filter(job=urluniqueid):
+            if (field.field_name == "template_set" and
+               field.is_a_meta_field == True
+               ):
+                return HttpResponseRedirect(reverse('jobs:detail',
+                                                    args=(
+                                                    center_pk, urluniqueid,))
+                                                    )
+        return HttpResponseRedirect(reverse('jobs:pick_template',
+                                            args=(center_pk, urluniqueid,))
+                                            )
+    else:
+        job = ((Job.objects.get(jmouniqueid=urluniqueid)).jmojobid).strip()
+        return HttpResponseRedirect(reverse('workcenters:manager_data_view', args=(job,)))
 
 def submit(request, center_pk, urluniqueid):
     fields = Field.objects.all().filter(job=urluniqueid)
