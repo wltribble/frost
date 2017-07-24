@@ -256,8 +256,10 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
                             True, field.OUTLINE_can_be_deleted,
                             False, "1"
                             )
-        if new_field.text_is_operator_editable == False:
-            new_field.editing_mode = False                   
+    for field in Field.objects.filter(job=urluniqueid):
+        if field.text_is_operator_editable == False:
+            field.editing_mode = False
+            field.save()            
     job_template_has_now_been_set = Field.objects.create_field(
                                         job, "template_set",
                                         process.process_name, False,
