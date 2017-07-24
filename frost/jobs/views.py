@@ -163,9 +163,7 @@ class DataView(generic.DetailView):
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['current_center'] = self.kwargs['center_pk']
         center = WorkCenter.objects.get(workcenter_id=self.kwargs['center_pk'])
-        context['centers'] = WorkCenter.objects.all().exclude(
-                                workcenter_id=center.workcenter_id
-                                )
+        context['centers'] = WorkCenter.objects.all()
         return context
 
 
