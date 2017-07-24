@@ -21,7 +21,7 @@
             <p>Date Created:&emsp;&emsp; {{ job.jmocreateddate }}</p>
         </div>
         <div class="instructions">
-            <strong>JOB INSTRUCTIONS:&emsp;</strong>
+            <strong>JOB DESCRIPTION:&emsp;</strong>
             {% if job_instructions %}
                 {% for memo in job_instructions %}
                     {{ memo.instructions }}
@@ -29,7 +29,7 @@
             {% endif %}
         </div>
         <div class="instructions">
-            <strong>ASSEMBLY INSTRUCTIONS:&emsp;</strong>
+            <strong>ASSEMBLY DESCRIPTION:&emsp;</strong>
             {% if assembly_instructions %}
                 {% for memo in assembly_instructions %}
                     {{ memo.instructions }}
@@ -37,7 +37,7 @@
             {% endif %}
         </div>
         <div class="instructions">
-            <strong>OPERATION INSTRUCTIONS:&emsp;</strong>
+            <strong>OPERATION DESCRIPTION:&emsp;</strong>
             {% if job.jmosfemessagetext %}
                     {{ job.jmoprocesslongdescriptiontext }}
             {% endif %}
