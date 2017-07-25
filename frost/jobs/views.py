@@ -13,7 +13,7 @@ from django.contrib import messages
 from processes.models import Process
 from workcenters.models import WorkCenter, Worker, Operation
 
-from .models import Job, Field, JobInstructions, AssemblyInstructions, Notes
+from .models import Job, Field, JobInstructions, AssemblyInstructions, Notes, JobParameters
 
 
 class IndexView(generic.ListView):
@@ -71,7 +71,7 @@ class PickTemplateView(generic.ListView):
         workcenter = WorkCenter.objects.get(
                         workcenter_id=self.kwargs['center_pk']
                         )
-        context['processes'] = (Process.objects.all().filter(
+        context['processes'] = (Process.objects.filter(
                                 workcenter=workcenter.workcenter_id)
                                 ).filter(operator_template=True).order_by('job_type')
         context['uniqueid'] = self.kwargs['urluniqueid']
@@ -94,7 +94,7 @@ class PickReopenTemplateView(generic.ListView):
         workcenter = WorkCenter.objects.get(
                                         workcenter_id=self.kwargs['center_pk']
                                         )
-        context['processes'] = (Process.objects.all().filter(
+        context['processes'] = (Process.objects.filter(
                                 workcenter=workcenter.workcenter_id
                                 ).filter(operator_template=True).order_by('job_type')
                                 )
@@ -114,19 +114,20 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         job = Job.objects.get(jmouniqueid = self.kwargs['urluniqueid'])
+        overall_job_guid = JobInstructions.objects.get(jobid=job.jmojobid).guid
         context['job'] = job
         context['fields'] = (Field.objects.all().filter(
                                 job=self.kwargs['urluniqueid']).filter(
                                 is_a_meta_field=False)
                                 )
         context['urluniqueid'] = self.kwargs['urluniqueid']
-        context['metafields'] = (Field.objects.all().filter(
+        context['metafields'] = (Field.objects.filter(
                                     job=self.kwargs['urluniqueid']
                                     ).filter(is_a_meta_field=True)
                                     )
         context['reopen_number'] = (
                                     range(0, 2 + int(
-                                    Field.objects.all().filter(
+                                    Field.objects.filter(
                                     job=self.kwargs['urluniqueid']
                                     ).filter(
                                     field_name="reopens"
@@ -134,17 +135,23 @@ class DetailView(generic.DetailView):
                                     )
         context['center'] = self.kwargs['center_pk']
         context['job_instructions'] = (
-                                    JobInstructions.objects.all(
-                                    ).filter(
+                                    JobInstructions.objects.filter(
                                     jobid=job.jmojobid)
                                     )
         context['assembly_instructions'] = (
-                                AssemblyInstructions.objects.all(
-                                ).filter(
-                                jobid=job.jmojobid).filter(
+                                AssemblyInstructions.objects.filter(
+                                jobid=job.jmojobid,
                                 assemblyid=job.jmojobassemblyid)
                                 )
-        context['notes'] = Notes.objects.all().filter(job=job.jmouniqueid).get()
+        context['notes'] = Notes.objects.filter(job=job.jmouniqueid).get()
+        context['job_parameters'] = JobParameters.objects.filter(job_guid=overall_job_guid)
+        context['required_info'] = {'CustName':'Customer',
+                                    'CustToolID':'Specific Tool ID',
+                                    'CustToolID':'Customer Tool ID',
+                                    'CylinderType':'Product Type',
+                                    'ProductConfiguration':'Tool Configuration',
+                                    'TheoDia':'Theoretical Diameter',
+                                    }
         return context
 
 

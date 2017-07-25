@@ -45,10 +45,18 @@
         {% ifequal center "ASSY" %}
         <div class="instructions">
             <strong>CUSTOMER / TOOL INFO:&emsp;</strong>
-            {% if job_instructions %}
-                    {% if job_instructions.customer_tool_id %}
-                        Customer Tool ID:&emsp;{{ job_instructions.customer_tool_id }}<br />
-                    {% endif %}
+            {% if required_info %}
+                {% if job_parameters %}
+                    {% for variable in job_parameters %}
+                        {% if variable.variable_value != "?????" %}
+                            {% for key,value in required_info %}
+                                {% ifequal variable.variable_name key %}
+                                    {{ value }}:&emsp;{{ variable.variable_value }}<br />
+                                {% endifequal %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             {% endif %}
         </div>
         {% endifequal %}

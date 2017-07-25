@@ -82,7 +82,10 @@ class JobInstructions(models.Model):
                             max_length=20, primary_key=True
                             )
     instructions = models.TextField(db_column='jmpPartLongDescriptionText')
-    customer_tool_id = models.CharField(db_column='UJMPCUSTOMERTOOLID', max_length=50)
+    guid = models.CharField(db_column='jmpUniqueID',
+                                unique=True, max_length=36,
+                                editable=False, primary_key=True
+                                )
 
     class Meta:
         managed = False
@@ -90,6 +93,7 @@ class JobInstructions(models.Model):
 
     def __str__(self):
         return self.jobid
+
 
 class AssemblyInstructions(models.Model):
     jobid = models.CharField(db_column='jmaJobID',
@@ -110,3 +114,20 @@ class AssemblyInstructions(models.Model):
 class Notes(models.Model):
     job = models.CharField(max_length=36, unique=True)
     text = models.TextField(blank=True, null=True)
+
+
+class JobParameters(models.Model):
+    guid = models.CharField(db_column='uEJPGuid',
+                                unique=True, max_length=36,
+                                editable=False, primary_key=True
+                                )
+    job_guid = models.CharField(db_column='uEJP_jmpUniqueID',
+                                unique=True, max_length=36,
+                                editable=False
+                                )
+    variable_name = models.CharField(db_column='uEDPVariable', max_length=50, null=True, blank=True)
+    variable_value = models.CharField(db_column='uEDPValue', max_length=75, null=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table ='uengJobParameter'
