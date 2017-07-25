@@ -2,10 +2,18 @@
     <ul class="list-unstyled">
     {% for field in fields_needed %}
         <li>
-        {% if report %}
-            <input type='checkbox' name='op{{ loop_counter }} field{{ forloop.counter }}' value='{{ job }},{{ assembly }},{{ operation }},{{ field.id }}'>&emsp;{{ field.field_name }}:&emsp;{{ field.field_text }}<br>
-        {% else %}
-            {{ field.field_name }}:&emsp;{{ field.field_text }}
+        {% if field.field_name != ":________________________________________________________________________________" %}
+            {% if report %}
+                {% if field.field_name != "Upper" %}
+                    {% if field.field_name != "Lower" %}
+                        {% if field.field_name != "Inventory Information" %}
+                            <input type='checkbox' name='op{{ loop_counter }} field{{ forloop.counter }}' value='{{ job }},{{ assembly }},{{ operation }},{{ field.id }}'>&emsp;{{ field.field_name }}:&emsp;{{ field.field_text }}<br>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {{ field.field_name }}:&emsp;{{ field.field_text }}
+            {% endif %}
         {% endif %}
         </li>
     {% endfor %}

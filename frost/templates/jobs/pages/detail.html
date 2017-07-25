@@ -42,6 +42,14 @@
                     {{ job.jmoprocesslongdescriptiontext }}
             {% endif %}
         </div>
+        {% ifequal job.jmoworkcenterid "ASSY" %}
+        <div class="instructions">
+            <strong>OPERATION DESCRIPTION:&emsp;</strong>
+            {% if job.jmosfemessagetext %}
+                    {{ job.jmoprocesslongdescriptiontext }}
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
     <div class="row">
         <form action="{% url 'jobs:data_view' center urluniqueid %}" name="data_view">
