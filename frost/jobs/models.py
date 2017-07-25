@@ -131,3 +131,6 @@ class JobParameters(models.Model):
     class Meta:
         managed = False
         db_table ='uengJobParameter'
+
+    def __str__(self):
+        return self.variable_name
