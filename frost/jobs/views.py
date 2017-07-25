@@ -439,12 +439,12 @@ class ManagerIndex(generic.ListView):
     template_name = 'jobs/pages/manager_index.html'
 
     def get_queryset(self):
-        search_query = self.request.GET.get('search_box', '')
-        return Job.objects.all().filter(jmojobid__icontains=search_query)
+        search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxx')
+        return Job.objects.filter(jmojobid__icontains=search_query)
 
     def get_context_data(self, **kwargs):
         context = super(ManagerIndex, self).get_context_data(**kwargs)
-        search_query = self.request.GET.get('search_box', '')
+        search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxxxx')
         jobs = (Job.objects.all().filter(
                                     jmojobid__icontains=search_query
                                     ).order_by('-jmocreateddate')
@@ -470,6 +470,7 @@ class ManagerDataView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ManagerDataView, self).get_context_data(**kwargs)
         context['job'] = self.kwargs['jobid']
+        context['report'] = True
         return context
 
 class ManagerCreateReport(generic.DetailView):
