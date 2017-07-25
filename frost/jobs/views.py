@@ -451,7 +451,7 @@ class ManagerIndex(generic.ListView):
                                     )
         unique_job_ids = []
         for job in jobs:
-            if job.jmojobid != '':
+            if job.jmojobid != '' and '.' not in job.jmojobid and '_' not in job.jmojobid:
                 unique_job_ids.append((job.jmojobid).strip())
         unique_job_ids = set(unique_job_ids)
         unique_job_ids = list(unique_job_ids)
