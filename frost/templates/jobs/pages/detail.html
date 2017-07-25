@@ -45,8 +45,10 @@
         {% ifequal job.jmoworkcenterid "ASSY" %}
         <div class="instructions">
             <strong>CUSTOMER / TOOL INFO:&emsp;</strong>
-            {% if job.jmosfemessagetext %}
-                    {{ job.jmoprocesslongdescriptiontext }}
+            {% if job_instructions %}
+                    {% if job_instructions.customer_tool_id %}
+                        {{ job_instructions.customer_tool_id }}
+                    {% endif %}
             {% endif %}
         </div>
         {% endifequal %}

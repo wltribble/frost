@@ -82,6 +82,7 @@ class JobInstructions(models.Model):
                             max_length=20, primary_key=True
                             )
     instructions = models.TextField(db_column='jmpPartLongDescriptionText')
+    customer_tool_id = models.CharField(db_column='UJMPCUSTOMERTOOLID')
 
     class Meta:
         managed = False
