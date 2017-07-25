@@ -440,7 +440,7 @@ class ManagerIndex(generic.ListView):
 
     def get_queryset(self):
         search_query = self.request.GET.get('search_box', 'xxxxxxxxxxxxx')
-        return Job.objects.filter(jmojobid__icontains=search_query)
+        return Job.objects.filter(jmojobid__icontains=search_query)[:20]
 
     def get_context_data(self, **kwargs):
         context = super(ManagerIndex, self).get_context_data(**kwargs)
@@ -448,7 +448,7 @@ class ManagerIndex(generic.ListView):
         jobs = (Job.objects.all().filter(
                                     jmojobid__icontains=search_query
                                     ).order_by('-jmocreateddate')
-                                    )
+                                    )[:20]
         unique_job_ids = []
         for job in jobs:
             if job.jmojobid != '':
