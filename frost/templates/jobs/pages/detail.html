@@ -47,9 +47,9 @@
             <strong>CUSTOMER / TOOL INFO:&emsp;</strong>
             {% if required_info %}
                 {% if job_parameters %}
-                    {% for variable in job_parameters %}
+                    {% for key, value in required_info.items %}
                         {% if variable.variable_value != "?????" %}
-                            {% for key, value in required_info.items %}
+                            {% for variable in job_parameters %}
                                 {% ifequal variable.variable_name key %}
                                     {{ value }}:&emsp;{{ variable.variable_value }}<br />
                                 {% else %}
