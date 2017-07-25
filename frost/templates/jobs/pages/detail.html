@@ -53,7 +53,7 @@
                                 {% ifequal variable.variable_name key %}
                                     {{ value }}:&emsp;{{ variable.variable_value }}<br />
                                 {% else %}
-                                    <p>var name and key are not equal</p>
+                                    <p>Var Name: {{ variable.variable_name }}&emsp;Key: {{ key }}</p>
                                 {% endifequal %}
                             {% endfor %}
                         {% else %}
