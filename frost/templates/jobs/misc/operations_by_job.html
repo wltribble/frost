@@ -10,7 +10,7 @@
                         <h3>Assembly:&emsp;{{ operation.jmojobassemblyid }}&emsp;&emsp;Operation:&emsp;{{ operation.jmojoboperationid }}</h3>
                         &emsp;&emsp;Work Center:&emsp;{{ operation.jmoworkcenterid }}
                         {% if report %}
-                            &emsp;&emsp;--&emsp;&emsp;<a href="{% url 'jobs:go_to_detail_or_picker' operation.jmoworkcenterid|strip operation.jmouniqueid %}">Edit This Operation</a>
+                            &emsp;&emsp;--&emsp;&emsp;<a href="{% url 'jobs:go_to_detail_or_picker' operation.jmoworkcenterid.strip operation.jmouniqueid %}">Edit This Operation</a>
                         {% endif %}
                         <br />
                         {% fields_by_operation operation.jmojobid operation.jmojobassemblyid operation.jmojoboperationid report forloop.counter %}
