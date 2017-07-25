@@ -38,7 +38,7 @@ p {
 }
 
 .button-link {
-    color: #000000;
+    color: #000000  !important;
 }
 
 /* Job Index Page Styling */
