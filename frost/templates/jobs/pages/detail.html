@@ -42,7 +42,7 @@
                     {{ job.jmoprocesslongdescriptiontext }}
             {% endif %}
         </div>
-        {% ifequal job.jmoworkcenterid.strip "ASSY" %}
+        {% ifequal center "ASSY" %}
         <div class="instructions">
             <strong>CUSTOMER / TOOL INFO:&emsp;</strong>
             {% if job_instructions %}
