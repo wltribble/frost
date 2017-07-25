@@ -49,7 +49,7 @@
                     {{ job.jmoprocesslongdescriptiontext }}
             {% endif %}
         </div>
-        {% endif %}
+        {% endifequal %}
     </div>
     <div class="row">
         <form action="{% url 'jobs:data_view' center urluniqueid %}" name="data_view">
