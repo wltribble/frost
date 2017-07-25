@@ -50,11 +50,7 @@
                     {% for key, value in required_info.items %}
                         {% for variable in job_parameters %}
                             {% if key in variable.variable_name %}
-                                {% if "?????" not in variable.variable_value %}
-                                    {{ value }}:&emsp;{{ variable.variable_value }}<br />
-                                {% else %}
-                                    <p>Var Name: {{ variable.variable_name }}&emsp;Key: {{ key }}&emsp;Value: {{ variable.variable_value }}</p>
-                                {% endif %}
+                                {{ value }}:&emsp;{{ variable.variable_value }}<br />
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
