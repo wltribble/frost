@@ -158,7 +158,7 @@ class DataView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(DataView, self).get_context_data(**kwargs)
         job = Job.objects.get(jmouniqueid=self.kwargs['urluniqueid'])
-        jobs = Job.objects.filter(jmojobid=job.jmojobid).exclude(jmouniqueid=job.jmouniqueid)
+        jobs = Job.objects.filter(jmojobid=job.jmojobid)
         context['jobs'] = jobs
         context['urluniqueid'] = self.kwargs['urluniqueid']
         context['current_center'] = self.kwargs['center_pk']
