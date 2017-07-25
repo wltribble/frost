@@ -2,6 +2,9 @@ import datetime
 
 from django.db import models
 
+from sqlserver_ado.models import RawStoredProcedureManager
+
+
 # Create your models here.
 class Job(models.Model):
     jmojobid = models.CharField(db_column='jmoJobID', max_length=20)
