@@ -52,11 +52,19 @@
                             {% for key,value in required_info %}
                                 {% ifequal variable.variable_name key %}
                                     {{ value }}:&emsp;{{ variable.variable_value }}<br />
+                                {% else %}
+                                    <p>Failed at dictionary loop through</p>
                                 {% endifequal %}
                             {% endfor %}
+                        {% else %}
+                            <p>Failed at value = ????</p>
                         {% endif %}
                     {% endfor %}
+                {% else %}
+                    <p>Failed at param lookup</p>
                 {% endif %}
+            {% else %}
+                <p>Failed at required info</p>
             {% endif %}
         </div>
         {% endifequal %}
