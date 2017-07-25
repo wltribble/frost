@@ -19,7 +19,9 @@
                 <p><h3>No work centers are available.</h3></p>
             </div>
         {% endif %}
-        <a href="{% url 'workcenters:manager_index' %}" class="btn btn-primary button-link">Project Manager Page</a>
+        <form action="{% url 'workcenters:manager_index' %}">
+            <button type="submit" name="manager_index">Project Manager Page</button>
+        </form>
     </div>
     <div class="row page-title">
         <h1>Pick Your Employee ID To Begin</h1>
