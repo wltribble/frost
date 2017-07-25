@@ -2,8 +2,6 @@ import datetime
 
 from django.db import models
 
-from sqlserver_ado.models import RawStoredProcedureManager
-
 
 # Create your models here.
 class Job(models.Model):
@@ -130,8 +128,6 @@ class JobParameters(models.Model):
                                 )
     variable_name = models.CharField(db_column='uEDPVariable', max_length=50, null=True, blank=True)
     variable_value = models.CharField(db_column='uEDPValue', max_length=75, null=True, blank=True)
-
-    objects = RawStoredProcedureManager()
 
     class Meta:
         managed = False
