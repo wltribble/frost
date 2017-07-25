@@ -259,7 +259,7 @@ def set_process_template(request, center_pk, urluniqueid, process_name):
     for field in Field.objects.filter(job=urluniqueid):
         if field.text_is_operator_editable == False:
             field.editing_mode = False
-            fied.field_has_been_set = True
+            field.field_has_been_set = True
             field.save()
     job_template_has_now_been_set = Field.objects.create_field(
                                         job, "template_set",
