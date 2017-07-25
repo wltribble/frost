@@ -144,6 +144,7 @@ class DetailView(generic.DetailView):
                                 assemblyid=job.jmojobassemblyid)
                                 )
         context['notes'] = Notes.objects.filter(job=job.jmouniqueid).get()
+        context['job_guid'] = overall_job_guid
         context['job_parameters'] = JobParameters.objects.filter(job_guid=overall_job_guid)
         context['required_info'] = {'CustName':'Customer',
                                     'CustToolID':'Specific Tool ID',
