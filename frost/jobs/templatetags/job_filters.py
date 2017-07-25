@@ -17,7 +17,7 @@ def fields_by_center(job, center):
 
 @register.inclusion_tag('jobs/misc/operations_by_job.html')
 def operations_by_job(job, report):
-    jobs = Job.objects.all().filter(jmojobid=job).filter(jmoworkcenterid="ECOTE").order_by('jmojoboperationid').order_by('jmojobassemblyid')
+    jobs = Job.objects.filter(jmojobid=job, jmoworkcenterid__in=['ECOTE', 'ASSY', 'ACRA', 'BENCH', 'CLAUS', 'COSEN', 'DMG', 'E33', 'EDM', 'HANDF', 'IKEDA', 'LANG', 'OKAMO', 'PS95', 'SELEC', 'SHIPP', 'SL403']).order_by('jmojoboperationid').order_by('jmojobassemblyid')
     return {'operations': jobs, 'report': report, 'job': job}
 
 @register.inclusion_tag('jobs/misc/fields_by_operation.html')
