@@ -52,10 +52,16 @@
                             {% for key, value in required_info.items %}
                                 {% ifequal variable.variable_name key %}
                                     {{ value }}:&emsp;{{ variable.variable_value }}<br />
+                                {% else %}
+                                    <p>var name and key are not equal</p>
                                 {% endifequal %}
                             {% endfor %}
+                        {% else %}
+                            <p>variabel value is ?</p>
                         {% endif %}
                     {% endfor %}
+                {% else %}
+                    <p>No job params</p>
                 {% endif %}
             {% endif %}
         </div>
