@@ -49,7 +49,7 @@
                 {% if job_parameters %}
                     {% for variable in job_parameters %}
                         {% if variable.variable_value != "?????" %}
-                            {% for key,value in required_info %}
+                            {% for key, value in required_info.items %}
                                 {% ifequal variable.variable_name key %}
                                     {{ value }}:&emsp;{{ variable.variable_value }}<br />
                                 {% endifequal %}
