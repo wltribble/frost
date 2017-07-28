@@ -437,7 +437,7 @@ def set_reopen_template(request, center_pk, urluniqueid,
     for field in Field.objects.filter(job=urluniqueid):
         if field.text_is_operator_editable == False:
             field.editing_mode = False
-            fied.field_has_been_set = True
+            field.field_has_been_set = True
             field.save()
     return HttpResponseRedirect(reverse('jobs:detail',
                                 args=(center_pk, urluniqueid,))
