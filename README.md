@@ -1,5 +1,5 @@
 # Frost Shop Floor Data Entry
-I made this app as part of my internship with FROST Converting Systems, Inc. 
+I made this app as part of my internship with FROST Converting Systems, Inc. Their website is https://frostconverting.com
 
 You can test-drive the app at https://frost-shop-floor.herokuapp.com/.
 
